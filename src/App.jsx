@@ -1,12 +1,12 @@
 //routes
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 //pages
-import HomePage from './pages/HomePage';
-import AboutUsPage from './pages/AboutUsPage';
-import ContactUsPage from './pages/ContactUsPage';
+import HomePage from './assets/pages/HomePage';  // Update this path
+import AboutUsPage from './assets/pages/AboutUsPage';
+import ContactUsPage from './assets/pages/ContactUsPage';
 //components
-import Navbar from './components/Navbar';
-import Footer from './components/Footer/Footer';
+import Navbar from './assets/components/Navbar';
+import Footer from './assets/components/Footer';
 
 function App() {
   return (

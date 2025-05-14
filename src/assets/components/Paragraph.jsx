@@ -13,3 +13,5 @@ const Paragraph = ({ text, maxWidth, mx, textAlign }) => {
     </Typography>
   )
 }
+
+export default Paragraph
