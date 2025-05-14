@@ -1,37 +1,96 @@
-import { Link, useLocation } from 'react-router-dom';
-import '../../styles/Navbar.css';
+import React from 'react'
+import {
+    AppBar,
+    Toolbar,
+    Box,
+    List,
+    ListItem,
+    Typography, 
+    styled,
+    ListItemButton,
+    ListItemText,
+} from '@mui/material';
+// menu
+import DrawerItem from './DrawerItem';
+// rotas
+import { Link } from 'react-router-dom';
+
+
+// personalizacao
+const StyledToolbar = styled(Toolbar) ({
+    display: 'flex',
+    justifyContent: 'space-between',
+});
+
+const ListMenu = styled(List)(({ theme }) => ({
+    display: 'none',
+    [theme.breakpoints.up("sm")] : {
+        display: "flex",
+    },
+}));
+
+//rotas
+const itemList = [
+    {
+      text: "Home",
+      to: "/" 
+    },
+    {
+      text: "About",
+      to: "/about"
+    },
+    {
+        text: "Contact",
+        to: "/contact"
+    }
+];
+
 
 const Navbar = () => {
-  const location = useLocation();
+    
+    return (
+        <AppBar 
+        component="nav" 
+        position="sticky"
+        sx={{ 
+            backgroundColor: 'orange', 
+        }}
+        elevation={0}
+        >
+            <StyledToolbar>
+                <Typography
+                variant="h6"
+                component="h2"
 
-  return (
-    <nav className="navbar">
-      <div className="nav-brand">
-        <Link to="/" className="logo">Thryve</Link>
-      </div>
-      <div className="nav-links">
-        <Link to="/" className={location.pathname === '/' ? 'active' : ''}>
-          Home
-        </Link>
-        <Link to="/about" className={location.pathname === '/about' ? 'active' : ''}>
-          About Us
-        </Link>
-        <Link to="/store" className={location.pathname === '/store' ? 'active' : ''}>
-          Plant Store
-        </Link>
-        <Link to="/faqs" className={location.pathname === '/faqs' ? 'active' : ''}>
-          FAQs
-        </Link>
-        <Link to="/contact" className={location.pathname === '/contact' ? 'active' : ''}>
-          Contact
-        </Link>
-      </div>
-      <div className="nav-auth">
-        <button className="login-btn">Login</button>
-        <button className="signup-btn">Sign Up</button>
-      </div>
-    </nav>
-  );
-};
+                >
+                    HBSales
+                </Typography>
+                <Box sx={{display: { xs: 'block', sm: 'none' } }}>
+                    <DrawerItem /> 
+                </Box>
+                <ListMenu>
+                    {itemList.map( ( item ) => {
+                        const { text } = item;
+                        return(
+                            <ListItem key={text}>
+                                <ListItemButton component={Link} to={item.to}
+                                sx={{
+                                    color: '#fff',
+                                    "&:hover": {
+                                        backgroundColor: 'transparent',
+                                        color: '#1e2a5a',
+                                    }
+                                }}
+                                >
+                                    <ListItemText primary={text} />
+                                </ListItemButton>
+                            </ListItem>
+                        )
+                    })}
+                </ListMenu>
+            </StyledToolbar>
+        </AppBar>
+    )
+}
 
 export default Navbar;
