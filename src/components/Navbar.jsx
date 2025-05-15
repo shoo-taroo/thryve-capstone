@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
-import logo from '../assets/logo.svg';
+import logo from '../assets/Thryve Logo.png';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -50,7 +50,7 @@ const Navbar = () => {
         </nav>
         
         {/* Download Button */}
-        <button className="hidden md:block btn-accent">
+        <button className="bg-[#569F8B] hidden md:block btn-accent">
           Download App
         </button>
         

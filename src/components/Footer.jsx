@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Twitter, Mail, Phone } from 'lucide-react';
-import logo from '../assets/logo.svg';
+import logo from '../assets/Thryve Logo.png';
 
 const Footer = () => {
   const year = new Date().getFullYear();
