@@ -84,7 +84,7 @@ const HomePage = () => {
                 <div
                     className="absolute inset-0 bg-cover bg-center"
                     style={{
-                        backgroundImage: "url(https://images.unsplash.com/photo-1470058869958-2a77ade41c02?ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80)",
+                        backgroundImage: "url(https://images.pexels.com/photos/32059881/pexels-photo-32059881/free-photo-of-vibrant-tropical-plant-in-sunlit-interior.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)",
                         backgroundBlendMode: "overlay",
                     }}
                 >

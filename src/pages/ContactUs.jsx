@@ -70,7 +70,7 @@ const ContactUs = () => {
                 <Mail size={24} />
               </div>
               <h3 className="text-xl font-semibold text-primary mb-2">Email</h3>
-              <p className="text-gray-600">info@thryve.com</p>
+              <p className="text-gray-600">rainrainegoaway@yahoo.com</p>
             </div>
             
             <div className="scroll-animation bg-neutral rounded-lg p-6 text-center">

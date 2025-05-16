@@ -23,7 +23,7 @@ export default {
         primary: "#4A7C59",
         secondary: "#8CB369",
         neutral: "#F4F1DE",
-        accent: "#E07A5F",
+        accent: "#b39969",
         // Original shadcn colors
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
