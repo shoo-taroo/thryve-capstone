@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import SectionHeading from '../components/SectionHeading';
-import { Star, Droplet, Sun, Thermometer, Wind } from 'lucide-react';
+import { Star, ScanLine, Leaf, BotMessageSquare, Box } from 'lucide-react';
 
 const HomePage = () => {
     // Featured plants data
@@ -31,24 +31,24 @@ const HomePage = () => {
     // Features data
     const features = [
         {
-            title: 'Plant Care Reminders',
-            description: 'Never forget to water or fertilize your plants with custom reminders.',
-            icon: <Droplet className="h-10 w-10 text-secondary" />,
+            title: 'AR Scanning',
+            description: 'Scan your plant using AR to instantly detect health issues and receive helpful insights.',
+            icon: <ScanLine className="h-10 w-10 text-secondary" />,
         },
         {
-            title: 'Light Requirements',
-            description: 'Track sun exposure and optimize plant placement for healthy growth.',
-            icon: <Sun className="h-10 w-10 text-secondary" />,
+            title: 'Prescriptive Analytics',
+            description: 'Get smart, data-driven suggestions to optimize your plant care based on real-time conditions.',
+            icon: <Leaf className="h-10 w-10 text-secondary" />,
         },
         {
-            title: 'Temperature Monitoring',
-            description: 'Keep track of ideal temperature conditions for your plants.',
-            icon: <Thermometer className="h-10 w-10 text-secondary" />,
+            title: 'Powered with AI',
+            description: 'Ask questions and get instant guidance from an AI assistant trained in plant care.',
+            icon: <BotMessageSquare className="h-10 w-10 text-secondary" />,
         },
         {
-            title: 'Humidity Alerts',
-            description: 'Get notified when humidity levels aren\'t optimal for your plants.',
-            icon: <Wind className="h-10 w-10 text-secondary" />,
+            title: '3D Model Viewer',
+            description: 'Explore an interactive 3D model of your plant to better understand its structure and needs.',
+            icon: <Box className="h-10 w-10 text-secondary" />,
         },
     ];
 
