@@ -1,26 +1,52 @@
 import { useState, useEffect } from 'react';
 import { Outlet, useNavigate, NavLink } from 'react-router-dom';
-import { FileText, Grid2x2, PackageSearch, BarChart3, Bell, Search, LogOut, HelpCircle, Menu, X } from 'lucide-react';
+import { FileText, Grid2x2, PackageSearch, BarChart3, Bell, Search, LogOut, HelpCircle, Menu, X, MessageSquare, Leaf } from 'lucide-react';
 import ThryveLogoWhite from '../assets/Thryve Logo White.png';
 const AdminLayout = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
+  const [userRole, setUserRole] = useState('');
   const navigate = useNavigate();
 
   // Check if user is authenticated
   useEffect(() => {
     const isAuthenticated = localStorage.getItem('isAuthenticated');
+    const storedUserRole = localStorage.getItem('userRole');
     if (!isAuthenticated) {
       navigate('/login');
+    } else {
+      setUserRole(storedUserRole || 'admin');
     }
   }, [navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('userRole');
     navigate('/login');
   };
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
+  };
+
+  // Menu items based on user role
+  const getMenuItems = () => {
+    if (userRole === 'specialist') {
+      return [
+        { path: '/admin', icon: <Grid2x2 className="h-5 w-5 mr-3" />, label: 'Overview' },
+        { path: '/admin/dashboard', icon: <FileText className="h-5 w-5 mr-3" />, label: 'Dashboard' },
+        { path: '/admin/inventory', icon: <PackageSearch className="h-5 w-5 mr-3" />, label: 'Inventory Management' },
+        { path: '/admin/plant-care', icon: <Leaf className="h-5 w-5 mr-3" />, label: 'Plant Care Advisory' },
+        { path: '/admin/reports', icon: <BarChart3 className="h-5 w-5 mr-3" />, label: 'Reports Generation' },
+      ];
+    } else {
+      return [
+        { path: '/admin', icon: <Grid2x2 className="h-5 w-5 mr-3" />, label: 'Overview' },
+        { path: '/admin/dashboard', icon: <FileText className="h-5 w-5 mr-3" />, label: 'Dashboard' },
+        { path: '/admin/inventory', icon: <PackageSearch className="h-5 w-5 mr-3" />, label: 'Inventory Management' },
+        { path: '/admin/feedback', icon: <MessageSquare className="h-5 w-5 mr-3" />, label: 'Customer Feedback' },
+        { path: '/admin/reports', icon: <BarChart3 className="h-5 w-5 mr-3" />, label: 'Reports Generation' },
+      ];
+    }
   };
 
   return (
@@ -37,70 +63,39 @@ const AdminLayout = () => {
 
       {/* Sidebar/Drawer */}
       <div
-        className={`bg-[#484848] text-white w-64 fixed inset-y-0 left-0 z-30 transform transition-transform duration-300 md:translate-x-0 ${
-          isDrawerOpen ? 'translate-x-0' : '-translate-x-full'
-        } shadow-xl`}
+        className={`bg-[#484848] text-white w-64 fixed inset-y-0 left-0 z-30 transform transition-transform duration-300 md:translate-x-0 ${isDrawerOpen ? 'translate-x-0' : '-translate-x-full'
+          } shadow-xl`}
       >
         {/* Logo */}
         <div className="flex items-center px-4 py-6">
           <img src={ThryveLogoWhite} alt="Thryve Logo" className="h-8" />
         </div>
 
+        {/* User Role Badge */}
+        <div className="px-6 mb-4">
+          <span className="inline-block px-3 py-1 bg-primary text-white text-xs font-semibold rounded-full">
+            {userRole === 'specialist' ? 'Plant Specialist' :
+              userRole === 'owner' ? 'Plant Store Owner' : 'Admin'}
+          </span>
+        </div>
+
         {/* Navigation */}
-        <nav className="mt-6">
+        <nav className="mt-2">
           <ul>
-            <li>
-              <NavLink
-                to="/admin"
-                className={({ isActive }) =>
-                  `flex items-center px-6 py-3 text-base font-medium hover:bg-black/20 ${
-                    isActive ? 'border-l-4 border-secondary bg-black/20' : ''
-                  }`
-                }
-              >
-                <Grid2x2 className="h-5 w-5 mr-3" />
-                Overview
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/admin/dashboard"
-                className={({ isActive }) =>
-                  `flex items-center px-6 py-3 text-base font-medium hover:bg-black/20 ${
-                    isActive ? 'border-l-4 border-secondary bg-black/20' : ''
-                  }`
-                }
-              >
-                <FileText className="h-5 w-5 mr-3" />
-                Dashboard
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/admin/inventory"
-                className={({ isActive }) =>
-                  `flex items-center px-6 py-3 text-base font-medium hover:bg-black/20 ${
-                    isActive ? 'border-l-4 border-secondary bg-black/20' : ''
-                  }`
-                }
-              >
-                <PackageSearch className="h-5 w-5 mr-3" />
-                Inventory Management
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/admin/reports"
-                className={({ isActive }) =>
-                  `flex items-center px-6 py-3 text-base font-medium hover:bg-black/20 ${
-                    isActive ? 'border-l-4 border-secondary bg-black/20' : ''
-                  }`
-                }
-              >
-                <BarChart3 className="h-5 w-5 mr-3" />
-                Reports Generation
-              </NavLink>
-            </li>
+            {getMenuItems().map((item, index) => (
+              <li key={index}>
+                <NavLink
+                  to={item.path}
+                  className={({ isActive }) =>
+                    `flex items-center px-6 py-3 text-base font-medium hover:bg-black/20 ${isActive ? 'border-l-4 border-secondary bg-black/20' : ''
+                    }`
+                  }
+                >
+                  {item.icon}
+                  {item.label}
+                </NavLink>
+              </li>
+            ))}
           </ul>
         </nav>
 
@@ -131,9 +126,12 @@ const AdminLayout = () => {
             </button>
             <div className="flex items-center">
               <div className="w-8 h-8 bg-gray-200 rounded-full"></div>
-              <span className="ml-2 text-gray-800">Admin User</span>
+              <span className="ml-2 text-gray-800">
+                {userRole === 'specialist' ? 'Plant Specialist' : 
+                 userRole === 'owner' ? 'Plant Store Owner' : 'Admin User'}
+              </span>
             </div>
-            <button 
+            <button
               onClick={handleLogout}
               className="p-2 text-gray-600 hover:text-red-600"
             >

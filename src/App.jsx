@@ -16,7 +16,8 @@ import AdminDashboard from "./pages/Dashboard";
 import AdminOverview from "./pages/Overview";
 import AdminInventory from "./pages/Inventory";
 import AdminReports from "./pages/Reports";
-
+import Feedback from "./pages/Feedback";
+import PlantCare from "./pages/PlantCare";
 
 // Components
 import Navbar from "./components/Navbar";
@@ -74,6 +75,8 @@ const App = () => {
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="inventory" element={<AdminInventory />} />
             <Route path="reports" element={<AdminReports />} />
+            <Route path="feedback" element={<Feedback />} />
+            <Route path="plant-care" element={<PlantCare />} />
           </Route>
 
           {/* 404 Route */}

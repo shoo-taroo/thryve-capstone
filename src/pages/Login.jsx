@@ -15,40 +15,56 @@ const LoginPage = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const navigate = useNavigate();
-  
+
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!username.trim()) {
       newErrors.username = 'Username is required';
     }
-    
+
     if (!password) {
       newErrors.password = 'Password is required';
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
-    
+
     setIsLoading(true);
-    
-    // Simulating authentication check
+
+    // User credentials
+    const credentials = {
+      admin: { username: 'admin', password: '12345', role: 'admin' },
+      owner: { username: 'owneradmin', password: 'owner123', role: 'owner' },
+      specialist: { username: 'psadmin', password: 'ps123', role: 'specialist' }
+    };
+
+    // Simulate authentication check
     setTimeout(() => {
-      if (username === 'admin' && password === '12345') {
+      // Check for matching credentials
+      const userType = Object.keys(credentials).find(
+        type => credentials[type].username === username && credentials[type].password === password
+      );
+
+      if (userType) {
+        const userRole = credentials[userType].role;
         toast.success('Login successful!');
-        // Set authentication state
+
+        // Set authentication state with role
         localStorage.setItem('isAuthenticated', 'true');
-        // Redirect to admin dashboard
+        localStorage.setItem('userRole', userRole);
+
+        // Redirect based on role
         navigate('/admin');
       } else {
         toast.error('Invalid credentials. Please try again.');
@@ -57,11 +73,11 @@ const LoginPage = () => {
       setIsLoading(false);
     }, 800);
   };
-  
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  
+
   return (
     <div className="min-h-screen bg-neutral flex items-center justify-center p-4">
       <Card className="w-full max-w-md shadow-lg bg-white">
@@ -78,7 +94,7 @@ const LoginPage = () => {
                 {errors.auth}
               </div>
             )}
-            
+
             <div className="space-y-2">
               <Label htmlFor="username">Username</Label>
               <div className="relative">
@@ -96,7 +112,7 @@ const LoginPage = () => {
                 <p className="text-red-500 text-xs mt-1">{errors.username}</p>
               )}
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <div className="relative">
@@ -126,26 +142,26 @@ const LoginPage = () => {
                 <p className="text-red-500 text-xs mt-1">{errors.password}</p>
               )}
             </div>
-            
+
             <div className="flex items-center space-x-2">
-              <Checkbox 
-                id="remember-me" 
+              <Checkbox
+                id="remember-me"
                 checked={rememberMe}
                 onCheckedChange={setRememberMe}
               />
-              <Label 
-                htmlFor="remember-me" 
+              <Label
+                htmlFor="remember-me"
                 className="text-sm font-normal cursor-pointer"
               >
                 Remember me
               </Label>
             </div>
           </CardContent>
-          
+
           <CardFooter className="flex flex-col space-y-4">
-            <Button 
-              type="submit" 
-              className="w-full text-white bg-primary hover:bg-primary-dark" 
+            <Button
+              type="submit"
+              className="w-full text-white bg-primary hover:bg-primary-dark"
               disabled={isLoading}
             >
               {isLoading ? 'Logging in...' : 'Login'}
