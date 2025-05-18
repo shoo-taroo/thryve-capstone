@@ -1,0 +1,155 @@
+import { useState, useEffect } from 'react';
+import { Outlet, useNavigate, NavLink } from 'react-router-dom';
+import { FileText, Grid2x2, PackageSearch, BarChart3, Bell, Search, LogOut, HelpCircle, Menu, X } from 'lucide-react';
+
+const AdminLayout = () => {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(true);
+  const navigate = useNavigate();
+
+  // Check if user is authenticated
+  useEffect(() => {
+    const isAuthenticated = localStorage.getItem('isAuthenticated');
+    if (!isAuthenticated) {
+      navigate('/login');
+    }
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('isAuthenticated');
+    navigate('/login');
+  };
+
+  const toggleDrawer = () => {
+    setIsDrawerOpen(!isDrawerOpen);
+  };
+
+  return (
+    <div className="flex h-screen bg-neutral">
+      {/* Mobile Drawer Toggle */}
+      <div className="fixed top-4 left-4 z-40 block md:hidden">
+        <button
+          onClick={toggleDrawer}
+          className="p-2 bg-primary text-white rounded-md"
+        >
+          {isDrawerOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
+      </div>
+
+      {/* Sidebar/Drawer */}
+      <div
+        className={`bg-[#484848] text-white w-64 fixed inset-y-0 left-0 z-30 transform transition-transform duration-300 md:translate-x-0 ${
+          isDrawerOpen ? 'translate-x-0' : '-translate-x-full'
+        } shadow-xl`}
+      >
+        {/* Logo */}
+        <div className="flex items-center px-4 py-6">
+          <img src="/lovable-uploads/67ac2224-bd23-4bd6-8f7e-0f740357f819.png" alt="Thryve Logo" className="h-8" />
+          <span className="ml-2 text-xl font-semibold">thryve</span>
+        </div>
+
+        {/* Navigation */}
+        <nav className="mt-6">
+          <ul>
+            <li>
+              <NavLink
+                to="/admin"
+                className={({ isActive }) =>
+                  `flex items-center px-6 py-3 text-base font-medium hover:bg-black/20 ${
+                    isActive ? 'border-l-4 border-secondary bg-black/20' : ''
+                  }`
+                }
+              >
+                <Grid2x2 className="h-5 w-5 mr-3" />
+                Overview
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/admin/dashboard"
+                className={({ isActive }) =>
+                  `flex items-center px-6 py-3 text-base font-medium hover:bg-black/20 ${
+                    isActive ? 'border-l-4 border-secondary bg-black/20' : ''
+                  }`
+                }
+              >
+                <FileText className="h-5 w-5 mr-3" />
+                Dashboard
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/admin/inventory"
+                className={({ isActive }) =>
+                  `flex items-center px-6 py-3 text-base font-medium hover:bg-black/20 ${
+                    isActive ? 'border-l-4 border-secondary bg-black/20' : ''
+                  }`
+                }
+              >
+                <PackageSearch className="h-5 w-5 mr-3" />
+                Inventory Management
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/admin/reports"
+                className={({ isActive }) =>
+                  `flex items-center px-6 py-3 text-base font-medium hover:bg-black/20 ${
+                    isActive ? 'border-l-4 border-secondary bg-black/20' : ''
+                  }`
+                }
+              >
+                <BarChart3 className="h-5 w-5 mr-3" />
+                Reports Generation
+              </NavLink>
+            </li>
+          </ul>
+        </nav>
+
+        {/* Help Button - Bottom */}
+        <div className="absolute bottom-6 w-full px-4">
+          <button className="flex items-center w-full px-4 py-2 text-white hover:bg-black/20 rounded">
+            <HelpCircle className="h-5 w-5 mr-3" />
+            <span>Quick Help</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className={`flex-1 transition-margin duration-300 ${isDrawerOpen ? 'md:ml-64' : 'ml-0'} bg-neutral overflow-auto`}>
+        {/* Header */}
+        <header className="bg-white shadow-sm p-4 flex justify-between items-center">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={18} />
+            <input
+              type="text"
+              placeholder="Search"
+              className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
+            />
+          </div>
+          <div className="flex items-center space-x-4">
+            <button className="p-2 rounded-full hover:bg-gray-100">
+              <Bell size={20} />
+            </button>
+            <div className="flex items-center">
+              <div className="w-8 h-8 bg-gray-200 rounded-full"></div>
+              <span className="ml-2 text-gray-800">Admin User</span>
+            </div>
+            <button 
+              onClick={handleLogout}
+              className="p-2 text-gray-600 hover:text-red-600"
+            >
+              <LogOut size={20} />
+            </button>
+          </div>
+        </header>
+
+        {/* Page Content */}
+        <div className="p-6">
+          <Outlet />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AdminLayout;

@@ -46,8 +46,10 @@ const LoginPage = () => {
     setTimeout(() => {
       if (username === 'admin' && password === '12345') {
         toast.success('Login successful!');
-        // In a real app, you would set authentication state here
-        navigate('/');
+        // Set authentication state
+        localStorage.setItem('isAuthenticated', 'true');
+        // Redirect to admin dashboard
+        navigate('/admin');
       } else {
         toast.error('Invalid credentials. Please try again.');
         setErrors({ auth: 'Invalid username or password' });

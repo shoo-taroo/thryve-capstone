@@ -12,13 +12,18 @@ import FAQs from "./pages/FAQs";
 import ContactUs from "./pages/ContactUs";
 import NotFound from "./pages/NotFound";
 import LoginPage from "./pages/Login";
+import AdminDashboard from "./pages/Dashboard";
+import AdminOverview from "./pages/Overview";
+import AdminInventory from "./pages/Inventory";
+import AdminReports from "./pages/Reports";
+
 
 // Components
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ScrollToTopButton from "./components/ScrollToTopButton";
 import ScrollToTop from "./components/ScrollToTop";
-
+import Adminlayout from "./components/AdminLayout";
 
 const App = () => {
   const location = useLocation();
@@ -64,10 +69,13 @@ const App = () => {
           <Route path="/contact-us" element={<ContactUs />} />
 
           {/* Admin Routes */}
-          <Route path="/admin">
+          <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<LoginPage />} />
             <Route path="login" element={<LoginPage />} />
-            {/* Add more admin routes here */}
+            <Route path="overview" element={<AdminOverview />} />
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="inventory" element={<AdminInventory />} />
+            <Route path="reports" element={<AdminReports />} />
           </Route>
 
           {/* 404 Route */}

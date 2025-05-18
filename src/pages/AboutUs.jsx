@@ -1,4 +1,5 @@
 import SectionHeading from '../components/SectionHeading';
+import rosemarGardenImg from '../assets/Rosemar Garden.png';
 
 const AboutUs = () => {
   // Team members
@@ -54,7 +55,7 @@ const AboutUs = () => {
             <div className="scroll-animation">
               <div className="relative">
                 <img 
-                  src="https://images.unsplash.com/photo-1561378133-3fc698604d34?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" 
+                  src={rosemarGardenImg} 
                   alt="Rosemar Garden" 
                   className="rounded-lg shadow-lg w-full h-auto"
                 />

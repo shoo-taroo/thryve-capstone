@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import SectionHeading from '../components/SectionHeading';
 import { Star, ScanLine, Leaf, BotMessageSquare, Box } from 'lucide-react';
+import rosemarGardenImg from '../assets/Rosemar Garden.png';
 
 const HomePage = () => {
     // Featured plants data
@@ -190,7 +191,7 @@ const HomePage = () => {
                         </div>
                         <div className="scroll-animation order-1 md:order-2">
                             <img
-                                src="https://images.unsplash.com/photo-1561378133-3fc698604d34?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
+                                src={rosemarGardenImg}
                                 alt="Rosemar Garden"
                                 className="rounded-lg shadow-lg w-full h-auto"
                             />
