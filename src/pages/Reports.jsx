@@ -175,7 +175,7 @@ const AdminReports = () => {
             </div>
 
             <div>
-              <Button variant="default" className="w-full sm:w-auto bg-primary hover:bg-primary/90">
+              <Button variant="default" className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white">
                 Generate Report
               </Button>
             </div>

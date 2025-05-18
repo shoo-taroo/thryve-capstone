@@ -23,14 +23,13 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ScrollToTopButton from "./components/ScrollToTopButton";
 import ScrollToTop from "./components/ScrollToTop";
-import Adminlayout from "./components/AdminLayout";
+import AdminLayout from "./components/AdminLayout";
 
 const App = () => {
   const location = useLocation();
 
   // Define valid public routes and admin routes
   const publicRoutes = ['/', '/plant-store', '/about-us', '/faqs', '/contact-us'];
-  const adminRoutes = ['/admin', '/admin/login'];
   const isPublicRoute = publicRoutes.includes(location.pathname);
   const isAdminRoute = location.pathname.startsWith('/admin');
 
@@ -67,12 +66,11 @@ const App = () => {
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/faqs" element={<FAQs />} />
           <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/login" element={<LoginPage />} />
 
           {/* Admin Routes */}
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<LoginPage />} />
-            <Route path="login" element={<LoginPage />} />
-            <Route path="overview" element={<AdminOverview />} />
+          <Route path="/admin*" element={<AdminLayout />}>
+            <Route index element={<AdminOverview />} />
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="inventory" element={<AdminInventory />} />
             <Route path="reports" element={<AdminReports />} />

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Outlet, useNavigate, NavLink } from 'react-router-dom';
 import { FileText, Grid2x2, PackageSearch, BarChart3, Bell, Search, LogOut, HelpCircle, Menu, X } from 'lucide-react';
-
+import ThryveLogoWhite from '../assets/Thryve Logo White.png';
 const AdminLayout = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
   const navigate = useNavigate();
@@ -43,8 +43,7 @@ const AdminLayout = () => {
       >
         {/* Logo */}
         <div className="flex items-center px-4 py-6">
-          <img src="/lovable-uploads/67ac2224-bd23-4bd6-8f7e-0f740357f819.png" alt="Thryve Logo" className="h-8" />
-          <span className="ml-2 text-xl font-semibold">thryve</span>
+          <img src={ThryveLogoWhite} alt="Thryve Logo" className="h-8" />
         </div>
 
         {/* Navigation */}
@@ -115,7 +114,7 @@ const AdminLayout = () => {
       </div>
 
       {/* Main Content */}
-      <div className={`flex-1 transition-margin duration-300 ${isDrawerOpen ? 'md:ml-64' : 'ml-0'} bg-neutral overflow-auto`}>
+      <div className={`flex-1 transition-margin duration-300 ${isDrawerOpen ? 'md:ml-64' : 'ml-0'} bg-[#f2fceb] overflow-auto`}>
         {/* Header */}
         <header className="bg-white shadow-sm p-4 flex justify-between items-center">
           <div className="relative">
