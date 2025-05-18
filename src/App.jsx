@@ -18,6 +18,9 @@ import AdminInventory from "./pages/Inventory";
 import AdminReports from "./pages/Reports";
 import Feedback from "./pages/Feedback";
 import PlantCare from "./pages/PlantCare";
+import UserManagement from "./pages/UserManagement";
+import SystemConfig from "./pages/SystemConfig";
+import AccessLogs from "./pages/AccessLogs";
 
 // Components
 import Navbar from "./components/Navbar";
@@ -77,6 +80,9 @@ const App = () => {
             <Route path="reports" element={<AdminReports />} />
             <Route path="feedback" element={<Feedback />} />
             <Route path="plant-care" element={<PlantCare />} />
+            <Route path="user-management" element={<UserManagement />} />
+            <Route path="system-config" element={<SystemConfig />} />
+            <Route path="access-logs" element={<AccessLogs />} />
           </Route>
 
           {/* 404 Route */}

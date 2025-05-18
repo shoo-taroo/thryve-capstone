@@ -46,7 +46,8 @@ const LoginPage = () => {
     const credentials = {
       admin: { username: 'admin', password: '12345', role: 'admin' },
       owner: { username: 'owneradmin', password: 'owner123', role: 'owner' },
-      specialist: { username: 'psadmin', password: 'ps123', role: 'specialist' }
+      specialist: { username: 'psadmin', password: 'ps123', role: 'specialist' },
+      itadmin: { username: 'itadmin', password: 'it123', role: 'itadmin' }
     };
 
     // Simulate authentication check

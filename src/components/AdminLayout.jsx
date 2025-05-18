@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Outlet, useNavigate, NavLink } from 'react-router-dom';
-import { FileText, Grid2x2, PackageSearch, BarChart3, Bell, Search, LogOut, HelpCircle, Menu, X, MessageSquare, Leaf } from 'lucide-react';
+import { FileText, Grid2x2, PackageSearch, BarChart3, Bell, Search, LogOut, HelpCircle, Menu, X, MessageSquare, Leaf, User, Settings, FileText as AccessLogs } from 'lucide-react';
 import ThryveLogoWhite from '../assets/Thryve Logo White.png';
 const AdminLayout = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
@@ -37,6 +37,14 @@ const AdminLayout = () => {
         { path: '/admin/inventory', icon: <PackageSearch className="h-5 w-5 mr-3" />, label: 'Inventory Management' },
         { path: '/admin/plant-care', icon: <Leaf className="h-5 w-5 mr-3" />, label: 'Plant Care Advisory' },
         { path: '/admin/reports', icon: <BarChart3 className="h-5 w-5 mr-3" />, label: 'Reports Generation' },
+      ];
+    } else if (userRole === 'itadmin') {
+      return [
+        { path: '/admin', icon: <Grid2x2 className="h-5 w-5 mr-3" />, label: 'Overview' },
+        { path: '/admin/dashboard', icon: <FileText className="h-5 w-5 mr-3" />, label: 'Dashboard' },
+        { path: '/admin/user-management', icon: <User className="h-5 w-5 mr-3" />, label: 'User Management' },
+        { path: '/admin/system-config', icon: <Settings className="h-5 w-5 mr-3" />, label: 'System Configuration' },
+        { path: '/admin/access-logs', icon: <AccessLogs className="h-5 w-5 mr-3" />, label: 'Access Logs' },
       ];
     } else {
       return [
@@ -75,7 +83,8 @@ const AdminLayout = () => {
         <div className="px-6 mb-4">
           <span className="inline-block px-3 py-1 bg-primary text-white text-xs font-semibold rounded-full">
             {userRole === 'specialist' ? 'Plant Specialist' :
-              userRole === 'owner' ? 'Plant Store Owner' : 'Admin'}
+              userRole === 'owner' ? 'Plant Store Owner' :
+                userRole === 'itadmin' ? 'IT Admin' : 'Admin'}
           </span>
         </div>
 
@@ -127,8 +136,9 @@ const AdminLayout = () => {
             <div className="flex items-center">
               <div className="w-8 h-8 bg-gray-200 rounded-full"></div>
               <span className="ml-2 text-gray-800">
-                {userRole === 'specialist' ? 'Plant Specialist' : 
-                 userRole === 'owner' ? 'Plant Store Owner' : 'Admin User'}
+                {userRole === 'specialist' ? 'Plant Specialist' :
+                  userRole === 'owner' ? 'Plant Store Owner' :
+                    userRole === 'itadmin' ? 'IT Admin' : 'Admin User'}
               </span>
             </div>
             <button
