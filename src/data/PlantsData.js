@@ -281,3 +281,5 @@ export const plantsData = [
     description: 'Traditional terracotta pots that allow soil to breathe, ideal for most houseplants and outdoor plants.',
   },
 ];
+
+export default plantsData;
