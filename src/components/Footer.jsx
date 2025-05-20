@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom';
-import { Facebook, Instagram, Twitter, Mail, Phone } from 'lucide-react';
+import { Facebook, Mail, Phone } from 'lucide-react';
 import logo from '../assets/Thryve Logo.png';
 
 const Footer = () => {
   const year = new Date().getFullYear();
-  
+
   return (
     <footer className="bg-primary text-white">
       <div className="container py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Company Info */}
           <div>
             <Link to="/">
@@ -21,15 +21,9 @@ const Footer = () => {
               <a href="https://facebook.com" className="hover:text-accent transition-colors">
                 <Facebook size={20} />
               </a>
-              <a href="https://instagram.com" className="hover:text-accent transition-colors">
-                <Instagram size={20} />
-              </a>
-              <a href="https://twitter.com" className="hover:text-accent transition-colors">
-                <Twitter size={20} />
-              </a>
             </div>
           </div>
-          
+
           {/* Quick Links */}
           <div>
             <h3 className="text-lg font-semibold mb-6">Quick Links</h3>
@@ -41,7 +35,7 @@ const Footer = () => {
               <li><Link to="/contact-us" className="text-sm hover:text-accent transition-colors">Contact Us</Link></li>
             </ul>
           </div>
-          
+
           {/* Services */}
           <div>
             <h3 className="text-lg font-semibold mb-6">Services</h3>
@@ -53,7 +47,17 @@ const Footer = () => {
               <li><a href="#" className="text-sm hover:text-accent transition-colors">Community Forum</a></li>
             </ul>
           </div>
-          
+
+          {/* Other Roles */}
+          <div>
+            <h3 className="text-lg font-semibold mb-6">Other Roles</h3>
+            <ul className="space-y-3">
+              <li><Link to="/login" className="text-sm hover:text-accent transition-colors">Plant Garden Owner</Link></li>
+              <li><Link to="/login" className="text-sm hover:text-accent transition-colors">Plant Specialist</Link></li>
+              <li><Link to="/login" className="text-sm hover:text-accent transition-colors">IT Admin</Link></li>
+            </ul>
+          </div>
+
           {/* Contact Info */}
           <div>
             <h3 className="text-lg font-semibold mb-6">Contact Us</h3>
@@ -79,7 +83,7 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-        
+
         <div className="border-t border-white/20 mt-12 pt-6 text-center text-sm text-neutral/80">
           <p>&copy; {year} Thryve. All rights reserved.</p>
         </div>

@@ -29,11 +29,11 @@ const Navbar = () => {
   }, []);
   
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white shadow-md py-3' : 'bg-transparent py-5'}`}>
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${location.pathname !== '/' || scrolled ? 'bg-white shadow-md py-3' : 'bg-transparent py-5'}`}>
       <div className="container flex items-center justify-between mx-auto">
         {/* Logo */}
         <Link to="/" className="flex items-center">
-          <img src={logo} alt="Thryve Logo" className="h-8" />
+          <img src={logo} alt="Thryve Logo" className={`h-8 ${location.pathname === '/' && !scrolled && 'filter brightness-0 invert'}`} />
         </Link>
         
         {/* Desktop Navigation */}
@@ -42,7 +42,12 @@ const Navbar = () => {
             <Link 
               key={link.name} 
               to={link.path}
-              className={`font-poppins text-sm font-medium transition-colors hover:text-accent ${location.pathname === link.path ? 'text-accent' : 'text-primary'}`}
+              className={`font-poppins text-sm font-medium relative transition-colors
+                ${location.pathname === link.path 
+                  ? 'text-[#569F8B] after:absolute after:left-0 after:bottom-[-5px] after:h-[2px] after:w-full after:bg-[#569F8B]' 
+                  : location.pathname !== '/' || scrolled ? 'text-black hover:text-[#4A7C59]' : 'text-white hover:text-black/80'
+                }
+              `}
             >
               {link.name}
             </Link>
@@ -56,7 +61,7 @@ const Navbar = () => {
         
         {/* Mobile Menu Button */}
         <button 
-          className="md:hidden p-2 text-primary" 
+          className={`md:hidden p-2 ${location.pathname !== '/' || scrolled ? 'text-primary' : 'text-white'}`}
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}

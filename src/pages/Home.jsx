@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import SectionHeading from '../components/SectionHeading';
 import { Star, ScanLine, Leaf, BotMessageSquare, Box } from 'lucide-react';
-import rosemarGardenImg from '../assets/Rosemar Garden.png';
+import rosemarGardenLoc from '../assets/Rosemar Garden Location.png';
 
 const HomePage = () => {
     // Featured plants data
@@ -9,21 +9,21 @@ const HomePage = () => {
         {
             id: 1,
             name: 'Monstera Deliciosa',
-            image: 'https://images.unsplash.com/photo-1614594975525-e45190c55d0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+            image: 'https://potsforplants.ph/cdn/shop/products/monstera-deliciosa-swiss-cheese-plant-246419.jpg?v=1697027493',
             price: '₱850.00',
             size: 'M',
         },
         {
             id: 2,
             name: 'Snake Plant',
-            image: 'https://images.unsplash.com/photo-1572688484438-313a6e50c333?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+            image: 'https://images.squarespace-cdn.com/content/v1/54fbb611e4b0d7c1e151d22a/1610074066643-OP8HDJUWUH8T5MHN879K/Snake+Plant.jpg?format=1000w',
             price: '₱550.00',
             size: 'S',
         },
         {
             id: 3,
             name: 'Fiddle Leaf Fig',
-            image: 'https://images.unsplash.com/photo-1603912674852-e8109c83ff96?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+            image: 'https://www.shelmerdine.com/wp-content/uploads/2018/08/Fiddle-Leaf-Fig-Tree.jpg',
             price: '₱1,250.00',
             size: 'L',
         },
@@ -91,21 +91,24 @@ const HomePage = () => {
                 >
                     <div className="absolute inset-0 bg-black/35"></div>
                 </div>
-                <div className="container relative z-10 text-white">
-                    <div className="max-w-2xl">
+                <div className="container relative z-10 text-white text-center">
+                    <div className="max-w-2xl mx-auto">
                         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 animate-fade-in">
-                            Keep Your Plants Thriving with Thryve
+                            Keep Your Plants Thriving with{' '}
+                            <span className="italic">
+                                th<span className="text-[#569F8B]">r</span>yve
+                            </span>
                         </h1>
                         <p className="text-xl md:text-2xl mb-8 opacity-90 animate-fade-in">
                             The complete plant care management system that helps you nurture your green companions.
                         </p>
-                        <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up">
-                            <Link to="/plant-store" className="bg-[#569F8B] btn-accent text-center">
-                                Explore Plants
-                            </Link>
-                            <button className="px-6 py-3 font-semibold border-2 border-white rounded-md transition-all duration-300 hover:bg-white hover:text-primary">
-                                Learn More
+                        <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up justify-center">
+                            <button className="bg-[#569F8B] btn-accent text-center">
+                                Download App
                             </button>
+                            <Link to="/plant-store" className="px-6 py-3 font-semibold border-2 border-white rounded-md transition-all duration-300 hover:bg-white hover:text-primary">
+                                Browse Shop
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -191,8 +194,8 @@ const HomePage = () => {
                         </div>
                         <div className="scroll-animation order-1 md:order-2">
                             <img
-                                src={rosemarGardenImg}
-                                alt="Rosemar Garden"
+                                src={rosemarGardenLoc}
+                                alt="Rosemar Garden Location"
                                 className="rounded-lg shadow-lg w-full h-auto"
                             />
                         </div>
@@ -214,28 +217,28 @@ const HomePage = () => {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         <div className="scroll-animation p-6 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 transition-transform hover:scale-105">
-                            <h3 className="text-xl font-semibold mb-4">Plant Identification</h3>
-                            <p className="mb-4 text-neutral/90">Not sure what plant you have? Our app can identify thousands of plant species with just a photo.</p>
+                            <h3 className="text-xl font-semibold mb-4">Indoor & Outdoor Plant Sales</h3>
+                            <p className="mb-4 text-neutral/90">Looking to green up your space? We offer a wide variety of indoor and outdoor plants, perfect for homes, offices, and gardens.</p>
                         </div>
                         <div className="scroll-animation p-6 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 transition-transform hover:scale-105">
-                            <h3 className="text-xl font-semibold mb-4">Watering Schedule</h3>
-                            <p className="mb-4 text-neutral/90">Get customized watering schedules based on your plant's species, location, and environment.</p>
+                            <h3 className="text-xl font-semibold mb-4">Fruit Trees & Edible Plants</h3>
+                            <p className="mb-4 text-neutral/90">Grow your own food with our selection of fruit-bearing trees, herbs, and vegetables—ideal for sustainable and healthy living.</p>
                         </div>
                         <div className="scroll-animation p-6 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 transition-transform hover:scale-105">
-                            <h3 className="text-xl font-semibold mb-4">Disease Detection</h3>
-                            <p className="mb-4 text-neutral/90">Identify common plant diseases and get treatment recommendations quickly.</p>
+                            <h3 className="text-xl font-semibold mb-4">Pot Variety for Every Style</h3>
+                            <p className="mb-4 text-neutral/90">From classic ceramic to modern plastic and eco-friendly terracotta, we've got the perfect pot to suit your plant's needs and your aesthetic.</p>
                         </div>
                         <div className="scroll-animation p-6 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 transition-transform hover:scale-105">
-                            <h3 className="text-xl font-semibold mb-4">Growth Tracking</h3>
-                            <p className="mb-4 text-neutral/90">Track your plant's growth over time with photo journals and measurements.</p>
+                            <h3 className="text-xl font-semibold mb-4">Landscaping Services</h3>
+                            <p className="mb-4 text-neutral/90">Transform your garden or outdoor area with our custom landscaping solutions designed to bring your vision to life.</p>
                         </div>
                         <div className="scroll-animation p-6 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 transition-transform hover:scale-105">
-                            <h3 className="text-xl font-semibold mb-4">Care Guides</h3>
-                            <p className="mb-4 text-neutral/90">Access detailed care guides for thousands of plant species.</p>
+                            <h3 className="text-xl font-semibold mb-4">Pool Grotto Installation</h3>
+                            <p className="mb-4 text-neutral/90">Elevate your backyard with a professionally designed and installed pool grotto—bringing natural beauty and relaxation to your home.</p>
                         </div>
                         <div className="scroll-animation p-6 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 transition-transform hover:scale-105">
-                            <h3 className="text-xl font-semibold mb-4">Community Forum</h3>
-                            <p className="mb-4 text-neutral/90">Connect with other plant lovers to share tips, ask questions, and get advice.</p>
+                            <h3 className="text-xl font-semibold mb-4">On-Site Market Presence</h3>
+                            <p className="mb-4 text-neutral/90">Conveniently located at the New Antipolo Public Market, visit us in person to see our full range of products and get expert plant care advice.</p>
                         </div>
                     </div>
                 </div>
