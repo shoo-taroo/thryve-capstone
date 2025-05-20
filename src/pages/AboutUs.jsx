@@ -5,19 +5,19 @@ const AboutUs = () => {
   // Team members
   const team = [
     {
-      name: 'Noreen Valois',
-      role: 'Founder & Head Florist',
-      image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-    },
-    {
       name: 'Miguel Santos',
       role: 'Plant Specialist',
-      image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+      image: 'https://mediaproxy.salon.com/width/1200/height/675/https://media2.salon.com/2013/01/Facebook-no-profile-picture-icon-620x389.jpg',
+    },
+    {
+      name: 'Noreen Valois',
+      role: 'Founder & Plant Owner',
+      image: 'https://mediaproxy.salon.com/width/1200/height/675/https://media2.salon.com/2013/01/Facebook-no-profile-picture-icon-620x389.jpg',
     },
     {
       name: 'Ana Rivera',
-      role: 'Customer Experience',
-      image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+      role: 'Plant Specialist',
+      image: 'https://mediaproxy.salon.com/width/1200/height/675/https://media2.salon.com/2013/01/Facebook-no-profile-picture-icon-620x389.jpg',
     },
   ];
   
@@ -99,7 +99,7 @@ const AboutUs = () => {
       <section className="section-padding bg-white">
         <div className="container">
           <SectionHeading 
-            title="Meet Our Team" 
+            title="Meet The Team" 
             subtitle="The passionate people behind our success"
             center={true}
           />
