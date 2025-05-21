@@ -4,7 +4,7 @@ export const plantsData = [
     id: 1,
     name: 'Santan',
     scientificName: 'Ixora coccinea',
-    image: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSYlCenUZLlhRjnV551Bi8JuJvSXjV_ITnmZh6TdWn6887DisIYpaqIXgFmONuZzY2HpfeHGjE1KVlvYPS0L3LHnw',
+    image: 'https://live.staticflickr.com/65535/49695766073_2290d07580_b.jpg',
     category: 'flowering',
     sizes: [
       { size: 'S', price: 70 },
@@ -16,7 +16,7 @@ export const plantsData = [
     id: 2,
     name: 'Pandacaqui',
     scientificName: 'Tabernaemontana pandacaqui',
-    image: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSYlCenUZLlhRjnV551Bi8JuJvSXjV_ITnmZh6TdWn6887DisIYpaqIXgFmONuZzY2HpfeHGjE1KVlvYPS0L3LHnw',
+    image: 'https://live.staticflickr.com/5285/5369045914_f9af4ee657_b.jpg',
     category: 'flowering',
     sizes: [
       { size: 'S', price: 85 },
@@ -28,7 +28,7 @@ export const plantsData = [
     id: 3,
     name: 'White Angel',
     scientificName: 'Wrightia antidysenterica',
-    image: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSYlCenUZLlhRjnV551Bi8JuJvSXjV_ITnmZh6TdWn6887DisIYpaqIXgFmONuZzY2HpfeHGjE1KVlvYPS0L3LHnw',
+    image: 'https://live.staticflickr.com/215/460889406_8a3e19bca7_b.jpg',
     category: 'flowering',
     sizes: [
       { size: 'S', price: 95 },
@@ -40,7 +40,7 @@ export const plantsData = [
     id: 4,
     name: 'Rosal',
     scientificName: 'Gardenia jasminoides',
-    image: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSYlCenUZLlhRjnV551Bi8JuJvSXjV_ITnmZh6TdWn6887DisIYpaqIXgFmONuZzY2HpfeHGjE1KVlvYPS0L3LHnw',
+    image: 'https://down-ph.img.susercontent.com/file/ph-11134207-7r98p-ls2q4emjcrb807',
     category: 'flowering',
     sizes: [
       { size: 'S', price: 100 },
@@ -53,7 +53,7 @@ export const plantsData = [
     id: 5,
     name: 'Daisy',
     scientificName: 'Bellis perennis',
-    image: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSYlCenUZLlhRjnV551Bi8JuJvSXjV_ITnmZh6TdWn6887DisIYpaqIXgFmONuZzY2HpfeHGjE1KVlvYPS0L3LHnw',
+    image: 'https://westmountflorist.com/cdn/shop/articles/freya-ingva-6P9JgFe3f9Q-unsplash.jpg?v=1725909146&width=1500',
     category: 'flowering',
     sizes: [
       { size: 'S', price: 60 },
@@ -67,7 +67,7 @@ export const plantsData = [
     id: 6,
     name: 'Phallinopsis',
     scientificName: 'Phalaenopsis spp.',
-    image: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSYlCenUZLlhRjnV551Bi8JuJvSXjV_ITnmZh6TdWn6887DisIYpaqIXgFmONuZzY2HpfeHGjE1KVlvYPS0L3LHnw',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYXxFpP4HFGpsCftruLjSflWzmz_vYfs9v8gvQ3ehYOi8nQNHpoiYBLDqNs8t3chX7mQQ&usqp=CAU',
     category: 'orchids',
     sizes: [
       { size: 'S', price: 350 },
@@ -79,7 +79,7 @@ export const plantsData = [
     id: 7,
     name: "Vanda's",
     scientificName: 'Vanda spp.',
-    image: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSYlCenUZLlhRjnV551Bi8JuJvSXjV_ITnmZh6TdWn6887DisIYpaqIXgFmONuZzY2HpfeHGjE1KVlvYPS0L3LHnw',
+    image: 'https://cdn.mos.cms.futurecdn.net/F6XAZrWmgZamJpjzeXG9hn.jpg',
     category: 'orchids',
     sizes: [
       { size: 'S', price: 380 },
@@ -91,7 +91,7 @@ export const plantsData = [
     id: 8,
     name: 'Vanda Straf',
     scientificName: 'Vanda stratifolia',
-    image: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSYlCenUZLlhRjnV551Bi8JuJvSXjV_ITnmZh6TdWn6887DisIYpaqIXgFmONuZzY2HpfeHGjE1KVlvYPS0L3LHnw',
+    image: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhN6kusrUJeuJDYyV8p86ZA1Hu6Df4-aWPuubnTvnFT1wtJG78kdprxnM-4_uyqQPyez1Jdhr2vQ9aTgG2EbvAjItS0kpalnh3e5Z4xtTjbkaebUylepVFl2b4vUKquGW_7IxhDrBlrk1g/s1600/40071556110_d6e0ca58ac_b.jpg',
     category: 'orchids',
     sizes: [
       { size: 'S', price: 420 },
@@ -101,9 +101,9 @@ export const plantsData = [
   },
   {
     id: 9,
-    name: 'Vanda Straf',
-    scientificName: 'Vanda stratifolia',
-    image: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSYlCenUZLlhRjnV551Bi8JuJvSXjV_ITnmZh6TdWn6887DisIYpaqIXgFmONuZzY2HpfeHGjE1KVlvYPS0L3LHnw',
+    name: 'Dancing Lady',
+    scientificName: 'Oncidium spp.',
+    image: 'https://cdn.mos.cms.futurecdn.net/xg4Gkym6qtWAcC5k26H477.jpg',
     category: 'orchids',
     sizes: [
       { size: 'S', price: 420 },
@@ -113,9 +113,9 @@ export const plantsData = [
   },
   {
     id: 10,
-    name: 'Vanda Straf',
-    scientificName: 'Vanda stratifolia',
-    image: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSYlCenUZLlhRjnV551Bi8JuJvSXjV_ITnmZh6TdWn6887DisIYpaqIXgFmONuZzY2HpfeHGjE1KVlvYPS0L3LHnw',
+    name: 'Dendrobium',
+    scientificName: 'Dendrobium spp.',
+    image: 'https://www.guide-to-houseplants.com/images/dendrobium-purple.jpg',
     category: 'orchids',
     sizes: [
       { size: 'S', price: 420 },
@@ -129,7 +129,7 @@ export const plantsData = [
     id: 11,
     name: 'Calamansi',
     scientificName: 'Citrofortunella microcarpa',
-    image: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSYlCenUZLlhRjnV551Bi8JuJvSXjV_ITnmZh6TdWn6887DisIYpaqIXgFmONuZzY2HpfeHGjE1KVlvYPS0L3LHnw',
+    image: 'https://previews.123rf.com/images/chaboy26/chaboy261401/chaboy26140100001/24845992-calamansi-tree.jpg',
     category: 'fruit-trees',
     sizes: [
       { size: 'S', price: 150 },
