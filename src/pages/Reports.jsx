@@ -108,57 +108,62 @@ const AdminReports = () => {
   };
 
   const exportToPDF = () => {
-    const doc = new jsPDF();
-    const title = getReportTitle();
-    
-    // Add title
-    doc.setFontSize(16);
-    doc.text(title, 14, 15);
-    
-    // Add date range
-    doc.setFontSize(10);
-    doc.text(
-      `Date Range: ${fromDate && toDate ? `${fromDate} - ${toDate}` : 'Last 6 months'}`,
-      14, 25
-    );
+    try {
+      const doc = new jsPDF();
+      const title = getReportTitle();
 
-    // Add table data based on report type
-    let tableData = [];
-    if (reportType === 'sales') {
-      tableData = salesData.map(item => [
-        item.month,
-        `₱${item.sales.toLocaleString()}`
-      ]);
-      doc.autoTable({
-        head: [['Month', 'Sales']],
-        body: tableData,
-        startY: 30,
-      });
-    } else if (reportType === 'category') {
-      tableData = categoryData.map(item => [
-        item.name,
-        `${item.value}%`
-      ]);
-      doc.autoTable({
-        head: [['Category', 'Percentage']],
-        body: tableData,
-        startY: 30,
-      });
-    } else if (reportType === 'trend') {
-      tableData = trendData.map(item => [
-        item.month,
-        `₱${item.inStore.toLocaleString()}`,
-        `₱${item.online.toLocaleString()}`
-      ]);
-      doc.autoTable({
-        head: [['Month', 'In-Store Sales', 'Online Sales']],
-        body: tableData,
-        startY: 30,
-      });
+      // Add title
+      doc.setFontSize(16);
+      doc.text(title, 14, 15);
+
+      // Add date range
+      doc.setFontSize(10);
+      doc.text(
+        `Date Range: ${fromDate && toDate ? `${fromDate} - ${toDate}` : 'Last 6 months'}`,
+        14, 25
+      );
+
+      // Add table data based on report type
+      let tableData = [];
+      if (reportType === 'sales') {
+        tableData = salesData.map(item => [
+          item.month,
+          `₱${item.sales.toLocaleString()}`
+        ]);
+        doc.autoTable({
+          head: [['Month', 'Sales']],
+          body: tableData,
+          startY: 30,
+        });
+      } else if (reportType === 'category') {
+        tableData = categoryData.map(item => [
+          item.name,
+          `${item.value}%`
+        ]);
+        doc.autoTable({
+          head: [['Category', 'Percentage']],
+          body: tableData,
+          startY: 30,
+        });
+      } else if (reportType === 'trend') {
+        tableData = trendData.map(item => [
+          item.month,
+          `₱${item.inStore.toLocaleString()}`,
+          `₱${item.online.toLocaleString()}`
+        ]);
+        doc.autoTable({
+          head: [['Month', 'In-Store Sales', 'Online Sales']],
+          body: tableData,
+          startY: 30,
+        });
+      }
+
+      // Save the PDF
+      doc.save(`${title.toLowerCase().replace(' ', '_')}_${new Date().toISOString().split('T')[0]}.pdf`);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      alert('Failed to generate PDF. Please check console for details.');
     }
-
-    // Save the PDF
-    doc.save(`${title.toLowerCase().replace(' ', '_')}_${new Date().toISOString().split('T')[0]}.pdf`);
   };
 
   const exportToCSV = () => {
@@ -168,7 +173,7 @@ const AdminReports = () => {
     // Create CSV content based on report type
     if (reportType === 'sales') {
       csvContent = 'Month,Sales\n';
-      csvContent += salesData.map(item => 
+      csvContent += salesData.map(item =>
         `${item.month},${item.sales}`
       ).join('\n');
     } else if (reportType === 'category') {
@@ -213,9 +218,8 @@ const AdminReports = () => {
               {reportTypes.map((type) => (
                 <div
                   key={type.id}
-                  className={`flex items-center p-3 rounded-lg cursor-pointer border ${
-                    reportType === type.id ? 'border-primary bg-primary/5' : 'border-gray-200 hover:bg-gray-50'
-                  }`}
+                  className={`flex items-center p-3 rounded-lg cursor-pointer border ${reportType === type.id ? 'border-primary bg-primary/5' : 'border-gray-200 hover:bg-gray-50'
+                    }`}
                   onClick={() => setReportType(type.id)}
                 >
                   <type.icon className={`mr-3 ${reportType === type.id ? 'text-primary' : 'text-gray-400'}`} />
