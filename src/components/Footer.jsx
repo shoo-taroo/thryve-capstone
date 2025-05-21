@@ -18,7 +18,7 @@ const Footer = () => {
               Your personal plant care companion. Helping you grow happier, healthier plants.
             </p>
             <div className="flex space-x-4">
-              <a href="https://facebook.com" className="hover:text-accent transition-colors">
+              <a href="https://www.facebook.com/RosemarGarden" className="hover:text-accent transition-colors">
                 <Facebook size={20} />
               </a>
             </div>
