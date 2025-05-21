@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import { saveAs } from 'file-saver';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -123,40 +123,36 @@ const AdminReports = () => {
         14, 25
       );
 
+      const tableConfig = {
+        startY: 30,
+        head: [],
+        body: [],
+      };
+
       // Add table data based on report type
-      let tableData = [];
       if (reportType === 'sales') {
-        tableData = salesData.map(item => [
-          item.month,
-          `₱${item.sales.toLocaleString()}`
-        ]);
-        doc.autoTable({
-          head: [['Month', 'Sales']],
-          body: tableData,
-          startY: 30,
-        });
-      } else if (reportType === 'category') {
-        tableData = categoryData.map(item => [
-          item.name,
-          `${item.value}%`
-        ]);
-        doc.autoTable({
-          head: [['Category', 'Percentage']],
-          body: tableData,
-          startY: 30,
-        });
-      } else if (reportType === 'trend') {
-        tableData = trendData.map(item => [
-          item.month,
-          `₱${item.inStore.toLocaleString()}`,
-          `₱${item.online.toLocaleString()}`
-        ]);
-        doc.autoTable({
-          head: [['Month', 'In-Store Sales', 'Online Sales']],
-          body: tableData,
-          startY: 30,
-        });
-      }
+      tableConfig.head = [['Month', 'Sales']];
+      tableConfig.body = salesData.map(item => [
+        item.month,
+        `₱${item.sales.toLocaleString()}`
+      ]);
+    } else if (reportType === 'category') {
+      tableConfig.head = [['Category', 'Percentage']];
+      tableConfig.body = categoryData.map(item => [
+        item.name,
+        `${item.value}%`
+      ]);
+    } else if (reportType === 'trend') {
+      tableConfig.head = [['Month', 'In-Store Sales', 'Online Sales']];
+      tableConfig.body = trendData.map(item => [
+        item.month,
+        `₱${item.inStore.toLocaleString()}`,
+        `₱${item.online.toLocaleString()}`
+      ]);
+    }
+
+    // Generate table
+    autoTable(doc, tableConfig);
 
       // Save the PDF
       doc.save(`${title.toLowerCase().replace(' ', '_')}_${new Date().toISOString().split('T')[0]}.pdf`);
