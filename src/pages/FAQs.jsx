@@ -20,7 +20,7 @@ const FAQs = () => {
     },
     {
       question: 'Can I use Thryve offline?',
-      answer: 'Yes, many of Thryve\'s core features are available offline. You can access your plant profiles, care schedules, and basic care information without an internet connection. However, features like plant identification, community forums, and synchronizing data across multiple devices require an internet connection.',
+      answer: 'No, many of Thryve\'s core features are not available offline. Plant identification, AI chat, and using AR Scan require an internet connection.',
     },
     {
       question: 'Do I need to create an account to use Thryve?',
@@ -28,11 +28,7 @@ const FAQs = () => {
     },
     {
       question: 'How accurate is the plant identification feature?',
-      answer: 'Our plant identification technology uses advanced machine learning algorithms and is continuously improving. It currently has an accuracy rate of over 95% for common houseplants and garden varieties. For rare or unusual species, the app may provide several possible matches for you to choose from.',
-    },
-    {
-      question: 'Can I customize care reminders for my plants?',
-      answer: 'Absolutely! While Thryve provides recommended care schedules based on plant species and your local environment, you can fully customize these reminders to suit your specific needs and plant conditions.',
+      answer: 'Our plant identification technology uses advanced machine learning algorithms APIs.',
     },
     {
       question: 'Does Thryve work for both indoor and outdoor plants?',
