@@ -109,11 +109,11 @@ const AdminReports = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Reports Generation</h1>
         <div className="flex gap-2">
-          <Button variant="outline">
+          <Button variant="outline" className="bg-[#4A7C59] text-white hover:bg-[#4A7C59]/90">
             Export to PDF
             <Download className="ml-2 h-4 w-4" />
           </Button>
-          <Button variant="outline">
+          <Button variant="outline" className="bg-[#4A7C59] text-white hover:bg-[#4A7C59]/90">
             Export to CSV
             <Download className="ml-2 h-4 w-4" />
           </Button>

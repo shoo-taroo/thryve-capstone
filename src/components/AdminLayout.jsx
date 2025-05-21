@@ -32,7 +32,7 @@ const AdminLayout = () => {
   const getMenuItems = () => {
     if (userRole === 'specialist') {
       return [
-        { path: '/admin', icon: <Grid2x2 className="h-5 w-5 mr-3" />, label: 'Overview' },
+        { path: '/admin', icon: <Grid2x2 className="h-5 w-5 mr-3" />, label: 'Overview', end: true },
         { path: '/admin/dashboard', icon: <FileText className="h-5 w-5 mr-3" />, label: 'Dashboard' },
         { path: '/admin/inventory', icon: <PackageSearch className="h-5 w-5 mr-3" />, label: 'Inventory Management' },
         { path: '/admin/plant-care', icon: <Leaf className="h-5 w-5 mr-3" />, label: 'Plant Care Advisory' },
@@ -40,15 +40,14 @@ const AdminLayout = () => {
       ];
     } else if (userRole === 'itadmin') {
       return [
-        { path: '/admin', icon: <Grid2x2 className="h-5 w-5 mr-3" />, label: 'Overview' },
-        { path: '/admin/dashboard', icon: <FileText className="h-5 w-5 mr-3" />, label: 'Dashboard' },
+        { path: '/admin', icon: <Grid2x2 className="h-5 w-5 mr-3" />, label: 'Overview', end: true },
         { path: '/admin/user-management', icon: <User className="h-5 w-5 mr-3" />, label: 'User Management' },
         { path: '/admin/system-config', icon: <Settings className="h-5 w-5 mr-3" />, label: 'System Configuration' },
         { path: '/admin/access-logs', icon: <AccessLogs className="h-5 w-5 mr-3" />, label: 'Access Logs' },
       ];
     } else {
       return [
-        { path: '/admin', icon: <Grid2x2 className="h-5 w-5 mr-3" />, label: 'Overview' },
+        { path: '/admin', icon: <Grid2x2 className="h-5 w-5 mr-3" />, label: 'Overview', end: true },
         { path: '/admin/dashboard', icon: <FileText className="h-5 w-5 mr-3" />, label: 'Dashboard' },
         { path: '/admin/inventory', icon: <PackageSearch className="h-5 w-5 mr-3" />, label: 'Inventory Management' },
         { path: '/admin/feedback', icon: <MessageSquare className="h-5 w-5 mr-3" />, label: 'Customer Feedback' },
@@ -95,6 +94,7 @@ const AdminLayout = () => {
               <li key={index}>
                 <NavLink
                   to={item.path}
+                  end={item.end}
                   className={({ isActive }) =>
                     `flex items-center px-6 py-3 text-base font-medium hover:bg-black/20 ${isActive ? 'border-l-4 border-secondary bg-black/20' : ''
                     }`

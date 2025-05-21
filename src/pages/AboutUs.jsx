@@ -1,5 +1,9 @@
 import SectionHeading from '../components/SectionHeading';
 import rosemarGardenImg from '../assets/Rosemar Garden.png';
+import GardenPreview1 from '../assets/GardenPreviews/GardenPreview1.png';
+import GardenPreview2 from '../assets/GardenPreviews/GardenPreview2.png';
+import GardenPreview3 from '../assets/GardenPreviews/GardenPreview3.png';
+import GardenPreview4 from '../assets/GardenPreviews/GardenPreview4.png';
 
 const AboutUs = () => {
   // Team members
@@ -136,22 +140,22 @@ const AboutUs = () => {
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <img 
-              src="https://images.unsplash.com/photo-1584479898061-15742e14f50d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+              src={GardenPreview1} 
               alt="Garden" 
               className="scroll-animation w-full h-64 object-cover rounded-lg"
             />
             <img 
-              src="https://images.unsplash.com/photo-1525498128493-380d1990a112?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+              src={GardenPreview2} 
               alt="Garden" 
               className="scroll-animation w-full h-64 object-cover rounded-lg"
             />
             <img 
-              src="https://images.unsplash.com/photo-1602870634147-3e0aa1dcc761?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+              src={GardenPreview3} 
               alt="Garden" 
               className="scroll-animation w-full h-64 object-cover rounded-lg"
             />
             <img 
-              src="https://images.unsplash.com/photo-1566224425427-998503a013f6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+              src={GardenPreview4} 
               alt="Garden" 
               className="scroll-animation w-full h-64 object-cover rounded-lg"
             />

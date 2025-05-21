@@ -52,11 +52,11 @@ const AdminInventory = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Inventory Management</h1>
         <div className="flex gap-2">
-          <Button variant="outline">
+          <Button variant="outline"  className="bg-[#4A7C59] text-white hover:bg-[#4A7C59]/90">
             Export to CSV
             <Download className="ml-2 h-4 w-4" />
           </Button>
-          <Button variant="default" className="bg-secondary hover:bg-secondary/90">
+          <Button variant="default"className="bg-[#4A7C59] text-white hover:bg-[#4A7C59]/90">
             Add New Plant
             <Plus className="ml-2 h-4 w-4" />
           </Button>

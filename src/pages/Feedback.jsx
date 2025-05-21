@@ -146,7 +146,7 @@ const Feedback = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Customer Feedback</h1>
         <div className="flex gap-2">
-          <Button variant="outline">
+          <Button variant="outline" className="bg-[#4A7C59] text-white hover:bg-[#4A7C59]/90">
             Export Feedback
             <Download className="ml-2 h-4 w-4" />
           </Button>

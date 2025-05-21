@@ -71,11 +71,11 @@ const AdminDashboard = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Dashboard</h1>
         <div className="flex gap-2">
-          <Button variant="outline">
+          <Button variant="outline" className="bg-[#4A7C59] text-white hover:bg-[#4A7C59]/90">
             Export to PDF
             <Download className="ml-2 h-4 w-4" />
           </Button>
-          <Button variant="outline">
+          <Button variant="outline" className="bg-[#4A7C59] text-white hover:bg-[#4A7C59]/90">
             Export to CSV
             <Download className="ml-2 h-4 w-4" />
           </Button>
@@ -86,7 +86,7 @@ const AdminDashboard = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {statsCards.map((card, index) => (
           <div key={index} className={`${card.color} rounded-lg shadow-md p-6 text-center`}>
-            <h2 className="text-4xl font-bold mb-2 ${card.textColor}">{card.value}</h2>
+            <h2 className="text-4xl font-bold mb-2 text-white">{card.value}</h2>
             <p className={`${card.textColor} opacity-90`}>{card.title}</p>
           </div>
         ))}

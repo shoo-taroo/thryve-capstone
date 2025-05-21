@@ -9,19 +9,19 @@ const ContactUs = () => {
     subject: '',
     message: '',
   });
-  
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
-  
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     // Simulate form submission
     setTimeout(() => {
       setIsSubmitting(false);
@@ -32,14 +32,14 @@ const ContactUs = () => {
         subject: '',
         message: '',
       });
-      
+
       // Clear success message after 5 seconds
       setTimeout(() => {
         setSubmitMessage('');
       }, 5000);
     }, 1500);
   };
-  
+
   return (
     <div className="pt-20">
       {/* Hero Section */}
@@ -51,7 +51,7 @@ const ContactUs = () => {
           </p>
         </div>
       </section>
-      
+
       {/* Contact Information */}
       <section className="section-padding bg-white">
         <div className="container">
@@ -64,7 +64,7 @@ const ContactUs = () => {
               <p className="text-gray-600 mb-2">0905-338-9195</p>
               <p className="text-gray-600">0917-447-6929</p>
             </div>
-            
+
             <div className="scroll-animation bg-neutral rounded-lg p-6 text-center">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary text-white mb-4">
                 <Mail size={24} />
@@ -72,7 +72,7 @@ const ContactUs = () => {
               <h3 className="text-xl font-semibold text-primary mb-2">Email</h3>
               <p className="text-gray-600">rainrainegoaway@yahoo.com</p>
             </div>
-            
+
             <div className="scroll-animation bg-neutral rounded-lg p-6 text-center">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary text-white mb-4">
                 <Facebook size={24} />
@@ -84,7 +84,7 @@ const ContactUs = () => {
           </div>
         </div>
       </section>
-      
+
       {/* Store Information */}
       <section className="section-padding bg-neutral">
         <div className="container">
@@ -104,7 +104,7 @@ const ContactUs = () => {
                     <p className="text-gray-600">New Antipolo Public Market</p>
                   </div>
                 </li>
-                
+
                 <li className="flex items-start">
                   <span className="inline-block bg-primary text-white p-2 rounded-full mr-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -118,7 +118,7 @@ const ContactUs = () => {
                     <p className="text-gray-600">Monday to Saturday</p>
                   </div>
                 </li>
-                
+
                 <li className="flex items-start">
                   <span className="inline-block bg-primary text-white p-2 rounded-full mr-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -134,30 +134,31 @@ const ContactUs = () => {
                 </li>
               </ul>
             </div>
-            
+
             <div className="scroll-animation">
-              {/* Map placeholder - in a real app, you'd put an actual map here */}
-              <div className="rounded-lg overflow-hidden border-4 border-white shadow-lg h-80 bg-gray-200 flex items-center justify-center">
-                <p className="text-gray-500 text-center px-4">
-                  Interactive map would be displayed here<br />
-                  Location: New Antipolo Public Market
-                </p>
-              </div>
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3861.802876975!2d121.17245807584551!3d14.553667185363154!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c7dc88a5b70f%3A0x8c2e8864b5c5ef89!2sNew%20Antipolo%20Public%20Market!5e0!3m2!1sen!2sph!4v1684644621461!5m2!1sen!2sph"
+                className="w-full h-80 rounded-lg border-4 border-white shadow-lg"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
             </div>
           </div>
         </div>
       </section>
-      
+
       {/* Contact Form */}
       <section className="section-padding bg-white">
         <div className="container">
           <div className="max-w-2xl mx-auto">
-            <SectionHeading 
-              title="Send Us a Message" 
+            <SectionHeading
+              title="Send Us a Message"
               subtitle="Have a question or feedback? Fill out the form below."
               center={true}
             />
-            
+
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
@@ -175,7 +176,7 @@ const ContactUs = () => {
                     placeholder="John Doe"
                   />
                 </div>
-                
+
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                     Your Email
@@ -192,7 +193,7 @@ const ContactUs = () => {
                   />
                 </div>
               </div>
-              
+
               <div>
                 <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
                   Subject
@@ -208,7 +209,7 @@ const ContactUs = () => {
                   placeholder="How can we help you?"
                 />
               </div>
-              
+
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
                   Message
@@ -224,7 +225,7 @@ const ContactUs = () => {
                   placeholder="Your message here..."
                 />
               </div>
-              
+
               <div>
                 <button
                   type="submit"
@@ -243,7 +244,7 @@ const ContactUs = () => {
                     'Send Message'
                   )}
                 </button>
-                
+
                 {submitMessage && (
                   <p className="mt-4 text-center text-green-600 font-medium">
                     {submitMessage}
@@ -254,7 +255,7 @@ const ContactUs = () => {
           </div>
         </div>
       </section>
-      
+
       {/* Follow Us CTA */}
       <section className="section-padding bg-accent">
         <div className="container">

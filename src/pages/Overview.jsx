@@ -29,28 +29,51 @@ const AdminOverview = () => {
   // Stats cards data
   const statsCards = [
     {
-      title: 'IT Admins',
-      value: '4',
+      title: 'Total Users',
+      value: '156',
+      description: 'Active accounts',
       color: 'bg-purple-600',
       textColor: 'text-white',
     },
     {
-      title: 'Plant Specialists',
-      value: '2',
+      title: 'System Uptime',
+      value: '99.9%',
+      description: 'Last 30 days',
       color: 'bg-indigo-900',
       textColor: 'text-white',
     },
     {
-      title: 'Plants listed',
-      value: '500',
+      title: 'Access Logs',
+      value: '2.5k',
+      description: 'Monthly entries',
       color: 'bg-blue-900',
       textColor: 'text-white',
     },
     {
-      title: 'Pots listed',
-      value: '350',
+      title: 'Active Sessions',
+      value: '45',
+      description: 'Current users',
       color: 'bg-blue-600',
       textColor: 'text-white',
+    },
+  ];
+  
+  // Recent activities
+  const recentActivities = [
+    {
+      user: 'John Doe',
+      action: 'Updated system configuration',
+      timestamp: '2 hours ago',
+    },
+    {
+      user: 'Jane Smith',
+      action: 'Added new user account',
+      timestamp: '4 hours ago',
+    },
+    {
+      user: 'Mike Johnson',
+      action: 'Modified user permissions',
+      timestamp: '6 hours ago',
     },
   ];
 
@@ -62,114 +85,25 @@ const AdminOverview = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {statsCards.map((card, index) => (
           <div key={index} className={`${card.color} rounded-lg shadow-md p-6 text-center`}>
-            <h2 className="text-4xl font-bold mb-2 ${card.textColor}">{card.value}</h2>
+            <h2 className="text-4xl font-bold mb-2 text-white">{card.value}</h2>
             <p className={`${card.textColor} opacity-90`}>{card.title}</p>
           </div>
         ))}
       </div>
 
-      {/* Orders Chart */}
-      <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">Plant Orders</h2>
-          <select
-            value={timeRange}
-            onChange={(e) => setTimeRange(e.target.value)}
-            className="border rounded-md p-1"
-          >
-            <option>This Week</option>
-            <option>This Month</option>
-            <option>This Year</option>
-          </select>
-        </div>
-        <div>
-          <h3 className="text-3xl font-semibold text-green-600">5,000.00</h3>
-          <p className="text-gray-600">50 Orders</p>
-        </div>
-        <div className="h-72 mt-4">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={orderData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="Rose" stroke="#8884d8" activeDot={{ r: 8 }} />
-              <Line type="monotone" dataKey="ZZPlant" stroke="#e179c6" />
-              <Line type="monotone" dataKey="PrayerPlant" stroke="#f47b7b" />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Plant Types Chart */}
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-bold mb-4">Top 3 Scanned Plant Types</h2>
-          <div className="h-72">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={plantTypeData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={100}
-                  fill="#8884d8"
-                  paddingAngle={5}
-                  dataKey="value"
-                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                >
-                  {plantTypeData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-          <div className="flex justify-center flex-wrap mt-4">
-            {plantTypeData.map((entry, index) => (
-              <div key={index} className="flex items-center mr-6 mb-2">
-                <div className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: entry.color }}></div>
-                <span className="text-sm">{entry.name}</span>
+      {/* Recent Activities */}
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <h2 className="text-xl font-bold mb-4">Recent System Activities</h2>
+        <div className="space-y-4">
+          {recentActivities.map((activity, index) => (
+            <div key={index} className="flex items-center justify-between border-b pb-4">
+              <div>
+                <p className="font-semibold">{activity.user}</p>
+                <p className="text-gray-600">{activity.action}</p>
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Diseases Chart */}
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-bold mb-4">Most Common Diseases</h2>
-          <div className="h-72">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={diseaseData}
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={100}
-                  fill="#8884d8"
-                  dataKey="value"
-                  label={({ name, percent }) => `${(percent * 100).toFixed(0)}%`}
-                >
-                  {diseaseData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-          <div className="flex justify-center flex-wrap mt-4">
-            {diseaseData.map((entry, index) => (
-              <div key={index} className="flex items-center mr-6 mb-2">
-                <div className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: entry.color }}></div>
-                <span className="text-sm">{entry.name}</span>
-              </div>
-            ))}
-          </div>
+              <span className="text-sm text-gray-500">{activity.timestamp}</span>
+            </div>
+          ))}
         </div>
       </div>
     </div>
