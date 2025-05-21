@@ -189,7 +189,7 @@ const PlantStore = () => {
       </section>
       
       {/* Store Section */}
-      <section className="section-padding bg-neutral py-12">
+      <section className="section-padding bg-white py-12">
         <div className="container">
           {/* Search and Filters */}
           <div className="mb-8">
