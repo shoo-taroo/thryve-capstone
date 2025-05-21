@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { saveAs } from 'file-saver';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Download, FileText, Calendar, BarChart, PieChart, LineChart } from 'lucide-react';
@@ -104,16 +107,97 @@ const AdminReports = () => {
     return selectedReport ? selectedReport.name : '';
   };
 
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    const title = getReportTitle();
+    
+    // Add title
+    doc.setFontSize(16);
+    doc.text(title, 14, 15);
+    
+    // Add date range
+    doc.setFontSize(10);
+    doc.text(
+      `Date Range: ${fromDate && toDate ? `${fromDate} - ${toDate}` : 'Last 6 months'}`,
+      14, 25
+    );
+
+    // Add table data based on report type
+    let tableData = [];
+    if (reportType === 'sales') {
+      tableData = salesData.map(item => [
+        item.month,
+        `₱${item.sales.toLocaleString()}`
+      ]);
+      doc.autoTable({
+        head: [['Month', 'Sales']],
+        body: tableData,
+        startY: 30,
+      });
+    } else if (reportType === 'category') {
+      tableData = categoryData.map(item => [
+        item.name,
+        `${item.value}%`
+      ]);
+      doc.autoTable({
+        head: [['Category', 'Percentage']],
+        body: tableData,
+        startY: 30,
+      });
+    } else if (reportType === 'trend') {
+      tableData = trendData.map(item => [
+        item.month,
+        `₱${item.inStore.toLocaleString()}`,
+        `₱${item.online.toLocaleString()}`
+      ]);
+      doc.autoTable({
+        head: [['Month', 'In-Store Sales', 'Online Sales']],
+        body: tableData,
+        startY: 30,
+      });
+    }
+
+    // Save the PDF
+    doc.save(`${title.toLowerCase().replace(' ', '_')}_${new Date().toISOString().split('T')[0]}.pdf`);
+  };
+
+  const exportToCSV = () => {
+    let csvContent = '';
+    const title = getReportTitle();
+
+    // Create CSV content based on report type
+    if (reportType === 'sales') {
+      csvContent = 'Month,Sales\n';
+      csvContent += salesData.map(item => 
+        `${item.month},${item.sales}`
+      ).join('\n');
+    } else if (reportType === 'category') {
+      csvContent = 'Category,Percentage\n';
+      csvContent += categoryData.map(item =>
+        `${item.name},${item.value}`
+      ).join('\n');
+    } else if (reportType === 'trend') {
+      csvContent = 'Month,In-Store Sales,Online Sales\n';
+      csvContent += trendData.map(item =>
+        `${item.month},${item.inStore},${item.online}`
+      ).join('\n');
+    }
+
+    // Create and save the file
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
+    saveAs(blob, `${title.toLowerCase().replace(' ', '_')}_${new Date().toISOString().split('T')[0]}.csv`);
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Reports Generation</h1>
         <div className="flex gap-2">
-          <Button variant="outline" className="bg-[#4A7C59] text-white hover:bg-[#4A7C59]/90">
+          <Button variant="outline" className="bg-[#4A7C59] text-white hover:bg-[#4A7C59]/90" onClick={exportToPDF}>
             Export to PDF
             <Download className="ml-2 h-4 w-4" />
           </Button>
-          <Button variant="outline" className="bg-[#4A7C59] text-white hover:bg-[#4A7C59]/90">
+          <Button variant="outline" className="bg-[#4A7C59] text-white hover:bg-[#4A7C59]/90" onClick={exportToCSV}>
             Export to CSV
             <Download className="ml-2 h-4 w-4" />
           </Button>
