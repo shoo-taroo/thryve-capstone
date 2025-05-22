@@ -325,6 +325,7 @@ const Feedback = () => {
                     size="sm"
                     onClick={handleSubmitResponse}
                     disabled={!responseText.trim()}
+                    className="text-white bg-[#4A7C59] hover:bg-[#4A7C59]/90"
                   >
                     <Check size={16} className="mr-1" />
                     Submit Response
