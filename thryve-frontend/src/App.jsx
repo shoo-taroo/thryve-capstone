@@ -71,6 +71,7 @@ const App = () => {
           <Route path="/faqs" element={<FAQs />} />
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/download" element={<DownloadApp />} />
 
           {/* Admin Routes */}
           <Route path="/admin*" element={<AdminLayout />}>
