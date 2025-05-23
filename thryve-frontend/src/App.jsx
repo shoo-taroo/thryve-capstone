@@ -1,4 +1,4 @@
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
@@ -93,7 +93,6 @@ const App = () => {
       {isPublicRoute && <Footer />}
       {!isAdminRoute && <ScrollToTopButton />}
       <Toaster position="top-center"/>
-      <Sonner />
     </TooltipProvider>
   );
 };
