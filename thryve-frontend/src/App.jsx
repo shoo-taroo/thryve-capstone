@@ -34,7 +34,7 @@ const App = () => {
   const location = useLocation();
 
   // Define valid public routes and admin routes
-  const publicRoutes = ['/', '/plant-store', '/about-us', '/faqs', '/contact-us'];
+  const publicRoutes = ['/', '/plant-store', '/about-us', '/faqs', '/contact-us', '/download'];
   const isPublicRoute = publicRoutes.includes(location.pathname);
   const isAdminRoute = location.pathname.startsWith('/admin');
 
