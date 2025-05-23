@@ -11,6 +11,7 @@ import AboutUs from "./pages/AboutUs";
 import FAQs from "./pages/FAQs";
 import ContactUs from "./pages/ContactUs";
 import NotFound from "./pages/NotFound";
+import DownloadApp from "./pages/DownloadApp";
 import LoginPage from "./pages/Login";
 import AdminDashboard from "./pages/Dashboard";
 import AdminOverview from "./pages/Overview";

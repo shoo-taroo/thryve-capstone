@@ -56,9 +56,9 @@ const Navbar = () => {
 
         {/* Download Button and Login Icon Container */}
         <div className="hidden md:flex items-center gap-5">
-          <button className="bg-[#569F8B] btn-accent">
-            Download App
-          </button>
+          <Link to="/download-app" className="px-8 py-4 bg-white text-accent font-semibold rounded-md shadow-lg transition-all hover:bg-opacity-90">
+              Download App Now
+            </Link>
 
           <Link
             to="/login"
