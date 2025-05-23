@@ -4,37 +4,37 @@ export const plantsData = [
     id: 1,
     name: 'Santan',
     scientificName: 'Ixora coccinea',
+    description: 'A flowering shrub with vibrant clusters of small tubular flowers, commonly used in tropical gardens.',
     image: 'https://live.staticflickr.com/65535/49695766073_2290d07580_b.jpg',
     category: 'flowering',
     sizes: [
       { size: 'S', price: 70 },
       { size: 'M', price: 200 },
     ],
-    description: 'A flowering shrub with vibrant clusters of small tubular flowers, commonly used in tropical gardens.',
   },
   {
     id: 2,
     name: 'Pandacaqui',
     scientificName: 'Tabernaemontana pandacaqui',
+    description: 'A small evergreen shrub with fragrant white flowers that bloom year-round.',
     image: 'https://live.staticflickr.com/5285/5369045914_f9af4ee657_b.jpg',
     category: 'flowering',
     sizes: [
       { size: 'S', price: 85 },
       { size: 'M', price: 180 },
     ],
-    description: 'A small evergreen shrub with fragrant white flowers that bloom year-round.',
   },
   {
     id: 3,
     name: 'White Angel',
     scientificName: 'Wrightia antidysenterica',
+    description: 'A beautiful flowering plant with pure white blooms that resemble little angels.',
     image: 'https://live.staticflickr.com/215/460889406_8a3e19bca7_b.jpg',
     category: 'flowering',
     sizes: [
       { size: 'S', price: 95 },
       { size: 'M', price: 210 },
     ],
-    description: 'A beautiful flowering plant with pure white blooms that resemble little angels.',
   },
   {
     id: 4,
@@ -61,7 +61,7 @@ export const plantsData = [
     ],
     description: 'A cheerful flowering plant with classic white petals and yellow centers, symbolizing innocence and purity.',
   },
-  
+
   // Orchids
   {
     id: 6,
@@ -123,7 +123,7 @@ export const plantsData = [
     ],
     description: 'A spectacular orchid variety with striking patterned blooms and exceptional color vibrancy.',
   },
-  
+
   // Fruit Trees
   {
     id: 11,
@@ -190,7 +190,7 @@ export const plantsData = [
     ],
     description: 'A small citrus tree producing small, round fruits that are used extensively in Filipino cuisine.',
   },
-  
+
   // Indoor Plants
   {
     id: 16,
@@ -252,7 +252,7 @@ export const plantsData = [
     ],
     description: 'An elegant flowering plant with glossy leaves and white spathes, known for its air-purifying abilities.',
   },
-  
+
   // Cactus Plants
   {
     id: 21,

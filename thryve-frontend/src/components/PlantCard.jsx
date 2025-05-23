@@ -4,16 +4,19 @@ import { Eye } from 'lucide-react';
 const PlantCard = ({ plant, onItemClick }) => {
   const [isHovered, setIsHovered] = useState(false);
   
+  const handleItemClick = () => {
+    // Call the onItemClick function passed from the parent component
+    onItemClick(plant);
+  };
+  
   return (
     <div 
-      className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
+      className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={handleItemClick}
     >
-      <div 
-        className="h-64 overflow-hidden cursor-pointer relative"
-        onClick={() => onItemClick(plant)}
-      >
+      <div className="h-64 overflow-hidden relative">
         <img 
           src={plant.image} 
           alt={plant.name} 
@@ -30,7 +33,9 @@ const PlantCard = ({ plant, onItemClick }) => {
         )}
       </div>
       <div className="p-4">
-        <h3 className="font-semibold text-primary text-lg">{plant.name}</h3>
+        <h3 className="font-semibold text-primary text-lg hover:text-accent transition-colors">
+          {plant.name}
+        </h3>
         {plant.scientificName && (
           <p className="text-xs text-gray-500 italic mb-2">{plant.scientificName}</p>
         )}

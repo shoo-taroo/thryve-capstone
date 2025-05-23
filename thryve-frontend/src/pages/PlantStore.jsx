@@ -3,6 +3,8 @@ import { Search, Filter, ChevronDown, Mail } from 'lucide-react';
 import { toast } from 'sonner';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import PlantCard from '@/components/PlantCard';
+import PlantDetailModal from '@/components/PlantDetailModal';
 import HeroBanner from "../assets/Plant Store HeroBanner.png";
 import plantsData from '../data/PlantsData.js';
 
@@ -115,6 +117,7 @@ const PlantStore = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const itemsPerPage = 12;
 
+
   // Filter plants based on category and search term
   const filteredPlants = plantsData.filter(plant => {
     const matchesCategory = filter === 'all' || plant.category === filter;
@@ -145,8 +148,13 @@ const PlantStore = () => {
   const currentPlants = sortedPlants.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(sortedPlants.length / itemsPerPage);
 
+  
+  console.log('Current plants:', currentPlants);
+  console.log('Selected item:', selectedItem);
+
   // Open item detail dialog
   const handleItemClick = (item) => {
+    console.log('Clicked item:', item);
     setSelectedItem(item);
     setSelectedSize(item.sizes[0].size);
     setIsDialogOpen(true);
@@ -246,8 +254,8 @@ const PlantStore = () => {
                     <button
                       key={category.value}
                       className={`px-3 py-1.5 rounded-full text-sm whitespace-nowrap transition-colors ${filter === category.value
-                          ? 'bg-primary text-white'
-                          : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
+                        ? 'bg-primary text-white'
+                        : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
                         }`}
                       onClick={() => setFilter(category.value)}
                     >
@@ -259,44 +267,15 @@ const PlantStore = () => {
             )}
           </div>
 
-          {/* Plants Grid */}
+          {/* Plants Card */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6">
             {currentPlants.length > 0 ? (
               currentPlants.map((plant) => (
-                <div
+                <PlantCard
                   key={plant.id}
-                  className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
-                >
-                  <div
-                    className="h-64 overflow-hidden cursor-pointer"
-                    onClick={() => handleItemClick(plant)}
-                  >
-                    <img
-                      src={plant.image}
-                      alt={plant.name}
-                      className="w-full h-full object-cover transform transition-transform hover:scale-105"
-                    />
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-semibold text-primary text-lg">{plant.name}</h3>
-                    {plant.scientificName && (
-                      <p className="text-xs text-gray-500 italic mb-2">{plant.scientificName}</p>
-                    )}
-                    <div className="flex justify-between items-center mt-3">
-                      <p className="font-semibold text-accent text-lg">₱{plant.sizes[0].price.toFixed(2)}</p>
-                      <div className="flex space-x-2">
-                        {plant.sizes.map((size) => (
-                          <span
-                            key={size.size}
-                            className="px-2 py-1 bg-secondary/10 text-secondary text-xs font-semibold rounded-full"
-                          >
-                            {size.size}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  plant={plant}
+                  onItemClick={handleItemClick}
+                />
               ))
             ) : (
               <div className="col-span-full text-center py-12">
@@ -336,8 +315,8 @@ const PlantStore = () => {
                       key={i}
                       onClick={() => handlePageChange(pageNumber)}
                       className={`size-8 flex items-center justify-center rounded-full ${currentPage === pageNumber
-                          ? 'bg-primary text-white'
-                          : 'text-gray-700 hover:bg-gray-100'
+                        ? 'bg-primary text-white'
+                        : 'text-gray-700 hover:bg-gray-100'
                         }`}
                     >
                       {pageNumber}
@@ -360,77 +339,13 @@ const PlantStore = () => {
       </section>
 
       {/* Plant Detail Dialog */}
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden">
-          {selectedItem && (
-            <>
-              <div className="relative w-full">
-                <div className="h-64 w-full overflow-hidden">
-                  <img
-                    src={selectedItem.image}
-                    alt={selectedItem.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-
-              <div className="p-6">
-                <DialogHeader>
-                  <DialogTitle className="text-2xl font-bold text-primary">
-                    {selectedItem.name}
-                  </DialogTitle>
-                  {selectedItem.scientificName && (
-                    <DialogDescription className="text-sm italic text-gray-500">
-                      {selectedItem.scientificName}
-                    </DialogDescription>
-                  )}
-                </DialogHeader>
-
-                <div className="mt-4 space-y-6">
-                  <div>
-                    <p className="text-sm text-gray-600 leading-relaxed">
-                      {selectedItem.description}
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="text-sm font-medium mb-2">Available sizes:</p>
-                    <div className="flex gap-2">
-                      {selectedItem.sizes.map((size) => (
-                        <button
-                          key={size.size}
-                          className={`px-3 py-1 text-sm font-medium rounded-full ${selectedSize === size.size
-                              ? 'bg-primary text-white'
-                              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                            }`}
-                          onClick={() => handleSizeSelect(size.size)}
-                        >
-                          {size.size}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <p className="text-sm font-medium text-gray-500">Price:</p>
-                    <p className="text-3xl font-bold text-accent">
-                      ₱{selectedItem.sizes.find(s => s.size === selectedSize).price.toFixed(2)}
-                    </p>
-                  </div>
-
-                  <button
-                    className="w-full py-3 bg-primary hover:bg-primary/90 text-white font-medium rounded-md flex items-center justify-center gap-2 transition-colors"
-                    onClick={handleContactSeller}
-                  >
-                    <Mail size={20} />
-                    Contact Seller
-                  </button>
-                </div>
-              </div>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
+      <PlantDetailModal
+        isOpen={isDialogOpen}
+        onOpenChange={setIsDialogOpen}
+        selectedItem={selectedItem}
+        selectedSize={selectedSize}
+        handleSizeSelect={handleSizeSelect}
+      />
 
       {/* CTA Section */}
       <section className="section-padding bg-white">
