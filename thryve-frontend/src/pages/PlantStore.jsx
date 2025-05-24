@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { Search, Filter, ChevronDown, Mail } from 'lucide-react';
 import { toast } from 'sonner';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import PlantCard from '@/components/PlantCard';
+import PlantGrid from '../components/PlantGrid.jsx';
 import PlantDetailModal from '@/components/PlantDetailModal';
 import HeroBanner from "../assets/Plant Store HeroBanner.png";
 import plantsData from '../data/PlantsData.js';
@@ -108,9 +107,8 @@ const filterCategories = [
 
 const PlantStore = () => {
   const [filter, setFilter] = useState('all');
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [selectedSize, setSelectedSize] = useState('S');
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedPlant, setSelectedPlant] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOption, setSortOption] = useState('default');
@@ -148,16 +146,20 @@ const PlantStore = () => {
   const currentPlants = sortedPlants.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(sortedPlants.length / itemsPerPage);
 
-  
+
   console.log('Current plants:', currentPlants);
-  console.log('Selected item:', selectedItem);
+  console.log('Selected item:', selectedPlant);
 
   // Open item detail dialog
-  const handleItemClick = (item) => {
-    console.log('Clicked item:', item);
-    setSelectedItem(item);
-    setSelectedSize(item.sizes[0].size);
-    setIsDialogOpen(true);
+  const handlePlantClick = (plant) => {
+    console.log('Clicked item:', plant);
+    setSelectedPlant(plant);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedPlant(null);
   };
 
   const handlePageChange = (pageNumber) => {
@@ -175,8 +177,11 @@ const PlantStore = () => {
     setIsFilterOpen(!isFilterOpen);
   };
 
-  const handleContactSeller = () => {
-    toast.success("Contact request sent! We'll get back to you soon.");
+  const handleContactSeller = (plant) => {
+    toast.success("Interest Recorded!", {
+      description: `We've noted your interest in ${plant.name}. A seller will contact you soon.`
+    });
+    handleCloseModal();
   };
 
   return (
@@ -267,22 +272,7 @@ const PlantStore = () => {
             )}
           </div>
 
-          {/* Plants Card */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6">
-            {currentPlants.length > 0 ? (
-              currentPlants.map((plant) => (
-                <PlantCard
-                  key={plant.id}
-                  plant={plant}
-                  onItemClick={handleItemClick}
-                />
-              ))
-            ) : (
-              <div className="col-span-full text-center py-12">
-                <p className="text-gray-500">No plants found matching your search.</p>
-              </div>
-            )}
-          </div>
+          <PlantGrid plants={currentPlants} onPlantClick={handlePlantClick} />
 
           {/* Pagination - Updated to match image reference */}
           {sortedPlants.length > itemsPerPage && (
@@ -335,17 +325,15 @@ const PlantStore = () => {
               </div>
             </div>
           )}
+          {/* Plant Detail Modal */}
+          <PlantDetailModal
+            plant={selectedPlant}
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            onContactSeller={handleContactSeller}
+          />
         </div>
       </section>
-
-      {/* Plant Detail Dialog */}
-      <PlantDetailModal
-        isOpen={isDialogOpen}
-        onOpenChange={setIsDialogOpen}
-        selectedItem={selectedItem}
-        selectedSize={selectedSize}
-        handleSizeSelect={handleSizeSelect}
-      />
 
       {/* CTA Section */}
       <section className="section-padding bg-white">

@@ -1,21 +1,27 @@
+import React from 'react';
 import PlantCard from './PlantCard';
 
-const PlantGrid = ({ plants, onItemClick }) => {
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6">
-      {plants.length > 0 ? (
-        plants.map((plant) => (
-          <PlantCard 
-            key={plant.id} 
-            plant={plant} 
-            onItemClick={onItemClick}
-          />
-        ))
-      ) : (
-        <div className="col-span-full text-center py-12">
-          <p className="text-gray-500">No plants found matching your search.</p>
+const PlantGrid = ({ plants, onPlantClick }) => {
+  if (plants.length === 0) {
+    return (
+      <div className="col-span-full text-center py-12">
+        <div className="text-gray-500 font-inter">
+          <p className="text-lg mb-2">No plants found</p>
+          <p className="text-sm">Try adjusting your search or filter criteria</p>
         </div>
-      )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      {plants.map(plant => (
+        <PlantCard
+          key={plant.id}
+          plant={plant}
+          onPlantClick={onPlantClick}
+        />
+      ))}
     </div>
   );
 };

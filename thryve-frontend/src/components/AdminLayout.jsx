@@ -90,11 +90,11 @@ const AdminLayout = () => {
         {/* Navigation */}
         <nav className="mt-2">
           <ul>
-            {getMenuItems().map((item, index) => (
+            {getMenuItems().map((plant, index) => (
               <li key={index}>
                 <NavLink
-                  to={item.path}
-                  end={item.end}
+                  to={plant.path}
+                  end={plant.end}
                   className={({ isActive }) =>
                     `flex items-center px-6 py-3 text-base font-medium hover:bg-black/20 ${isActive ? 'border-l-4 border-secondary bg-black/20' : ''
                     }`
