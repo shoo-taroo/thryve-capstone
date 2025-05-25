@@ -74,7 +74,7 @@ const App = () => {
           <Route path="/download" element={<DownloadApp />} />
 
           {/* Admin Routes */}
-          <Route path="/admin/*" element={<AdminLayout />}>
+          <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<AdminOverview />} />
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="inventory" element={<AdminInventory />} />
