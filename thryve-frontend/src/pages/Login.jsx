@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { Eye, EyeOff, Lock, User } from 'lucide-react';
+import { Eye, EyeOff, Lock, User, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -80,6 +80,13 @@ const LoginPage = () => {
 
   return (
     <div className="min-h-screen bg-neutral flex items-center justify-center p-4">
+      <button
+        onClick={() => navigate('/')}
+        className="absolute top-4 right-4 flex items-center space-x-2 text-primary hover:text-primary-dark"
+      >
+        <ArrowLeft className="h-4 w-4" />
+        <span className="text-sm font-medium">Back to Home Page</span>
+      </button>
       <Card className="w-full max-w-md shadow-lg bg-white">
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-2xl font-bold text-primary">Login</CardTitle>
