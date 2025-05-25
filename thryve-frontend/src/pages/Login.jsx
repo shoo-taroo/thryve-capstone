@@ -65,7 +65,7 @@ const LoginPage = () => {
         localStorage.setItem('userRole', userRole);
 
         // Redirect based on role
-        navigate('/admin/*');
+        navigate('/admin');
       } else {
         toast.error('Invalid credentials. Please try again.');
         setErrors({ auth: 'Invalid username or password' });

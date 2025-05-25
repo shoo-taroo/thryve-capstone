@@ -35,7 +35,7 @@ const App = () => {
   // Define valid public routes and admin routes
   const publicRoutes = ['/', '/plant-store', '/about-us', '/faqs', '/contact-us', '/download'];
   const isPublicRoute = publicRoutes.includes(location.pathname);
-  const isAdminRoute = location.pathname.startsWith('/admin/*');
+  const isAdminRoute = location.pathname.startsWith('/admin');
 
   useEffect(() => {
     const handleScroll = () => {
