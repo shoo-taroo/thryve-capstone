@@ -192,7 +192,7 @@ const UserManagement = () => {
         </div>
         
         <div className="mt-6">
-          <Button onClick={handleAddUser} className="bg-primary hover:bg-primary/90">Add</Button>
+          <Button onClick={handleAddUser} className="bg-primary hover:bg-primary/90 text-white">Add</Button>
         </div>
       </div>
     </div>
