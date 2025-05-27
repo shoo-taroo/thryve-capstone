@@ -1,7 +1,6 @@
 import { Toaster } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { Routes, Route, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
 
 // Pages
 import HomePage from "./pages/Home";
@@ -28,40 +27,17 @@ import Footer from "./components/Footer";
 import ScrollToTopButton from "./components/ScrollToTopButton";
 import ScrollToTop from "./components/ScrollToTop";
 import AdminLayout from "./components/AdminLayout";
+import useUserAuth from "./hooks/useUserAuth";
 
 const App = () => {
-  const location = useLocation();
+    const {data, isLoading, isError, role} = useUserAuth()
 
-  // Define valid public routes and admin routes
-  const publicRoutes = ['/', '/plant-store', '/about-us', '/faqs', '/contact-us', '/download'];
-  const isPublicRoute = publicRoutes.includes(location.pathname);
-  const isAdminRoute = location.pathname.startsWith('/admin');
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollElements = document.querySelectorAll('.scroll-animation');
-
-      scrollElements.forEach(element => {
-        const elementTop = element.getBoundingClientRect().top;
-        const elementVisible = 150;
-
-        if (elementTop < window.innerHeight - elementVisible) {
-          element.classList.add('animate');
-        }
-      });
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    // Initial check for elements
-    setTimeout(handleScroll, 300);
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const isAuthenticated = true
 
   return (
     <TooltipProvider>
       <ScrollToTop />
-      {isPublicRoute && <Navbar />}
+      {!isAuthenticated && <Navbar />}
       <main>
         <Routes>
           {/* Public Routes */}
@@ -90,8 +66,8 @@ const App = () => {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-      {isPublicRoute && <Footer />}
-      {!isAdminRoute && <ScrollToTopButton />}
+      {!isAuthenticated && <Footer />}
+      {!isAuthenticated && <ScrollToTopButton />}
       <Toaster position="top-center"/>
     </TooltipProvider>
   );

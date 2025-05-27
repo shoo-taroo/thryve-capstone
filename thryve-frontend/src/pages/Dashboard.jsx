@@ -3,6 +3,7 @@ import { PieChart, Pie, ResponsiveContainer, Cell, LineChart, Line, XAxis, YAxis
 import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart";
 import { ArrowDown, ArrowUp, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import useUserAuth from '../hooks/useUserAuth';
 
 const AdminDashboard = () => {
   const [timeRange, setTimeRange] = useState('This Week');

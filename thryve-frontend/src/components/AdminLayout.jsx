@@ -2,25 +2,24 @@ import { useState, useEffect } from 'react';
 import { Outlet, useNavigate, NavLink } from 'react-router-dom';
 import { FileText, Grid2x2, PackageSearch, BarChart3, Bell, Search, LogOut, HelpCircle, Menu, X, MessageSquare, Leaf, User, Settings, FileText as AccessLogs } from 'lucide-react';
 import ThryveLogoWhite from '../assets/Thryve Logo White.png';
+import useUserAuth from '../hooks/useUserAuth';
 const AdminLayout = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
   const [userRole, setUserRole] = useState('');
   const navigate = useNavigate();
+  // const { isAuthenticated} = useUserAuth()
 
-  // Check if user is authenticated
+  const isAuthenticated = true
+  const role = "specialist"
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem('isAuthenticated');
-    const storedUserRole = localStorage.getItem('userRole');
     if (!isAuthenticated) {
       navigate('/login');
     } else {
-      setUserRole(storedUserRole || '/admin');
+      setUserRole(role || '/admin');
     }
   }, [navigate]);
 
   const handleLogout = () => {
-    localStorage.removeItem('isAuthenticated');
-    localStorage.removeItem('userRole');
     navigate('/login');
   };
 
