@@ -5,71 +5,34 @@ import { Search, Filter, ArrowUpDown, Download, Leaf, Check, X } from 'lucide-re
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import useGetAdvisory from '../hooks/useGetAdvisory';
+import { format } from 'date-fns';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { submitSpecialistResponse } from '../api/plantAdvisory';
+import { toast } from 'sonner';
 
 const PlantCare = () => {
   // Sample plant care advisory data
-  const [advisoryItems, setAdvisoryItems] = useState([
-    { 
-      id: 1, 
-      plantName: 'Monstera Deliciosa',
-      requestType: 'Disease Identification',
-      customer: 'Maria Santos', 
-      email: 'maria@example.com', 
-      date: '2023-05-15', 
-      description: "My monstera has brown spots on some of the leaves. I've attached photos. What could be causing this?", 
-      status: 'Resolved',
-      priority: 'Medium',
-      response: 'Based on the photos, it appears to be a fungal infection. I recommend removing the affected leaves and treating with a fungicide. Keep the plant in a well-ventilated area and avoid overhead watering.'
-    },
-    { 
-      id: 2, 
-      plantName: 'Snake Plant',
-      requestType: 'Care Schedule',
-      customer: 'John Mendoza', 
-      email: 'john@example.com', 
-      date: '2023-05-18', 
-      description: "I just purchased a snake plant. How often should I water it? My apartment gets medium indirect light.", 
-      status: 'In Progress',
-      priority: 'Low',
-      response: ''
-    },
-    { 
-      id: 3, 
-      plantName: 'Fiddle Leaf Fig',
-      requestType: 'Troubleshooting',
-      customer: 'Sarah Lee', 
-      email: 'sarah@example.com', 
-      date: '2023-05-20', 
-      description: "My fiddle leaf fig is dropping leaves rapidly. It's in a south-facing window. Could it be getting too much light?", 
-      status: 'Open',
-      priority: 'High',
-      response: ''
-    },
-    { 
-      id: 4, 
-      plantName: 'Peace Lily',
-      requestType: 'Repotting Advice',
-      customer: 'Carlos Rodriguez', 
-      email: 'carlos@example.com', 
-      date: '2023-05-22', 
-      description: "My peace lily has outgrown its pot. When and how should I repot it?", 
-      status: 'Resolved',
-      priority: 'Medium',
-      response: 'Peace lilies benefit from repotting every 1-2 years. I recommend repotting in spring using a well-draining potting mix. Choose a pot 1-2 inches larger than the current one. Water thoroughly after repotting but avoid fertilizing for 4-6 weeks.'
-    },
-    { 
-      id: 5, 
-      plantName: 'Calathea Orbifolia',
-      requestType: 'Urgent Care',
-      customer: 'Aisha Johnson', 
-      email: 'aisha@example.com', 
-      date: '2023-05-25', 
-      description: "My calathea's leaves are curling and turning brown at the edges. I water it once a week with filtered water. It's near a humidifier but still having issues.", 
-      status: 'Urgent',
-      priority: 'High',
-      response: ''
-    },
-  ]);
+  const { data, isLoading } = useGetAdvisory();
+
+  console.log("advisory",);
+  const advisoryItems =  data?.map((i) => {
+    const customer = i?.user;
+    return {
+      id: i?.id,
+      plantName: i?.plant_name,
+      requestType: i?.request_type,
+      customer: `${customer?.firstName} ${customer?.lastName}`,
+      email: customer?.email,
+      date: format(new Date(i?.createdAt), "MMM dd, yyyy"),
+      description: i?.description,      status: i?.status,
+      status: i?.status,
+      priority: i?.priority,
+      response: i?.response
+    }
+  }) ?? []
+  
+  // const [advisoryItems, setAdvisoryItems] = useState(advisory || []);
 
   // Sample care guides for the Knowledge Base
   const careGuides = [
@@ -114,15 +77,16 @@ const PlantCare = () => {
   const [sortDirection, setSortDirection] = useState('desc');
   const [selectedAdvisory, setSelectedAdvisory] = useState(null);
   const [responseText, setResponseText] = useState('');
-  
+      const queryClient = useQueryClient();
+
   // Filter advisory items based on search term, status, and priority filters
-  const filteredAdvisory = advisoryItems.filter(item => {
+  const filteredAdvisory = advisoryItems?.filter(item => {
     const matchesSearch = 
-      item.plantName.toLowerCase().includes(search.toLowerCase()) || 
-      item.description.toLowerCase().includes(search.toLowerCase()) ||
-      item.customer.toLowerCase().includes(search.toLowerCase());
-    const matchesStatus = filterStatus ? item.status === filterStatus : true;
-    const matchesPriority = filterPriority ? item.priority === filterPriority : true;
+      item?.plantName?.toLowerCase().includes(search.toLowerCase()) || 
+      item?.description?.toLowerCase().includes(search.toLowerCase()) ||
+      item?.customer?.toLowerCase().includes(search.toLowerCase());
+    const matchesStatus = filterStatus ? item?.status === filterStatus : true;
+    const matchesPriority = filterPriority ? item?.priority === filterPriority : true;
     return matchesSearch && matchesStatus && matchesPriority;
   });
 
@@ -151,33 +115,48 @@ const PlantCare = () => {
     setResponseText(advisory.response || '');
   };
 
+
+  const { mutateAsync: responseAdvisory } = useMutation({
+    mutationFn: submitSpecialistResponse,
+    onSuccess: () => {
+      toast.success('Response submit successfully')
+                   queryClient.invalidateQueries({ queryKey: ["get=user"] });
+
+    },
+    onError: () => toast.error('Update failed'),
+  });
+
+
   // Handle submitting a response to advisory
   const handleSubmitResponse = () => {
     if (!selectedAdvisory) return;
     
-    const updatedAdvisory = advisoryItems.map(item => {
-      if (item.id === selectedAdvisory.id) {
-        return {
-          ...item,
-          status: 'Resolved',
-          response: responseText
-        };
-      }
-      return item;
-    });
+    responseAdvisory({id:selectedAdvisory?.id, response:responseText || ""})
+    // const updatedAdvisory = advisoryItems.map(item => {
+    //   if (item.id === selectedAdvisory.id) {
+    //     return {
+    //       ...item,
+    //       status: 'Resolved',
+    //       response: responseText
+    //     };
+    //   }
+    //   return item;
+    // });
     
-    setAdvisoryItems(updatedAdvisory);
-    setSelectedAdvisory(null);
-    setResponseText('');
+    console.log("test", selectedAdvisory);
+    
+    // setAdvisoryItems(updatedAdvisory);
+    // setSelectedAdvisory(null);
+    // setResponseText('');
   };
 
   // Status color mapping
   const getStatusColor = (status) => {
     switch (status) {
-      case 'Open': return 'bg-blue-100 text-blue-800';
-      case 'In Progress': return 'bg-yellow-100 text-yellow-800';
-      case 'Resolved': return 'bg-green-100 text-green-800';
-      case 'Urgent': return 'bg-red-100 text-red-800';
+      case 'OPEN': return 'bg-blue-100 text-blue-800';
+      case 'INPROGRESS': return 'bg-yellow-100 text-yellow-800';
+      case 'RESOLVED': return 'bg-green-100 text-green-800';
+      case 'URGENT': return 'bg-red-100 text-red-800';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
@@ -185,12 +164,15 @@ const PlantCare = () => {
   // Priority color mapping
   const getPriorityColor = (priority) => {
     switch (priority) {
-      case 'High': return 'bg-red-100 text-red-800';
-      case 'Medium': return 'bg-yellow-100 text-yellow-800';
-      case 'Low': return 'bg-green-100 text-green-800';
+      case 'HIGH': return 'bg-red-100 text-red-800';
+      case 'MEDIUM': return 'bg-yellow-100 text-yellow-800';
+      case 'LOW': return 'bg-green-100 text-green-800';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
+
+  console.log("selectedAdvisory", selectedAdvisory);
+  
 
   return (
     <div>
@@ -234,10 +216,10 @@ const PlantCare = () => {
                     className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-primary"
                   >
                     <option value="">All Status</option>
-                    <option value="Open">Open</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Resolved">Resolved</option>
-                    <option value="Urgent">Urgent</option>
+                    <option value="OPEN">Open</option>
+                    <option value="INPROGRESS">In Progress</option>
+                    <option value="RESOLVED">Resolved</option>
+                    <option value="URGENT">Urgent</option>
                   </select>
                 </div>
                 
@@ -249,9 +231,9 @@ const PlantCare = () => {
                     className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-primary"
                   >
                     <option value="">All Priority</option>
-                    <option value="High">High</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Low">Low</option>
+                    <option value="HIGH">High</option>
+                    <option value="MEDIUM">Medium</option>
+                    <option value="LOW">Low</option>
                   </select>
                 </div>
               </div>
@@ -412,15 +394,15 @@ const PlantCare = () => {
                 <div className="space-y-2">
                   <div className="flex justify-between">
                     <span className="text-sm text-gray-600">Total Requests</span>
-                    <span className="font-medium">{advisoryItems.length}</span>
+                    <span className="font-medium">{advisoryItems?.length}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-sm text-gray-600">Pending Requests</span>
-                    <span className="font-medium">{advisoryItems.filter(item => item.status !== 'Resolved').length}</span>
+                    <span className="font-medium">{advisoryItems?.filter(item => item.status !== 'Resolved').length}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-sm text-gray-600">High Priority Requests</span>
-                    <span className="font-medium">{advisoryItems.filter(item => item.priority === 'High').length}</span>
+                    <span className="font-medium">{advisoryItems?.filter(item => item.priority === 'High').length}</span>
                   </div>
                 </div>
               </div>

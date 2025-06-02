@@ -9,15 +9,13 @@ const AdminLayout = () => {
   const navigate = useNavigate();
   // const { isAuthenticated} = useUserAuth()
 
-  const isAuthenticated = true
-  const role = "specialist"
-  useEffect(() => {
-    if (!isAuthenticated) {
+  const { isAuthenticated, data, isLoading } = useUserAuth();
+  
+  console.log("data", {role:data?.role,isAuthenticated});
+  
+ if (!isAuthenticated) {
       navigate('/login');
-    } else {
-      setUserRole(role || '/admin');
-    }
-  }, [navigate]);
+    } 
 
   const handleLogout = () => {
     navigate('/login');
@@ -27,30 +25,31 @@ const AdminLayout = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
 
+  if(isLoading) return <div>Loading...</div>
   // Menu items based on user role
   const getMenuItems = () => {
-    if (userRole === 'specialist') {
+    if (data?.role === 'specialist') {
       return [
         { path: '/admin', icon: <Grid2x2 className="h-5 w-5 mr-3" />, label: 'Overview', end: true },
-        { path: '/admin/dashboard', icon: <FileText className="h-5 w-5 mr-3" />, label: 'Dashboard' },
-        { path: '/admin/inventory', icon: <PackageSearch className="h-5 w-5 mr-3" />, label: 'Inventory Management' },
+        // { path: '/admin/dashboard', icon: <FileText className="h-5 w-5 mr-3" />, label: 'Dashboard' },
+        // { path: '/admin/inventory', icon: <PackageSearch className="h-5 w-5 mr-3" />, label: 'Inventory Management' },
         { path: '/admin/plant-care', icon: <Leaf className="h-5 w-5 mr-3" />, label: 'Plant Care Advisory' },
-        { path: '/admin/reports', icon: <BarChart3 className="h-5 w-5 mr-3" />, label: 'Reports Generation' },
+        // { path: '/admin/reports', icon: <BarChart3 className="h-5 w-5 mr-3" />, label: 'Reports Generation' },
       ];
-    } else if (userRole === 'itadmin') {
+    } else if (data?.role === 'admin') {
       return [
         { path: '/admin', icon: <Grid2x2 className="h-5 w-5 mr-3" />, label: 'Overview', end: true },
         { path: '/admin/user-management', icon: <User className="h-5 w-5 mr-3" />, label: 'User Management' },
-        { path: '/admin/system-config', icon: <Settings className="h-5 w-5 mr-3" />, label: 'System Configuration' },
+        // { path: '/admin/system-config', icon: <Settings className="h-5 w-5 mr-3" />, label: 'System Configuration' },
         { path: '/admin/access-logs', icon: <AccessLogs className="h-5 w-5 mr-3" />, label: 'Access Logs' },
       ];
     } else {
       return [
         { path: '/admin', icon: <Grid2x2 className="h-5 w-5 mr-3" />, label: 'Overview', end: true },
-        { path: '/admin/dashboard', icon: <FileText className="h-5 w-5 mr-3" />, label: 'Dashboard' },
-        { path: '/admin/inventory', icon: <PackageSearch className="h-5 w-5 mr-3" />, label: 'Inventory Management' },
+        // { path: '/admin/dashboard', icon: <FileText className="h-5 w-5 mr-3" />, label: 'Dashboard' },
+        // { path: '/admin/inventory', icon: <PackageSearch className="h-5 w-5 mr-3" />, label: 'Inventory Management' },
         { path: '/admin/feedback', icon: <MessageSquare className="h-5 w-5 mr-3" />, label: 'Customer Feedback' },
-        { path: '/admin/reports', icon: <BarChart3 className="h-5 w-5 mr-3" />, label: 'Reports Generation' },
+        // { path: '/admin/reports', icon: <BarChart3 className="h-5 w-5 mr-3" />, label: 'Reports Generation' },
       ];
     }
   };
@@ -80,9 +79,9 @@ const AdminLayout = () => {
         {/* User Role Badge */}
         <div className="px-6 mb-4">
           <span className="inline-block px-3 py-1 bg-primary text-white text-xs font-semibold rounded-full">
-            {userRole === 'specialist' ? 'Plant Specialist' :
-              userRole === 'owner' ? 'Plant Store Owner' :
-                userRole === 'itadmin' ? 'IT Admin' : 'Admin'}
+            {data?.role === 'specialist' ? 'Plant Specialist' :
+              data?.role === 'owner' ? 'Plant Store Owner' :
+                data?.role === 'itadmin' ? 'IT Admin' : 'Admin'}
           </span>
         </div>
 
@@ -135,9 +134,9 @@ const AdminLayout = () => {
             <div className="flex items-center">
               <div className="w-8 h-8 bg-gray-200 rounded-full"></div>
               <span className="ml-2 text-gray-800">
-                {userRole === 'specialist' ? 'Plant Specialist' :
-                  userRole === 'owner' ? 'Plant Store Owner' :
-                    userRole === 'itadmin' ? 'IT Admin' : 'Admin User'}
+                {data?.role === 'specialist' ? 'Plant Specialist' :
+                  data?.role === 'owner' ? 'Plant Store Owner' :
+                    data?.role === 'itadmin' ? 'IT Admin' : 'Admin User'}
               </span>
             </div>
             <button

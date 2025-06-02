@@ -1,7 +1,7 @@
-import { useAuthStore } from "@/store/useAuthStore";
 import axios from "axios";
+import { useAuthStore } from "../store/authStore";
 
-const baseURL = import.meta.env.VITE_API_URL || "htpps";
+const baseURL = "https://plant-api-v2.onrender.com/api"
 
 const api = axios.create({
   baseURL,
@@ -9,6 +9,8 @@ const api = axios.create({
 
 api.interceptors.request.use((config) => {
   const { accessToken } = useAuthStore.getState();
+  console.log("accessToken", accessToken);
+  
   if (accessToken && config.headers) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }

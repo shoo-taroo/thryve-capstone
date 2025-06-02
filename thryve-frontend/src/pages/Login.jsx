@@ -7,6 +7,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
+import { useMutation } from '@tanstack/react-query';
+import { loginApi } from '../api/auth';
+import { useAuthStore } from '../store/authStore';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -15,7 +18,7 @@ const LoginPage = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-
+  const {setTokens} = useAuthStore();
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -33,6 +36,19 @@ const LoginPage = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  const { mutateAsync: loginMutate, isPending } = useMutation({
+    mutationFn: loginApi,
+    onSuccess: (data) => {
+      alert("Success")
+        navigate("/")
+        setTokens( data?.accessToken,  data?.refreshToken)
+    },
+    onError: (error) => {
+     alert("error")
+    },
+  });
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -40,38 +56,14 @@ const LoginPage = () => {
       return;
     }
 
-    setIsLoading(true);
+    loginMutate({
+      identifier: username,
+      password
+    })
+  console.log("s", {password, username});
+  
 
-    // User credentials
-    const credentials = {
-      owner: { username: 'owneradmin', password: 'owner123', role: 'owner' },
-      specialist: { username: 'psadmin', password: 'ps123', role: 'specialist' },
-      itadmin: { username: 'itadmin', password: 'it123', role: 'itadmin' }
-    };
-
-    // Simulate authentication check
-    setTimeout(() => {
-      // Check for matching credentials
-      const userType = Object.keys(credentials).find(
-        type => credentials[type].username === username && credentials[type].password === password
-      );
-
-      if (userType) {
-        const userRole = credentials[userType].role;
-        toast.success('Login successful!');
-
-        // Set authentication state with role
-        localStorage.setItem('isAuthenticated', 'true');
-        localStorage.setItem('userRole', userRole);
-
-        // Redirect based on role
-        navigate('/admin');
-      } else {
-        toast.error('Invalid credentials. Please try again.');
-        setErrors({ auth: 'Invalid username or password' });
-      }
-      setIsLoading(false);
-    }, 800);
+    
   };
 
   const togglePasswordVisibility = () => {
@@ -169,9 +161,9 @@ const LoginPage = () => {
             <Button
               type="submit"
               className="w-full text-white bg-primary hover:bg-primary-dark"
-              disabled={isLoading}
+              disabled={isPending}
             >
-              {isLoading ? 'Logging in...' : 'Login'}
+              {isPending ? 'Logging in...' : 'Login'}
             </Button>
           </CardFooter>
         </form>

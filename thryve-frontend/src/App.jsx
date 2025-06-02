@@ -37,11 +37,9 @@ const App = () => {
   return (
     <TooltipProvider>
       <ScrollToTop />
-      {!isAuthenticated && <Navbar />}
       <main>
         <Routes>
           {/* Public Routes */}
-          <Route path="/" element={<HomePage />} />
           <Route path="/plant-store" element={<PlantStore />} />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/faqs" element={<FAQs />} />
@@ -50,7 +48,7 @@ const App = () => {
           <Route path="/download" element={<DownloadApp />} />
 
           {/* Admin Routes */}
-          <Route path="/admin" element={<AdminLayout />}>
+          <Route path="/" element={<AdminLayout />}>
             <Route index element={<AdminOverview />} />
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="inventory" element={<AdminInventory />} />
@@ -66,8 +64,6 @@ const App = () => {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-      {!isAuthenticated && <Footer />}
-      {!isAuthenticated && <ScrollToTopButton />}
       <Toaster position="top-center"/>
     </TooltipProvider>
   );

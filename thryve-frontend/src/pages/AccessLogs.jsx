@@ -2,27 +2,29 @@ import { useState } from 'react';
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
 import { Pencil, Trash } from 'lucide-react';
 import { toast } from 'sonner';
+import { format } from 'date-fns';
+import useGetActivityLogs from '../hooks/useGetActivityLogs';
 
 const AccessLogs = () => {
-  const [logs, setLogs] = useState([
-    { id: '1001', username: 'planTito69', dateTime: '2025/04/20 - 04:15 p.m.', activity: 'Delete a user' },
-    { id: '1002', username: 'admin123', dateTime: '2025/03/30 - 04:15 p.m.', activity: 'Add a user' },
-    { id: '1003', username: 'planTito69', dateTime: '2025/04/20 - 07:15 p.m.', activity: 'Login' },
-    { id: '1004', username: 'admin123', dateTime: '2025/04/20 - 04:15 p.m.', activity: 'Login' },
-    { id: '1005', username: 'planTito69', dateTime: '2025/04/20 - 12:15 p.m.', activity: 'Logout' },
-    { id: '1006', username: 'admin123', dateTime: '2025/04/20 - 04:15 p.m.', activity: 'Login' },
-    { id: '1007', username: 'planTito69', dateTime: '2024/12/29 - 11:15 p.m.', activity: 'Login' },
-    { id: '1008', username: 'MasterPM88', dateTime: '2024/04/27 - 12:15 p.m.', activity: 'Upload picture' },
-  ]);
+    const { data: activityLogData, isLoading: activityLoading } = useGetActivityLogs();
+  // { id: 1, userId: 22, username: 'Admin', activity: 'User logged in', timestamp: '2025-05-30T17:37:11.350Z' }
+  
+  const customData = activityLogData?.map((i) => ({
+    id: i?.userId || "",
+    username: i?.username,
+    dateTime: format(new Date(i?.timestamp), "MMMM d, yyyy 'at' h:mm a"),
+    activity: i?.activity,
+  }))
+  // const [logs, setLogs] = useState(customData);
 
-  const handleDelete = (id) => {
-    setLogs(logs.filter(log => log.id !== id));
-    toast.success('Log entry deleted successfully');
-  };
+  // const handleDelete = (id) => {
+  //   setLogs(logs.filter(log => log.id !== id));
+  //   toast.success('Log entry deleted successfully');
+  // };
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-6">Access Logs</h1>
+      <h1 className="text-3xl font-bold mb-6">Activity Logs</h1>
       
       {/* Logs Table */}
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -37,7 +39,7 @@ const AccessLogs = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {logs.map((log) => (
+            {customData?.map((log) => (
               <TableRow key={log.id}>
                 <TableCell className="font-medium">{log.id}</TableCell>
                 <TableCell>{log.username}</TableCell>

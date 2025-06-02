@@ -18,9 +18,9 @@ export const getUserList = async () => {
     }
 }
 
-export const editUser = async () => {
+export const editUserApi = async (data) => {
     try {
-        const response = await api.get("/auth/edit-user");
+        const response = await api.post("/auth/edit-user", data);
         return response.data
     } catch (error) {
         throw new Error("Invalid Credentials")
@@ -30,6 +30,15 @@ export const editUser = async () => {
 export const deleteUser = async (data) => {
     try {
         const response = await api.get(`/auth/delete-user/${data?.id}`, data);
+        return response.data
+    } catch (error) {
+        throw new Error("Invalid Credentials")
+    }
+}
+
+export const createAdmin = async (data) => {
+    try {
+        const response = await api.post("/auth/register", data);
         return response.data
     } catch (error) {
         throw new Error("Invalid Credentials")

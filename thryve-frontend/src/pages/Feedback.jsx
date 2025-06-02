@@ -11,63 +11,30 @@ import {
   ArrowUpDown,
   Download
 } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
+import useGetFeedBack from '../hooks/useGetFeedBack';
+import { format } from 'date-fns';
 
 const Feedback = () => {
-  // Sample feedback data
-  const [feedbackItems, setFeedbackItems] = useState([
-    { 
-      id: 1, 
-      customer: 'Maria Santos', 
-      email: 'maria@example.com', 
-      date: '2023-05-15', 
-      message: "I absolutely love the Snake Plant I purchased last month. It's thriving in my living room!", 
-      rating: 5,
-      status: 'Resolved',
-      response: 'Thank you for your feedback! We\'re glad you\'re enjoying your Snake Plant.'
-    },
-    { 
-      id: 2, 
-      customer: 'John Mendoza', 
-      email: 'john@example.com', 
-      date: '2023-05-18', 
-      message: "The Monstera arrived with some brown spots on the leaves. Is this normal?", 
-      rating: 3,
-      status: 'In Progress',
-      response: ''
-    },
-    { 
-      id: 3, 
-      customer: 'Sarah Lee', 
-      email: 'sarah@example.com', 
-      date: '2023-05-20', 
-      message: "I'm having trouble with the mobile app. It crashes when I try to add a new plant.", 
-      rating: 2,
-      status: 'Open',
-      response: ''
-    },
-    { 
-      id: 4, 
-      customer: 'Carlos Rodriguez', 
-      email: 'carlos@example.com', 
-      date: '2023-05-22', 
-      message: "The delivery was super fast and the packaging protected my plants perfectly!", 
-      rating: 5,
-      status: 'Resolved',
-      response: 'Thank you for your kind feedback! We take pride in our packaging and delivery process.'
-    },
-    { 
-      id: 5, 
-      customer: 'Aisha Johnson', 
-      email: 'aisha@example.com', 
-      date: '2023-05-25', 
-      message: "I received the wrong type of plant. I ordered a Peace Lily but got a Pothos instead.", 
-      rating: 1,
-      status: 'Urgent',
-      response: ''
-    },
-  ]);
+
+
+  const { data, isLoading } = useGetFeedBack();
+
+  const feedBack = data?.map((i) => {
+    const customer = i?.user;
+
+    return {
+       id: i?.id,
+      customer: `${customer?.firstName} ${customer?.lastName}`,
+      email: customer?.email,
+      date: format(new Date(i?.createdAt), "MMM dd, yyyy"),
+      message: i?.description,
+      rating: i?.rating,
+      status: i?.status,
+      response: i?.response
+    }
+  })
+  const [feedbackItems, setFeedbackItems] = useState(feedBack || []);
 
   const [search, setSearch] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
@@ -259,7 +226,7 @@ const Feedback = () => {
                             onClick={() => handleSelectFeedback(item)}
                           >
                             <MessageSquare size={16} className="mr-1" />
-                            {item.response ? 'View' : 'Respond'}
+                            View
                           </Button>
                         </td>
                       </tr>
@@ -301,7 +268,7 @@ const Feedback = () => {
                   <p className="text-gray-700">{selectedFeedback.message}</p>
                 </div>
                 
-                <div>
+                {/* <div>
                   <label className="block mb-1 font-medium text-sm">Your Response</label>
                   <Textarea 
                     placeholder="Type your response here..." 
@@ -310,18 +277,18 @@ const Feedback = () => {
                     rows={5}
                     className="w-full"
                   />
-                </div>
+                </div> */}
                 
-                <div className="flex justify-end space-x-2">
+                <div className="flex justify-start space-x-2">
                   <Button 
                     variant="outline" 
                     size="sm"
                     onClick={() => setSelectedFeedback(null)}
                   >
-                    <X size={16} className="mr-1" />
-                    Cancel
+                    <X size={16} className="mr-1 text-red-500" />
+                    Close
                   </Button>
-                  <Button 
+                  {/* <Button 
                     size="sm"
                     onClick={handleSubmitResponse}
                     disabled={!responseText.trim()}
@@ -329,7 +296,7 @@ const Feedback = () => {
                   >
                     <Check size={16} className="mr-1" />
                     Submit Response
-                  </Button>
+                  </Button> */}
                 </div>
               </div>
             ) : (

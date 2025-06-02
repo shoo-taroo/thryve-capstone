@@ -35,3 +35,11 @@ export const getPlantAdvisoryById = async (data) => {
         throw new Error("Invalid Credentials")
     }
 }
+export const submitSpecialistResponse = async (data) => {
+    try {
+        const response = await api.post("/plant-advisory/make-response", data);
+        return response.data
+    } catch (error) {
+        throw new Error("Invalid Credentials")
+    }
+}

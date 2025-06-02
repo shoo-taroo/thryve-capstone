@@ -1,17 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUserAuth } from "../api/userApi";
-import { useAuthStore } from "../store/useAuthStore";
+import { getUsserInfo } from "../api/auth";
+import { useAuthStore } from "../store/authStore";
 
 const useUserAuth = () => {
   const { accessToken } = useAuthStore.getState();
 
   const { data, isError, isLoading , refetch} = useQuery({
-    queryKey: ["user-auth"],
-    queryFn: getUserAuth,
+    queryKey: ["get-user-info"],
+        queryFn: getUsserInfo,
     enabled: !!accessToken, 
     refetchOnWindowFocus: true,
   });
 
+  console.log( 'dddd',{ accessToken, data });
+  
   return {
     data,
     role: data?.role || null,

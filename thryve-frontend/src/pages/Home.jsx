@@ -79,7 +79,7 @@ const HomePage = () => {
     ];
 
     return (
-        <>
+        <main className='relative z-50'>
             {/* Hero Banner */}
             <section className="relative min-h-screen flex items-center pt-20">
                 <div
@@ -293,7 +293,7 @@ const HomePage = () => {
                     </div>
                 </div>
             </section>
-        </>
+        </main>
     );
 };
 
