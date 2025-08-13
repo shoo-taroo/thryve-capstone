@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "buildCommand": "cd liquigan-front-end && npm install && npm run build",
+  "outputDirectory": "liquigan-front-end/dist",
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/liquigan-front-end/dist/$1"
+    }
+  ]
+}
