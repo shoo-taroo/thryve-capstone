@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "buildCommand": "cd liquigan-front-end && npm install && npm run build",
-  "outputDirectory": "liquigan-front-end/dist",
+  "buildCommand": "cd thryve-frontend && npm install && npm run build",
+  "outputDirectory": "thryve-frontend/dist",
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/liquigan-front-end/dist/$1"
+      "dest": "/thryve-frontend/dist/$1"
     }
   ]
 }
