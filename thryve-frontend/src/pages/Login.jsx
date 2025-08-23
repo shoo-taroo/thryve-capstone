@@ -43,11 +43,41 @@ const LoginPage = () => {
     setIsLoading(true);
 
     // User credentials
-    const credentials = {
-      owner: { username: 'owneradmin', password: 'owner123', role: 'owner' },
-      specialist: { username: 'psadmin', password: 'ps123', role: 'specialist' },
-      itadmin: { username: 'itadmin', password: 'it123', role: 'itadmin' }
-    };
+    const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!validateForm()) return;
+
+  setIsLoading(true);
+
+  try {
+    const res = await fetch("http://localhost:5000/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      toast.error(data.message || "Login failed");
+      setErrors({ auth: data.message });
+    } else {
+      toast.success("Login successful!");
+
+      // Save JWT + role in localStorage
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("userRole", data.role);
+
+      navigate("/admin");
+    }
+  } catch (err) {
+    console.error(err);
+    toast.error("Server error. Try again later.");
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
     // Simulate authentication check
     setTimeout(() => {
