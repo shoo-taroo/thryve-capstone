@@ -260,9 +260,14 @@ const ContactUs = () => {
       <section className="section-padding bg-accent">
         <div className="container">
           <div className="text-center text-white">
-            <h2 className="text-3xl font-bold mb-8">Connect With Us On Social Media</h2>
+            <h2 className="text-3xl font-bold mb-8">Connect With Us!</h2>
             <div className="flex justify-center space-x-8">
-              <a href="#" className="p-4 bg-white/20 rounded-full transition-transform hover:scale-110">
+              <a
+                href="https://www.facebook.com/RosemarGarden"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-4 bg-white/20 rounded-full transition-transform hover:scale-110"
+              >
                 <Facebook size={32} />
               </a>
               <a href="#" className="p-4 bg-white/20 rounded-full transition-transform hover:scale-110">

@@ -8,24 +8,24 @@ const HomePage = () => {
     const featuredPlants = [
         {
             id: 1,
-            name: 'Monstera Deliciosa',
-            image: 'https://potsforplants.ph/cdn/shop/products/monstera-deliciosa-swiss-cheese-plant-246419.jpg?v=1697027493',
-            price: '₱850.00',
+            name: 'Santan',
+            image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Colpfl16a.jpg/250px-Colpfl16a.jpg',
+            price: '₱200.00',
             size: 'M',
         },
         {
             id: 2,
-            name: 'Snake Plant',
-            image: 'https://images.squarespace-cdn.com/content/v1/54fbb611e4b0d7c1e151d22a/1610074066643-OP8HDJUWUH8T5MHN879K/Snake+Plant.jpg?format=1000w',
-            price: '₱550.00',
+            name: 'Bachelor\'s Button',
+            image: 'https://gardenerspath.com/wp-content/uploads/2020/06/How-to-Grow-Bachelors-Button-FB.jpg',
+            price: '₱80.00',
             size: 'S',
         },
         {
             id: 3,
-            name: 'Fiddle Leaf Fig',
-            image: 'https://www.shelmerdine.com/wp-content/uploads/2018/08/Fiddle-Leaf-Fig-Tree.jpg',
-            price: '₱1,250.00',
-            size: 'L',
+            name: 'Kutsarita',
+            image: 'https://greengarden.ph/cdn/shop/files/1683339581252_1024x.jpg?v=1683339591',
+            price: '₱300.00',
+            size: 'M',
         },
     ];
 

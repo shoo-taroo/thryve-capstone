@@ -33,22 +33,14 @@ const LoginPage = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!validateForm()) {
-      return;
-    }
-
-    setIsLoading(true);
-
-    // User credentials
-    const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
-  if (!validateForm()) return;
+
+  if (!validateForm()) {
+    return;
+  }
 
   setIsLoading(true);
-
   try {
     const res = await fetch("http://localhost:5000/api/auth/login", {
       method: "POST",
@@ -67,7 +59,9 @@ const LoginPage = () => {
       // Save JWT + role in localStorage
       localStorage.setItem("token", data.token);
       localStorage.setItem("userRole", data.role);
+      localStorage.setItem("isAuthenticated", "true"); // <-- ADD THIS LINE
 
+      // Redirect based on role
       navigate("/admin");
     }
   } catch (err) {
@@ -77,32 +71,6 @@ const LoginPage = () => {
     setIsLoading(false);
   }
 };
-
-
-    // Simulate authentication check
-    setTimeout(() => {
-      // Check for matching credentials
-      const userType = Object.keys(credentials).find(
-        type => credentials[type].username === username && credentials[type].password === password
-      );
-
-      if (userType) {
-        const userRole = credentials[userType].role;
-        toast.success('Login successful!');
-
-        // Set authentication state with role
-        localStorage.setItem('isAuthenticated', 'true');
-        localStorage.setItem('userRole', userRole);
-
-        // Redirect based on role
-        navigate('/admin');
-      } else {
-        toast.error('Invalid credentials. Please try again.');
-        setErrors({ auth: 'Invalid username or password' });
-      }
-      setIsLoading(false);
-    }, 800);
-  };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
