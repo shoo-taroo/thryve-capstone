@@ -4,11 +4,5 @@
   "outputDirectory": "thryve-frontend/dist",
   "rewrites": [
     { "source": "/(.*)", "destination": "/" }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/thryve-frontend/dist/$1"
-    }
   ]
 }
