@@ -2,6 +2,9 @@
   "version": 2,
   "buildCommand": "cd thryve-frontend && npm install && npm run build",
   "outputDirectory": "thryve-frontend/dist",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/" }
+  ],
   "routes": [
     {
       "src": "/(.*)",
