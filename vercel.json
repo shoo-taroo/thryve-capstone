@@ -3,6 +3,17 @@
   "buildCommand": "cd thryve-frontend && npm install && npm run build",
   "outputDirectory": "thryve-frontend/dist",
   "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
+    { "headers": [
+  {
+    "source": "/(.*)",
+    "headers": [
+      {
+        "key": "Content-Security-Policy",
+        "value": "default-src 'self'; connect-src 'self'; img-src 'self' data: https:; script-src 'self' https://cdn.gpteng.co; style-src 'self' 'unsafe-inline' https:; font-src 'self' https: data:;"
+      }
+    ]
+  }
+]
+ }
   ]
 }
