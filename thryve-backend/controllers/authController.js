@@ -1,45 +1,64 @@
 const User = require('../models/userModel');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+// ✅ REGISTER USER
 exports.register = async (req, res) => {
   try {
     const { username, password, role } = req.body;
 
-    // Hash password before saving
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Check for existing username
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.status(400).json({ message: 'Username already exists' });
+    }
 
-    const user = new User({
-      username,
-      password: hashedPassword,
-      role
-    });
-
+    // Create and save user (password is auto-hashed in model)
+    const user = new User({ username, password, role });
     await user.save();
+
     res.status(201).json({ message: 'User registered successfully' });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    console.error('Register error:', err);
+    res.status(500).json({ message: 'Server error' });
   }
 };
 
+// ✅ LOGIN USER
 exports.login = async (req, res) => {
   try {
     const { username, password } = req.body;
+
+    // Find user
     const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid username or password' });
+    }
 
-    if (!user) return res.status(400).json({ message: 'Invalid credentials' });
-
+    // Compare password
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Invalid username or password' });
+    }
 
+    // Generate JWT
     const token = jwt.sign(
       { id: user._id, role: user.role },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET || 'defaultsecret',
       { expiresIn: '1d' }
     );
 
-    res.json({ token });
+    // ✅ Send back token and user info
+    res.json({
+      token,
+      user: {
+        id: user._id,
+        username: user.username,
+        role: user.role,
+      },
+    });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error('Login error:', err);
+    res.status(500).json({ message: 'Server error' });
   }
 };

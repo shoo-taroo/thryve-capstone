@@ -44,6 +44,9 @@ const productRoutes = require('./routes/productRoutes');
 app.use('/api/plants', plantRoutes);
 app.use('/api/products', productRoutes);
 
+const authRoutes = require('./routes/authRoutes');
+app.use('/api/auth', authRoutes);
+
 
 // 🚀 START SERVER
 mongoose
