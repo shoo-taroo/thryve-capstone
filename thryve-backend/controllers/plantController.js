@@ -1,29 +1,38 @@
 const Plant = require('../models/plantModel');
 
-exports.getAllPlants = async (req, res) => {
+exports.getPlants = async (req, res) => {
   try {
-    const plants = await Plant.find();
+    const plants = await Plant.find().sort({ createdAt: -1 });
     res.json(plants);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: 'Server error' });
   }
 };
 
-exports.addPlant = async (req, res) => {
+exports.createPlant = async (req, res) => {
   try {
     const plant = new Plant(req.body);
     await plant.save();
     res.status(201).json(plant);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({ message: 'Invalid data', err });
   }
 };
-exports.getPlantById = async (req, res) => {
+
+exports.updatePlant = async (req, res) => {
   try {
-    const plant = await Plant.findById(req.params.id);
-    if (!plant) return res.status(404).json({ message: 'Plant not found' });
-    res.json(plant);
+    const updated = await Plant.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(updated);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(400).json({ message: 'Update failed' });
+  }
+};
+
+exports.deletePlant = async (req, res) => {
+  try {
+    await Plant.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Deleted' });
+  } catch (err) {
+    res.status(400).json({ message: 'Delete failed' });
   }
 };

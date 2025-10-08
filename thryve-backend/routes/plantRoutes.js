@@ -1,8 +1,11 @@
+// routes/plants.js
 const express = require('express');
 const router = express.Router();
-const plantController = require('../controllers/plantController');
+const controller = require('../controllers/plantController');
 
-router.get('/', plantController.getAllPlants);
-router.post('/', plantController.addPlant);
+router.get('/', controller.getPlants);
+router.post('/', controller.createPlant);
+router.put('/:id', controller.updatePlant);
+router.delete('/:id', controller.deletePlant);
 
 module.exports = router;

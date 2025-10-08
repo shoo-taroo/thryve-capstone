@@ -1,13 +1,12 @@
 const mongoose = require('mongoose');
 
 const sizeSchema = new mongoose.Schema({
-  size: String,
+  label: String,
   price: Number
 }, { _id: false });
 
-const plantSchema = new mongoose.Schema({
+const productSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  scientificName: String,
   description: String,
   funFact: String,
   type: String,
@@ -15,4 +14,4 @@ const plantSchema = new mongoose.Schema({
   images: [String],
 }, { timestamps: true });
 
-module.exports = mongoose.model('Plant', plantSchema);
+module.exports = mongoose.model('Product', productSchema);
