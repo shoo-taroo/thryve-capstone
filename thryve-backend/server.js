@@ -9,7 +9,14 @@ require('dotenv').config();
 // --- App initialization ---
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: [
+    'https://thryve-admin-omega.vercel.app', // your frontend domain
+    'http://localhost:5173' // optional, for local testing
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+}));
 
 // 🧩 FILE UPLOAD CONFIGURATION
 const storage = multer.diskStorage({
