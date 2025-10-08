@@ -36,28 +36,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Services */}
-          <div>
-            <h3 className="text-lg font-semibold mb-6">Services</h3>
-            <ul className="space-y-3">
-              <li><a href="#" className="text-sm hover:text-accent transition-colors">Plant Care Tips</a></li>
-              <li><a href="#" className="text-sm hover:text-accent transition-colors">Plant Identification</a></li>
-              <li><a href="#" className="text-sm hover:text-accent transition-colors">Watering Schedule</a></li>
-              <li><a href="#" className="text-sm hover:text-accent transition-colors">Disease Detection</a></li>
-              <li><a href="#" className="text-sm hover:text-accent transition-colors">Community Forum</a></li>
-            </ul>
-          </div>
-
-          {/* Other Roles */}
-          <div>
-            <h3 className="text-lg font-semibold mb-6">Other Roles</h3>
-            <ul className="space-y-3">
-              <li><Link to="/login" className="text-sm hover:text-accent transition-colors">Plant Garden Owner</Link></li>
-              <li><Link to="/login" className="text-sm hover:text-accent transition-colors">Plant Specialist</Link></li>
-              <li><Link to="/login" className="text-sm hover:text-accent transition-colors">IT Admin</Link></li>
-            </ul>
-          </div>
-
           {/* Contact Info */}
           <div>
             <h3 className="text-lg font-semibold mb-6">Contact Us</h3>
