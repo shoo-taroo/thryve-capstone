@@ -1,8 +1,8 @@
 // src/pages/AdminInventory.jsx
 import React, { useEffect, useState, useMemo } from 'react';
 import api from '@/lib/api';
-import PlantModal from '@/components/PlantModal';
-import ProductModal from '@/components/ProductModal';
+import PlantModal from '@/components/PlantModal.jsx';
+import ProductModal from '@/components/ProductModal.jsx';
 
 export default function AdminInventory() {
   const [tab, setTab] = useState('plants'); // 'plants' | 'products'
