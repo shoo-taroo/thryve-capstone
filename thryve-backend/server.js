@@ -38,8 +38,8 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
 });
 
 // 🌿 ROUTES
-const plantRoutes = require('./routes/plants');
-const productRoutes = require('./routes/products');
+const plantRoutes = require('./routes/plantRoutes');
+const productRoutes = require('./routes/productRoutes');
 
 app.use('/api/plants', plantRoutes);
 app.use('/api/products', productRoutes);
