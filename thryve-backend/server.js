@@ -40,11 +40,12 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
 // 🌿 ROUTES
 const plantRoutes = require('./routes/plantRoutes');
 const productRoutes = require('./routes/productRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 app.use('/api/plants', plantRoutes);
 app.use('/api/products', productRoutes);
 
-const authRoutes = require('./routes/authRoutes');
+
 app.use('/api/auth', authRoutes);
 
 
