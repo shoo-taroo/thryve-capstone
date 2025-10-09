@@ -13,21 +13,19 @@
     },
     {
       "src": "/uploads/(.*)",
+      "dest": "/uploads/$1",
       "headers": {
-        "Access-Control-Allow-Origin": "*"
-      },
-      "dest": "/uploads/$1"
-    }
-  ],
-  "headers": [
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      }
+    },
     {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "Content-Security-Policy",
-          "value": "default-src 'self'; img-src 'self' data: https:; connect-src 'self' https://thryve-admin-omega.vercel.app; font-src 'self' data:;"
-        }
-      ]
+      "src": "/(.*)",
+      "dest": "/server.js",
+      "headers": {
+        "Content-Security-Policy": "default-src 'self'; img-src 'self' data: https:; connect-src 'self' https://thryve-admin-omega.vercel.app; font-src 'self' data:;"
+      }
     }
   ]
 }
