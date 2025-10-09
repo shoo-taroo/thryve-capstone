@@ -1,38 +1,38 @@
 {
-    "version": 2,
-    "buildCommand": "cd thryve-frontend && npm install && npm run build",
-    "outputDirectory": "thryve-frontend/dist",
-    "rewrites": [
+  "version": 2,
+  "buildCommand": "npm install && npm run build",
+  "outputDirectory": "dist",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
         {
-            "source": "/(.*)",
-            "destination": "/"
-        }
-    ],
-    "headers": [
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; connect-src 'self' https://thryve-backend.vercel.app; img-src 'self' data: https: https://thryve-backend.vercel.app; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' https: data:;"
+        },
         {
-            "source": "/(.*)",
-            "headers": [
-                {
-                    "key": "Content-Security-Policy",
-                    "value": "default-src 'self'; connect-src 'self' http://localhost:5000 mongodb://localhost:27018/thryve; img-src 'self' data: https:; script-src 'self' https://cdn.gpteng.co; style-src 'self' 'unsafe-inline' https:; font-src 'self' https: data:;"
-                },
-                {
-                    "key": "X-Frame-Options",
-                    "value": "SAMEORIGIN"
-                },
-                {
-                    "key": "X-Content-Type-Options",
-                    "value": "nosniff"
-                },
-                {
-                    "key": "Referrer-Policy",
-                    "value": "strict-origin-when-cross-origin"
-                },
-                {
-                    "key": "Permissions-Policy",
-                    "value": "geolocation=(), microphone=()"
-                }
-            ]
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "geolocation=(), microphone=()"
         }
-    ]
+      ]
+    }
+  ]
 }
