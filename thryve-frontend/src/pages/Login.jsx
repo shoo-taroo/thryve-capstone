@@ -8,7 +8,13 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+// ✅ Automatically set API base URL
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL && import.meta.env.VITE_API_BASE_URL.trim() !== ""
+    ? import.meta.env.VITE_API_BASE_URL
+    : (window.location.hostname === "localhost"
+        ? "http://localhost:5000"
+        : "https://thryve-backend.vercel.app");
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -20,19 +26,18 @@ const LoginPage = () => {
 
   const navigate = useNavigate();
 
+  // ✅ Basic form validation
   const validateForm = () => {
     const newErrors = {};
-
     if (!username.trim()) newErrors.username = 'Username is required';
     if (!password) newErrors.password = 'Password is required';
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
+  // ✅ Handle login request
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!validateForm()) return;
 
     setIsLoading(true);
@@ -44,7 +49,9 @@ const LoginPage = () => {
         body: JSON.stringify({ username, password }),
       });
 
-      const data = await res.json();
+      // Handle empty or invalid JSON safely
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : {};
 
       if (!res.ok) {
         toast.error(data.message || "Login failed");
@@ -52,16 +59,16 @@ const LoginPage = () => {
       } else {
         toast.success("Login successful!");
 
-        // Save JWT + role in localStorage
+        // Save credentials
         localStorage.setItem("token", data.token);
         localStorage.setItem("userRole", data.role);
         localStorage.setItem("isAuthenticated", "true");
 
-        // Redirect based on role
+        // Redirect
         navigate("/admin");
       }
     } catch (err) {
-      console.error(err);
+      console.error("❌ Login Error:", err);
       toast.error("Server error. Try again later.");
     } finally {
       setIsLoading(false);
