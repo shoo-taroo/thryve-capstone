@@ -8,6 +8,9 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 
+// ✅ Automatically detect environment
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -21,59 +24,49 @@ const LoginPage = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!username.trim()) {
-      newErrors.username = 'Username is required';
-    }
-
-    if (!password) {
-      newErrors.password = 'Password is required';
-    }
+    if (!username.trim()) newErrors.username = 'Username is required';
+    if (!password) newErrors.password = 'Password is required';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  if (!validateForm()) {
-    return;
-  }
+    if (!validateForm()) return;
 
-  setIsLoading(true);
-  try {
-    const res = await fetch("http://localhost:5000/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
-    });
+    setIsLoading(true);
 
-    const data = await res.json();
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
 
-    if (!res.ok) {
-      toast.error(data.message || "Login failed");
-      setErrors({ auth: data.message });
-    } else {
-      toast.success("Login successful!");
+      const data = await res.json();
 
-      // Save JWT + role in localStorage
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("userRole", data.role);
-      localStorage.setItem("isAuthenticated", "true"); // <-- ADD THIS LINE
+      if (!res.ok) {
+        toast.error(data.message || "Login failed");
+        setErrors({ auth: data.message });
+      } else {
+        toast.success("Login successful!");
 
-      // Redirect based on role
-      navigate("/admin");
+        // Save JWT + role in localStorage
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("userRole", data.role);
+        localStorage.setItem("isAuthenticated", "true");
+
+        // Redirect based on role
+        navigate("/admin");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Server error. Try again later.");
+    } finally {
+      setIsLoading(false);
     }
-  } catch (err) {
-    console.error(err);
-    toast.error("Server error. Try again later.");
-  } finally {
-    setIsLoading(false);
-  }
-};
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
   };
 
   return (
@@ -132,15 +125,11 @@ const handleSubmit = async (e) => {
                 <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                 <button
                   type="button"
-                  onClick={togglePasswordVisibility}
+                  onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
                   tabIndex="-1"
                 >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
               {errors.password && (
