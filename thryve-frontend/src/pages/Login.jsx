@@ -37,43 +37,40 @@ const LoginPage = () => {
 
   // ✅ Handle login request
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validateForm()) return;
+  e.preventDefault();
+  if (!validateForm()) return;
 
-    setIsLoading(true);
+  setIsLoading(true);
 
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      });
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
+      method: "POST",
+      body: JSON.stringify({ username, password }),
+    });
 
-      // Handle empty or invalid JSON safely
-      const text = await res.text();
-      const data = text ? JSON.parse(text) : {};
+    const text = await res.text();
+    const data = text ? JSON.parse(text) : {};
 
-      if (!res.ok) {
-        toast.error(data.message || "Login failed");
-        setErrors({ auth: data.message });
-      } else {
-        toast.success("Login successful!");
+    if (!res.ok) {
+      toast.error(data.message || "Login failed");
+      setErrors({ auth: data.message });
+    } else {
+      toast.success("Login successful!");
 
-        // Save credentials
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("userRole", data.role);
-        localStorage.setItem("isAuthenticated", "true");
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("userRole", data.user?.role || "");
+      localStorage.setItem("isAuthenticated", "true");
 
-        // Redirect
-        navigate("/admin");
-      }
-    } catch (err) {
-      console.error("❌ Login Error:", err);
-      toast.error("Server error. Try again later.");
-    } finally {
-      setIsLoading(false);
+      navigate("/admin");
     }
-  };
+  } catch (err) {
+    console.error("❌ Login Error:", err);
+    toast.error("Server error. Try again later.");
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
   return (
     <div className="min-h-screen bg-neutral flex items-center justify-center p-4">
