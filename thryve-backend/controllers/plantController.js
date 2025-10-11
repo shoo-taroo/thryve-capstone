@@ -15,7 +15,6 @@ exports.createPlant = async (req, res) => {
   try {
     const { name, scientificName, description, funFact, type, sizes } = req.body;
 
-    // If image uploaded via Cloudinary
     const imageUrl = req.file ? req.file.path : null;
 
     const plant = new Plant({
@@ -25,7 +24,7 @@ exports.createPlant = async (req, res) => {
       funFact,
       type,
       sizes,
-      images: imageUrl ? [imageUrl] : [] // Store Cloudinary URL
+      images: imageUrl ? [imageUrl] : []
     });
 
     await plant.save();
@@ -39,26 +38,14 @@ exports.createPlant = async (req, res) => {
 exports.updatePlant = async (req, res) => {
   try {
     const { name, scientificName, description, funFact, type, sizes } = req.body;
-
-    // If a new image was uploaded
     const imageUrl = req.file ? req.file.path : null;
 
-    const updateData = {
-      name,
-      scientificName,
-      description,
-      funFact,
-      type,
-      sizes
-    };
-
-    if (imageUrl) {
-      updateData.images = [imageUrl]; // Replace existing images with new one
-    }
+    const updateData = { name, scientificName, description, funFact, type, sizes };
+    if (imageUrl) updateData.images = [imageUrl];
 
     const updated = await Plant.findByIdAndUpdate(req.params.id, updateData, { new: true });
-
     if (!updated) return res.status(404).json({ message: 'Plant not found' });
+
     res.json(updated);
   } catch (err) {
     res.status(400).json({ message: 'Update failed', error: err.message });

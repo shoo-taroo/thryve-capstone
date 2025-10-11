@@ -13,7 +13,7 @@ cloudinary.config({
 const plantStorage = new CloudinaryStorage({
   cloudinary,
   params: {
-    folder: 'plants', // 👈 Cloudinary will auto-create this folder
+    folder: 'plants',
     allowed_formats: ['jpg', 'png', 'jpeg'],
   },
 });
@@ -22,7 +22,7 @@ const plantStorage = new CloudinaryStorage({
 const productStorage = new CloudinaryStorage({
   cloudinary,
   params: {
-    folder: 'products', // 👈 Cloudinary will auto-create this folder
+    folder: 'products',
     allowed_formats: ['jpg', 'png', 'jpeg'],
   },
 });
