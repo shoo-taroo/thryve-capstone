@@ -1,11 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/productController');
+const { uploadProducts } = require('../config/cloudinary'); // 👈 Import upload middleware
 
-// Routes for CRUD operations
-router.get('/', controller.getProducts);      // Fetch all products
-router.post('/', controller.createProduct);   // Add new product
-router.put('/:id', controller.updateProduct); // Edit product
-router.delete('/:id', controller.deleteProduct); // Delete product
+// Routes for Products
+router.get('/', controller.getProducts);
+
+// Create Product with image upload
+router.post('/', uploadProducts.single('image'), controller.createProduct);
+
+// Update Product (optionally with new image)
+router.put('/:id', uploadProducts.single('image'), controller.updateProduct);
+
+router.delete('/:id', controller.deleteProduct);
 
 module.exports = router;

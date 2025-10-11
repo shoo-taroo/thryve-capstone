@@ -14,7 +14,19 @@ exports.getProducts = async (req, res) => {
 // CREATE a new product
 exports.createProduct = async (req, res) => {
   try {
-    const product = new Product(req.body);
+    const { name, description, price, category } = req.body;
+
+    // If image uploaded via Cloudinary
+    const imageUrl = req.file ? req.file.path : null;
+
+    const product = new Product({
+      name,
+      description,
+      price,
+      category,
+      images: imageUrl ? [imageUrl] : []
+    });
+
     await product.save();
     res.status(201).json(product);
   } catch (err) {
@@ -26,8 +38,19 @@ exports.createProduct = async (req, res) => {
 // UPDATE a product
 exports.updateProduct = async (req, res) => {
   try {
-    const updated = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const { name, description, price, category } = req.body;
+
+    const imageUrl = req.file ? req.file.path : null;
+
+    const updateData = { name, description, price, category };
+
+    if (imageUrl) {
+      updateData.images = [imageUrl]; // Replace existing image with new one
+    }
+
+    const updated = await Product.findByIdAndUpdate(req.params.id, updateData, { new: true });
     if (!updated) return res.status(404).json({ message: 'Product not found' });
+
     res.json(updated);
   } catch (err) {
     console.error('Error updating product:', err);
