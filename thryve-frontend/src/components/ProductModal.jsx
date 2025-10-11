@@ -32,7 +32,7 @@ export default function ProductModal({ open, onClose, onSaved, initial }) {
 
   if (!open) return null;
 
-  const addSize = () => setSizes(prev => [...prev, { id: Date.now(), label: '', price: '' }]);
+  const addSize = () => setSizes(prev => [...prev, { id: Date.now(), size: '', price: '' }]);
   const updateSize = (id, field, value) =>
     setSizes(prev => prev.map(s => (s.id === id ? { ...s, [field]: value } : s)));
   const removeSize = (id) => setSizes(prev => prev.filter(s => s.id !== id));
@@ -55,10 +55,10 @@ export default function ProductModal({ open, onClose, onSaved, initial }) {
       fd.append('description', description);
       fd.append('funFact', funFact);
       fd.append('sizes', JSON.stringify(sizes.map(s => ({
-        label: s.label,
+        size: s.size,
         price: Number(s.price) || 0
       }))));
-      if (imageFile) fd.append('image', imageFile);
+      if (imageFile) fd.append('file', imageFile);
 
       if (initial?._id) {
         await api.put(`/api/products/${initial._id}`, fd, {
@@ -152,8 +152,8 @@ export default function ProductModal({ open, onClose, onSaved, initial }) {
             {sizes.map(s => (
               <div key={s.id} className="flex gap-2 items-center">
                 <select
-                  value={s.label}
-                  onChange={(e) => updateSize(s.id, 'label', e.target.value)}
+                  value={s.size}
+                  onChange={(e) => updateSize(s.id, 'size', e.target.value)}
                   className="border px-3 py-2 rounded flex-1"
                 >
                   <option value="">Select Size</option>

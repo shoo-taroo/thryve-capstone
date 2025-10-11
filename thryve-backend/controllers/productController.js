@@ -14,14 +14,22 @@ exports.getProducts = async (req, res) => {
 // CREATE a new product
 exports.createProduct = async (req, res) => {
   try {
-    const { name, description, price, funFact, type, sizes } = req.body;
+    const { name, description, funFact, type } = req.body;
+    let { sizes } = req.body;
 
-    const imageUrl = req.file ? req.file.path : null;
+    if (typeof sizes === "string") {
+      try {
+        sizes = JSON.parse(sizes);
+      } catch {
+        return res.status(400).json({ message: "Invalid sizes format" });
+      }
+    }
+
+    const imageUrl = req.file?.path || null;
 
     const product = new Product({
       name,
       description,
-      price,
       funFact,
       type,
       sizes,
@@ -39,15 +47,29 @@ exports.createProduct = async (req, res) => {
 // UPDATE a product
 exports.updateProduct = async (req, res) => {
   try {
-    const { name, description, price, category, funFact, type, sizes } = req.body;
-    const imageUrl = req.file ? req.file.path : null;
+    const { name, description, funFact, type } = req.body;
+    let { sizes } = req.body;
 
-    const updateData = { name, description, price, category, funFact, type, sizes };
-    if (imageUrl) updateData.images = [imageUrl];
+    if (typeof sizes === "string") {
+      try {
+        sizes = JSON.parse(sizes);
+      } catch {
+        return res.status(400).json({ message: "Invalid sizes format" });
+      }
+    }
 
-    const updated = await Product.findByIdAndUpdate(req.params.id, updateData, { new: true });
-    if (!updated) return res.status(404).json({ message: 'Product not found' });
+    const imageUrl = req.file?.path || null;
+    const existing = await Product.findById(req.params.id);
+    if (!existing) return res.status(404).json({ message: 'Product not found' });
 
+    existing.name = name;
+    existing.description = description;
+    existing.funFact = funFact;
+    existing.type = type;
+    existing.sizes = sizes;
+    existing.images = imageUrl ? [imageUrl] : existing.images;
+
+    const updated = await existing.save();
     res.json(updated);
   } catch (err) {
     console.error('Error updating product:', err);

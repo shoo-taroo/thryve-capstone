@@ -6,16 +6,27 @@ exports.getPlants = async (req, res) => {
     const plants = await Plant.find().sort({ createdAt: -1 });
     res.json(plants);
   } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+    console.error("Error fetching plants:", err);
+    res.status(500).json({ message: 'Server error while fetching plants' });
   }
 };
 
 // CREATE a new plant
 exports.createPlant = async (req, res) => {
   try {
-    const { name, scientificName, description, funFact, type, sizes } = req.body;
+    const { name, scientificName, description, funFact, type } = req.body;
+    let { sizes } = req.body;
 
-    const imageUrl = req.file ? req.file.path : null;
+    // Parse sizes if sent as JSON string
+    if (typeof sizes === "string") {
+      try {
+        sizes = JSON.parse(sizes);
+      } catch {
+        return res.status(400).json({ message: "Invalid sizes format" });
+      }
+    }
+
+    const imageUrl = req.file?.path || null;
 
     const plant = new Plant({
       name,
@@ -30,25 +41,42 @@ exports.createPlant = async (req, res) => {
     await plant.save();
     res.status(201).json(plant);
   } catch (err) {
-    res.status(400).json({ message: 'Invalid data', error: err.message });
+    console.error("Error creating plant:", err);
+    res.status(400).json({ message: 'Invalid plant data', error: err.message });
   }
 };
 
 // UPDATE plant
 exports.updatePlant = async (req, res) => {
   try {
-    const { name, scientificName, description, funFact, type, sizes } = req.body;
-    const imageUrl = req.file ? req.file.path : null;
+    const { name, scientificName, description, funFact, type } = req.body;
+    let { sizes } = req.body;
 
-    const updateData = { name, scientificName, description, funFact, type, sizes };
-    if (imageUrl) updateData.images = [imageUrl];
+    if (typeof sizes === "string") {
+      try {
+        sizes = JSON.parse(sizes);
+      } catch {
+        return res.status(400).json({ message: "Invalid sizes format" });
+      }
+    }
 
-    const updated = await Plant.findByIdAndUpdate(req.params.id, updateData, { new: true });
-    if (!updated) return res.status(404).json({ message: 'Plant not found' });
+    const imageUrl = req.file?.path || null;
+    const existing = await Plant.findById(req.params.id);
+    if (!existing) return res.status(404).json({ message: 'Plant not found' });
 
+    existing.name = name;
+    existing.scientificName = scientificName;
+    existing.description = description;
+    existing.funFact = funFact;
+    existing.type = type;
+    existing.sizes = sizes;
+    existing.images = imageUrl ? [imageUrl] : existing.images;
+
+    const updated = await existing.save();
     res.json(updated);
   } catch (err) {
-    res.status(400).json({ message: 'Update failed', error: err.message });
+    console.error("Error updating plant:", err);
+    res.status(400).json({ message: 'Error updating plant', error: err.message });
   }
 };
 
@@ -56,8 +84,9 @@ exports.updatePlant = async (req, res) => {
 exports.deletePlant = async (req, res) => {
   try {
     await Plant.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Deleted' });
+    res.json({ message: 'Plant deleted successfully' });
   } catch (err) {
-    res.status(400).json({ message: 'Delete failed', error: err.message });
+    console.error("Error deleting plant:", err);
+    res.status(400).json({ message: 'Error deleting plant', error: err.message });
   }
 };
