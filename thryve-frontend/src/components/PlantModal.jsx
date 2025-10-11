@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import api from '@/lib/api';
 
 export default function PlantModal({ open, onClose, onSaved, initial }) {
-  // initial = null for add, or plant object for edit
   const [commonName, setCommonName] = useState('');
   const [scientificName, setScientificName] = useState('');
   const [type, setType] = useState('');
@@ -20,7 +19,7 @@ export default function PlantModal({ open, onClose, onSaved, initial }) {
       setDescription(initial.description || '');
       setFunFact(initial.funFact || '');
       setSizes(initial.sizes ? [...initial.sizes] : []);
-      setImagePreview(initial.images && initial.images[0] ? initial.images[0] : '');
+      setImagePreview(initial.images?.[0] || '');
       setImageFile(null);
     } else {
       setCommonName('');
@@ -49,16 +48,14 @@ export default function PlantModal({ open, onClose, onSaved, initial }) {
   };
 
   const handleSave = async () => {
-    // basic validation
     if (!commonName.trim()) return alert('Common Name required');
     if (!description.trim()) return alert('Description required');
     if (sizes.length === 0) return alert('Add at least one size');
 
     try {
-      let imageUrls = initial && initial.images ? [...initial.images] : [];
+      let imageUrls = initial?.images ? [...initial.images] : [];
 
       if (imageFile) {
-        // upload image to backend upload endpoint
         const fd = new FormData();
         fd.append('file', imageFile);
         const res = await api.post('/api/upload', fd, {
@@ -77,13 +74,13 @@ export default function PlantModal({ open, onClose, onSaved, initial }) {
         images: imageUrls,
       };
 
-      if (initial && initial._id) {
+      if (initial?._id) {
         await api.put(`/api/plants/${initial._id}`, payload);
       } else {
         await api.post('/api/plants', payload);
       }
 
-      onSaved && onSaved();
+      onSaved?.();
       onClose();
     } catch (err) {
       console.error(err);
@@ -93,78 +90,114 @@ export default function PlantModal({ open, onClose, onSaved, initial }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-      <div className="bg-white rounded-lg w-full max-w-3xl shadow-lg p-6">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xl font-semibold">{initial ? 'Edit Plant' : 'Add Plant'}</h3>
-          <button onClick={onClose} className="text-gray-600">✕</button>
+      <div className="bg-white rounded-lg w-full max-w-3xl shadow-lg">
+        {/* Header */}
+        <div className="flex justify-between items-center px-6 py-4 border-b">
+          <h3 className="text-lg font-semibold">{initial ? 'Edit Plant' : 'Add Plant'}</h3>
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">✕</button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Left: image upload */}
+        {/* Body */}
+        <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Left: Image upload */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Plant Image *</label>
-            <div className="border border-dashed border-gray-300 rounded p-4 flex flex-col items-center justify-center">
+            <label className="block text-sm font-medium mb-2">Plant Image *</label>
+            <label className="w-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center p-6 text-gray-500 cursor-pointer hover:bg-gray-50">
               {imagePreview ? (
                 <img src={imagePreview} alt="preview" className="w-full h-48 object-cover rounded" />
               ) : (
-                <div className="text-center text-gray-400">PNG, JPG, GIF — up to 10MB</div>
+                <>
+                  <span className="text-2xl">⬆</span>
+                  <span className="mt-2 text-sm">Click to upload</span>
+                  <span className="text-xs">PNG, JPG up to 10MB</span>
+                </>
               )}
-              <input type="file" accept="image/*" onChange={handleFileChange} className="mt-3" />
-            </div>
+              <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
+            </label>
           </div>
 
-          {/* Right: basic fields */}
-          <div>
-            <label className="block text-sm font-medium">Common Name *</label>
-            <input value={commonName} onChange={(e) => setCommonName(e.target.value)} className="w-full border rounded p-2 mb-2" />
+          {/* Right: Fields */}
+          <div className="space-y-3">
+            <div>
+              <label className="block text-sm font-medium">Common Name *</label>
+              <input value={commonName} onChange={(e) => setCommonName(e.target.value)} placeholder="e.g., Snake Plant" className="w-full border rounded px-3 py-2" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium">Scientific Name *</label>
+              <input value={scientificName} onChange={(e) => setScientificName(e.target.value)} placeholder="e.g., Sansevieria trifasciata" className="w-full border rounded px-3 py-2" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium">Type (Optional)</label>
+              <select
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+                className="w-full border rounded px-3 py-2"
+              >
+                <option value="">Select Type</option>
+                <option value="Flowering">Flowering</option>
+                <option value="Orchids">Orchids</option>
+                <option value="Fruit Trees">Fruit Trees</option>
+                <option value="Vegetables">Vegetables</option>
+                <option value="Herbs">Herbs</option>
+                <option value="Hanging/Vines">Hanging/Vines</option>
+                <option value="Pine Trees">Pine Trees</option>
+                <option value="Trees">Trees</option>
+                <option value="Outdoor">Outdoor</option>
+                <option value="Bamboo">Bamboo</option>
+                <option value="Indoor">Indoor</option>
+                <option value="Cactus">Cactus</option>
+              </select>
+            </div>
 
-            <label className="block text-sm font-medium">Scientific Name *</label>
-            <input value={scientificName} onChange={(e) => setScientificName(e.target.value)} className="w-full border rounded p-2 mb-2" />
-
-            <label className="block text-sm font-medium">Type (optional)</label>
-            <input value={type} onChange={(e) => setType(e.target.value)} placeholder="e.g., Flowering" className="w-full border rounded p-2 mb-2" />
-            
-            <label className="block text-sm font-medium">Description *</label>
-            <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={3} className="w-full border rounded p-2 mb-2" />
-
-            <label className="block text-sm font-medium">Fun Fact</label>
-            <textarea value={funFact} onChange={(e) => setFunFact(e.target.value)} rows={2} className="w-full border rounded p-2" />
+            <div>
+              <label className="block text-sm font-medium">Description *</label>
+              <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={3} placeholder="Describe the plant..." className="w-full border rounded px-3 py-2" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium">Fun Fact</label>
+              <textarea value={funFact} onChange={(e) => setFunFact(e.target.value)} rows={2} placeholder="Something interesting about this plant..." className="w-full border rounded px-3 py-2" />
+            </div>
           </div>
         </div>
 
         {/* Sizes */}
-        <div className="mt-4">
+        <div className="px-6 pb-6">
           <div className="flex items-center justify-between mb-2">
             <h4 className="font-semibold">Plant Sizes *</h4>
-            <button className="text-sm bg-green-500 text-white px-3 py-1 rounded" onClick={addSize}>+ Add Size</button>
+            <button onClick={addSize} className="text-sm bg-emerald-500 text-white px-3 py-1 rounded">+ Add Size</button>
           </div>
-
           <div className="space-y-2">
-            {sizes.length === 0 && <div className="text-gray-500">No sizes yet. Click "Add Size".</div>}
+            {sizes.length === 0 && <p className="text-gray-500">No sizes yet. Click "Add Size".</p>}
             {sizes.map(s => (
               <div key={s.id} className="flex gap-2 items-center">
-                <input
-                  placeholder="Size (e.g., Small)"
+                <select
                   value={s.size}
                   onChange={(e) => updateSize(s.id, 'size', e.target.value)}
-                  className="border p-2 rounded flex-1"
-                />
+                  className="border px-3 py-2 rounded flex-1"
+                >
+                  <option value="">Select Size</option>
+                  <option value="Small">Small</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Large">Large</option>
+                  <option value="XL">XL</option>
+                </select>
                 <input
                   placeholder="Price"
                   value={s.price}
                   onChange={(e) => updateSize(s.id, 'price', e.target.value)}
-                  className="border p-2 rounded w-32"
+                  className="border px-3 py-2 rounded w-32"
                 />
                 <button onClick={() => removeSize(s.id)} className="text-red-600 px-2">Delete</button>
               </div>
             ))}
+
           </div>
         </div>
 
-        {/* Actions */}
-        <div className="mt-6 flex justify-end gap-3">
+        {/* Footer */}
+        <div className="flex justify-end gap-3 px-6 py-4 border-t">
           <button onClick={onClose} className="px-4 py-2 border rounded">Cancel</button>
-          <button onClick={handleSave} className="px-4 py-2 bg-green-600 text-white rounded">{initial ? 'Save' : 'Add Plant'}</button>
+          <button onClick={handleSave} className="px-5 py-2 bg-emerald-500 text-white rounded">{initial ? 'Save' : 'Add Plant'}</button>
         </div>
       </div>
     </div>

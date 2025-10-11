@@ -92,7 +92,7 @@ export default function AdminInventory() {
 
         {/* tabs */}
         <div className="mb-4">
-          <button onClick={() => setTab('plants')} className={`px-4 py-2 rounded ${tab === 'plants' ? 'bg-white shadow' : 'text-gray-600'}`}>Plants List</button>
+          <button onClick={() => setTab('plants')} className={`px-4 py-2 rounded ${tab === 'plants' ? 'bg-white shadow' : 'text-gray-600'}`}>Plants</button>
           <button onClick={() => setTab('products')} className={`ml-3 px-4 py-2 rounded ${tab === 'products' ? 'bg-white shadow' : 'text-gray-600'}`}>Products</button>
         </div>
 

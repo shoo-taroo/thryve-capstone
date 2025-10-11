@@ -17,7 +17,7 @@ export default function ProductModal({ open, onClose, onSaved, initial }) {
       setDescription(initial.description || '');
       setFunFact(initial.funFact || '');
       setSizes(initial.sizes ? [...initial.sizes] : []);
-      setImagePreview(initial.images && initial.images[0] ? initial.images[0] : '');
+      setImagePreview(initial.images?.[0] || '');
       setImageFile(null);
     } else {
       setName('');
@@ -29,6 +29,8 @@ export default function ProductModal({ open, onClose, onSaved, initial }) {
       setImagePreview('');
     }
   }, [initial, open]);
+
+  if (!open) return null;
 
   const addSize = () => setSizes(prev => [...prev, { id: Date.now(), label: '', price: '' }]);
   const updateSize = (id, field, value) =>
@@ -47,12 +49,14 @@ export default function ProductModal({ open, onClose, onSaved, initial }) {
     if (!description.trim()) return alert('Description required');
 
     try {
-      let imageUrls = initial && initial.images ? [...initial.images] : [];
+      let imageUrls = initial?.images ? [...initial.images] : [];
 
       if (imageFile) {
         const fd = new FormData();
         fd.append('file', imageFile);
-        const res = await api.post('/api/upload', fd, { headers: { 'Content-Type': 'multipart/form-data' }});
+        const res = await api.post('/api/upload', fd, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
         imageUrls = [res.data.url, ...imageUrls];
       }
 
@@ -65,73 +69,123 @@ export default function ProductModal({ open, onClose, onSaved, initial }) {
         images: imageUrls,
       };
 
-      if (initial && initial._id) {
+      if (initial?._id) {
         await api.put(`/api/products/${initial._id}`, payload);
       } else {
         await api.post('/api/products', payload);
       }
 
-      onSaved && onSaved();
+      onSaved?.();
       onClose();
     } catch (err) {
       console.error(err);
-      alert('Error saving product');
+      alert('Error saving product.');
     }
   };
 
-  if (!open) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-      <div className="bg-white rounded-lg w-full max-w-3xl shadow-lg p-6">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xl font-semibold">{initial ? 'Edit Product' : 'Add Product'}</h3>
-          <button onClick={onClose} className="text-gray-600">✕</button>
+      <div className="bg-white rounded-lg w-full max-w-3xl shadow-lg">
+        {/* Header */}
+        <div className="flex justify-between items-center px-6 py-4 border-b">
+          <h3 className="text-lg font-semibold">{initial ? 'Edit Product' : 'Add Product'}</h3>
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">✕</button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Body */}
+        <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Left: Image upload */}
           <div>
             <label className="block text-sm font-medium mb-2">Product Image *</label>
-            <div className="border border-dashed rounded p-4 flex items-center justify-center">
-              {imagePreview ? <img src={imagePreview} alt="preview" className="w-full h-48 object-cover rounded" /> : <div className="text-gray-400">PNG, JPG up to 10MB</div>}
-              <input type="file" accept="image/*" onChange={handleFileChange} className="mt-3" />
-            </div>
+            <label className="w-full border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center p-6 text-gray-500 cursor-pointer hover:bg-gray-50">
+              {imagePreview ? (
+                <img src={imagePreview} alt="preview" className="w-full h-48 object-cover rounded" />
+              ) : (
+                <>
+                  <span className="text-2xl">⬆</span>
+                  <span className="mt-2 text-sm">Click to upload</span>
+                  <span className="text-xs">PNG, JPG up to 10MB</span>
+                </>
+              )}
+              <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
+            </label>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium">Product Name *</label>
-            <input value={name} onChange={(e) => setName(e.target.value)} className="w-full border rounded p-2 mb-2" />
+          {/* Right: Fields */}
+          <div className="space-y-3">
+            <div>
+              <label className="block text-sm font-medium">Product Name *</label>
+              <input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g., Organic Fertilizer" className="w-full border rounded px-3 py-2" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium">Type (Optional)</label>
+              <select
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+                className="w-full border rounded px-3 py-2"
+              >
+                <option value="">Select Type</option>
+                <option value="Fertilizer">Fertilizer</option>
+                <option value="Seedling">Seedling</option>
+                <option value="Soil Bag">Soil Bag</option>
+                <option value="Coco">Coco</option>
+                <option value="Soil Conditioners">Soil Conditioners</option>
+                <option value="Step Bricks">Step Bricks</option>
+                <option value="Pots">Pots</option>
+              </select>
+            </div>
 
-            <label className="block text-sm font-medium">Type (optional)</label>
-            <input value={type} onChange={(e) => setType(e.target.value)} className="w-full border rounded p-2 mb-2" />
-
-            <label className="block text-sm font-medium">Description *</label>
-            <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={3} className="w-full border rounded p-2 mb-2" />
-
-            <label className="block text-sm font-medium">Fun Fact</label>
-            <textarea value={funFact} onChange={(e) => setFunFact(e.target.value)} rows={2} className="w-full border rounded p-2" />
+            <div>
+              <label className="block text-sm font-medium">Description *</label>
+              <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={3} placeholder="Describe the product..." className="w-full border rounded px-3 py-2" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium">Fun Fact</label>
+              <textarea value={funFact} onChange={(e) => setFunFact(e.target.value)} rows={2} placeholder="Interesting detail about this product..." className="w-full border rounded px-3 py-2" />
+            </div>
           </div>
         </div>
 
-        <div className="mt-4">
+        {/* Sizes */}
+        <div className="px-6 pb-6">
           <div className="flex items-center justify-between mb-2">
             <h4 className="font-semibold">Product Sizes</h4>
-            <button className="text-sm bg-green-500 text-white px-3 py-1 rounded" onClick={addSize}>+ Add Size</button>
+            <button onClick={addSize} className="text-sm bg-emerald-500 text-white px-3 py-1 rounded">+ Add Size</button>
           </div>
           <div className="space-y-2">
-            {sizes.length === 0 && <div className="text-gray-500">No sizes yet. Click "Add Size".</div>}
+            {sizes.length === 0 && <p className="text-gray-500">No sizes yet. Click "Add Size".</p>}
             {sizes.map(s => (
               <div key={s.id} className="flex gap-2 items-center">
-                <input placeholder="Label (e.g., 1kg)" value={s.label} onChange={(e) => updateSize(s.id, 'label', e.target.value)} className="border p-2 rounded flex-1" />
-                <input placeholder="Price" value={s.price} onChange={(e) => updateSize(s.id, 'price', e.target.value)} className="border p-2 rounded w-32" />
+                <select
+                  value={s.label}
+                  onChange={(e) => updateSize(s.id, 'label', e.target.value)}
+                  className="border px-3 py-2 rounded flex-1"
+                >
+                  <option value="">Select Size</option>
+                  <option value="Small">Small</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Large">Large</option>
+                  <option value="1kg">1kg</option>
+                  <option value="5kg">5kg</option>
+                  <option value="10kg">10kg</option>
+                </select>
+                <input
+                  placeholder="Price"
+                  value={s.price}
+                  onChange={(e) => updateSize(s.id, 'price', e.target.value)}
+                  className="border px-3 py-2 rounded w-32"
+                />
                 <button onClick={() => removeSize(s.id)} className="text-red-600 px-2">Delete</button>
               </div>
             ))}
+
           </div>
         </div>
 
-        <div className="mt-6 flex justify-end gap-3">
+        {/* Footer */}
+        <div className="flex justify-end gap-3 px-6 py-4 border-t">
           <button onClick={onClose} className="px-4 py-2 border rounded">Cancel</button>
-          <button onClick={handleSave} className="px-4 py-2 bg-green-600 text-white rounded">{initial ? 'Save' : 'Add Product'}</button>
+          <button onClick={handleSave} className="px-5 py-2 bg-emerald-500 text-white rounded">{initial ? 'Save' : 'Add Product'}</button>
         </div>
       </div>
     </div>
