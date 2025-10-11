@@ -14,8 +14,9 @@ exports.getPlants = async (req, res) => {
 // CREATE a new plant
 exports.createPlant = async (req, res) => {
   try {
+    console.log("Cloudinary upload result:", req.file);
     const { name, scientificName, description, funFact, type, sizes } = req.body;
-    const imageUrl = req.file?.path || null;
+    const imageUrl = req.file?.path || req.file?.secure_url || null;
 
     // parse sizes if it was sent as JSON string
     let parsedSizes = [];
@@ -26,7 +27,7 @@ exports.createPlant = async (req, res) => {
     }
 
     const normalizedSizes = parsedSizes.map(s => ({
-      size: s.size ?? s.label ?? '',
+      size: s.size ?? '',
       price: Number(s.price) || 0
     }));
 
@@ -55,7 +56,7 @@ exports.updatePlant = async (req, res) => {
     console.log('updatePlant req.body:', req.body);
 
     const { name, scientificName, description, funFact, type, sizes } = req.body;
-    const imageUrl = req.file?.path || null;
+    const imageUrl = req.file?.path || req.file?.secure_url || null;
 
     const existing = await Plant.findById(req.params.id);
     if (!existing) return res.status(404).json({ message: 'Plant not found' });
