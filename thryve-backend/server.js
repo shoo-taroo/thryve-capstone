@@ -7,6 +7,11 @@ const path = require("path");
 const serverless = require("serverless-http");
 require("dotenv").config();
 
+// Cloudinary & Multer
+const { cloudinary } = require("./config/cloudinary");
+const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+
 // --- App initialization ---
 const app = express();
 
@@ -27,23 +32,28 @@ app.use(
   })
 );
 
-// 🧩 File upload configuration (temporary directory for Vercel)
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, "/tmp"),
-  filename: (req, file, cb) =>
-    cb(null, Date.now() + "-" + file.originalname.replace(/\s/g, "")),
+// --- Cloudinary Storage ---
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: async (req, file) => {
+    return {
+      folder: "uploads", // Default folder (can be "plants" or "products" in routes)
+      allowed_formats: ["jpg", "png", "jpeg"],
+      public_id: Date.now() + "-" + file.originalname.replace(/\s/g, ""),
+    };
+  },
 });
-const upload = multer({ storage, limits: { fileSize: 10 * 1024 * 1024 } });
 
-// --- File upload endpoint ---
+const upload = multer({ storage });
+
+// --- File upload endpoint (generic) ---
 app.post("/api/upload", upload.single("file"), (req, res) => {
   if (!req.file) return res.status(400).json({ message: "No file uploaded" });
 
-  const url = `${
-    process.env.SERVER_URL || "https://thryve-backend.vercel.app"
-  }/uploads/${req.file.filename}`;
-  res.json({ url });
+  // Cloudinary gives back a secure URL
+  res.json({ url: req.file.path });
 });
+
 
 // --- Routes ---
 const plantRoutes = require("./routes/plantRoutes");
