@@ -14,19 +14,21 @@ exports.getPlants = async (req, res) => {
 // CREATE a new plant
 exports.createPlant = async (req, res) => {
   try {
-    const { name, scientificName, description, funFact, type } = req.body;
-    let { sizes } = req.body;
+    const { name, scientificName, description, funFact, type, sizes } = req.body;
+    const imageUrl = req.file?.path || null;
 
-    // Parse sizes if sent as JSON string
-    if (typeof sizes === "string") {
-      try {
-        sizes = JSON.parse(sizes);
-      } catch {
-        return res.status(400).json({ message: "Invalid sizes format" });
-      }
+    // parse sizes if it was sent as JSON string
+    let parsedSizes = [];
+    if (typeof sizes === 'string' && sizes.trim()) {
+      parsedSizes = JSON.parse(sizes);
+    } else if (Array.isArray(sizes)) {
+      parsedSizes = sizes;
     }
 
-    const imageUrl = req.file?.path || null;
+    const normalizedSizes = parsedSizes.map(s => ({
+      size: s.size ?? s.label ?? '',
+      price: Number(s.price) || 0
+    }));
 
     const plant = new Plant({
       name,
@@ -34,7 +36,7 @@ exports.createPlant = async (req, res) => {
       description,
       funFact,
       type,
-      sizes,
+      sizes: normalizedSizes,
       images: imageUrl ? [imageUrl] : []
     });
 
@@ -49,27 +51,27 @@ exports.createPlant = async (req, res) => {
 // UPDATE plant
 exports.updatePlant = async (req, res) => {
   try {
-    const { name, scientificName, description, funFact, type } = req.body;
-    let { sizes } = req.body;
+    console.log('updatePlant req.file:', req.file);
+    console.log('updatePlant req.body:', req.body);
 
-    if (typeof sizes === "string") {
-      try {
-        sizes = JSON.parse(sizes);
-      } catch {
-        return res.status(400).json({ message: "Invalid sizes format" });
-      }
-    }
-
+    const { name, scientificName, description, funFact, type, sizes } = req.body;
     const imageUrl = req.file?.path || null;
+
     const existing = await Plant.findById(req.params.id);
     if (!existing) return res.status(404).json({ message: 'Plant not found' });
+
+    let parsedSizes = [];
+    if (typeof sizes === 'string' && sizes.trim()) parsedSizes = JSON.parse(sizes);
+    else if (Array.isArray(sizes)) parsedSizes = sizes;
+
+    const normalizedSizes = parsedSizes.map(s => ({ size: s.size ?? '', price: Number(s.price) || 0 }));
 
     existing.name = name;
     existing.scientificName = scientificName;
     existing.description = description;
     existing.funFact = funFact;
     existing.type = type;
-    existing.sizes = sizes;
+    existing.sizes = normalizedSizes;
     existing.images = imageUrl ? [imageUrl] : existing.images;
 
     const updated = await existing.save();

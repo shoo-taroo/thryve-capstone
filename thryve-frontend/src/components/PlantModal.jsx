@@ -63,16 +63,12 @@ export default function PlantModal({ open, onClose, onSaved, initial }) {
         size: s.size,
         price: Number(s.price) || 0
       }))));
-      if (imageFile) fd.append('file', imageFile);
+      if (imageFile) fd.append('image', imageFile);
 
       if (initial?._id) {
-        await api.put(`/api/plants/${initial._id}`, fd, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        });
+        await api.put(`/api/plants/${initial._id}`, fd);
       } else {
-        await api.post('/api/plants', fd, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        });
+        await api.post('/api/plants', fd);
       }
 
       onSaved?.();

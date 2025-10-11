@@ -58,16 +58,12 @@ export default function ProductModal({ open, onClose, onSaved, initial }) {
         size: s.size,
         price: Number(s.price) || 0
       }))));
-      if (imageFile) fd.append('file', imageFile);
+      if (imageFile) fd.append('image', imageFile);
 
       if (initial?._id) {
-        await api.put(`/api/products/${initial._id}`, fd, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        });
+        await api.put(`/api/products/${initial._id}`, fd);
       } else {
-        await api.post('/api/products', fd, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        });
+        await api.post('/api/products', fd);
       }
 
       onSaved?.();
