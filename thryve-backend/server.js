@@ -9,9 +9,12 @@ require("dotenv").config();
 
 // --- App initialization ---
 const app = express();
-app.use(express.json());
 
-// ✅ SIMPLE CORS CONFIG — no manual headers, no preflight issues
+// ✅ Parse JSON and URL-encoded bodies (important for Vercel serverless)
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true }));
+
+// ✅ CORS: Allow frontend domains
 app.use(
   cors({
     origin: [
@@ -24,17 +27,13 @@ app.use(
   })
 );
 
-// 🧩 File upload configuration (⚠ temporary path for Vercel)
+// 🧩 File upload configuration (temporary directory for Vercel)
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, "/tmp"), // Vercel temp dir
+  destination: (req, file, cb) => cb(null, "/tmp"),
   filename: (req, file, cb) =>
     cb(null, Date.now() + "-" + file.originalname.replace(/\s/g, "")),
 });
-
-const upload = multer({
-  storage,
-  limits: { fileSize: 10 * 1024 * 1024 },
-});
+const upload = multer({ storage, limits: { fileSize: 10 * 1024 * 1024 } });
 
 // --- File upload endpoint ---
 app.post("/api/upload", upload.single("file"), (req, res) => {
