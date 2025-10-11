@@ -110,43 +110,77 @@ export default function AdminInventory() {
 
         {/* cards grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {(tab === 'plants' ? filteredPlants : filteredProducts).map(item => {
-            const sizes = item.sizes || [];
-            const priceRange = sizes.length ? `₱${Math.min(...sizes.map(s => s.price))} - ₱${Math.max(...sizes.map(s => s.price))}` : '—';
-            return (
-              <div key={item._id} className="bg-white rounded-lg shadow overflow-hidden">
-                <div className="h-40 bg-gray-100 overflow-hidden">
-                  <img src={(item.images && item.images[0]) || '/placeholder.png'} alt={item.name} className="w-full h-full object-cover" />
-                </div>
-                <div className="p-4">
-                  <h3 className="text-lg font-bold">{item.name}</h3>
-                  {item.scientificName && <div className="text-sm text-gray-500 italic">{item.scientificName}</div>}
-                  <p className="text-sm text-gray-600 mt-2 line-clamp-3">{item.description}</p>
-
-                  <div className="mt-3 flex items-center justify-between text-sm">
-                    <div className="text-emerald-600 font-semibold">{priceRange}</div>
-                    <div className="text-gray-500">{(item.sizes||[]).length} sizes</div>
-                  </div>
-
-                  <div className="mt-4 flex gap-2">
-                    <button
-                      onClick={() => { setSelected(item); }}
-                      className="flex-1 px-3 py-2 border rounded text-left"
-                    >View</button>
-
-                    <button
-                      onClick={() => { setEditing(item); if(tab==='plants'){ setShowPlantModal(true); } else { setShowProductModal(true); } }}
-                      className="px-3 py-2 bg-blue-500 text-white rounded">Edit</button>
-
-                    <button
-                      onClick={() => { if(tab==='plants') handleDeletePlant(item._id); else handleDeleteProduct(item._id); }}
-                      className="px-3 py-2 bg-red-500 text-white rounded">Delete</button>
-                  </div>
-                </div>
+          {(tab === 'plants' ? filteredPlants : filteredProducts).length === 0 ? (
+            <div className="col-span-full bg-white rounded-lg shadow p-10 text-center">
+              <div className="flex flex-col items-center justify-center">
+                <div className="text-4xl mb-3">🍃</div>
+                <h2 className="text-xl font-bold">
+                  {tab === 'plants' ? 'No Plants Found' : 'No Products Found'}
+                </h2>
+                <p className="text-gray-600 mt-2">
+                  Try adjusting your search terms or add a new {tab === 'plants' ? 'plant' : 'product'} to the collection.
+                </p>
+                <button
+                  onClick={() => {
+                    if (tab === 'plants') {
+                      setEditing(null);
+                      setShowPlantModal(true);
+                    } else {
+                      setEditing(null);
+                      setShowProductModal(true);
+                    }
+                  }}
+                  className="mt-4 bg-emerald-500 text-white px-5 py-2 rounded"
+                >
+                  {tab === 'plants' ? 'Add Your First Plant' : 'Add Your First Product'}
+                </button>
               </div>
-            );
-          })}
+            </div>
+          ) : (
+            (tab === 'plants' ? filteredPlants : filteredProducts).map(item => {
+              const sizes = item.sizes || [];
+              const priceRange = sizes.length
+                ? `₱${Math.min(...sizes.map(s => s.price))} - ₱${Math.max(...sizes.map(s => s.price))}`
+                : '—';
+              return (
+                <div key={item._id} className="bg-white rounded-lg shadow overflow-hidden">
+                  <div className="h-40 bg-gray-100 overflow-hidden">
+                    <img src={(item.images && item.images[0]) || '/placeholder.png'} alt={item.name} className="w-full h-full object-cover" />
+                  </div>
+                  <div className="p-4">
+                    <h3 className="text-lg font-bold">{item.name}</h3>
+                    {item.scientificName && <div className="text-sm text-gray-500 italic">{item.scientificName}</div>}
+                    <p className="text-sm text-gray-600 mt-2 line-clamp-3">{item.description}</p>
+
+                    <div className="mt-3 flex items-center justify-between text-sm">
+                      <div className="text-emerald-600 font-semibold">{priceRange}</div>
+                      <div className="text-gray-500">{(item.sizes || []).length} sizes</div>
+                    </div>
+
+                    <div className="mt-4 flex gap-2">
+                      <button onClick={() => setSelected(item)} className="flex-1 px-3 py-2 border rounded text-left">
+                        View
+                      </button>
+                      <button
+                        onClick={() => { setEditing(item); if (tab === 'plants') { setShowPlantModal(true); } else { setShowProductModal(true); } }}
+                        className="px-3 py-2 bg-blue-500 text-white rounded"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => { if (tab === 'plants') handleDeletePlant(item._id); else handleDeleteProduct(item._id); }}
+                        className="px-3 py-2 bg-red-500 text-white rounded"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          )}
         </div>
+
 
         {/* selected detail */}
         {selected && (
@@ -177,8 +211,8 @@ export default function AdminInventory() {
                 </div>
 
                 <div className="mt-6 flex gap-2">
-                  <button onClick={() => { if(tab==='plants') handleDeletePlant(selected._id); else handleDeleteProduct(selected._id); setSelected(null); }} className="px-4 py-2 bg-red-500 text-white rounded">Delete</button>
-                  <button onClick={() => { setEditing(selected); if(tab==='plants') setShowPlantModal(true); else setShowProductModal(true); }} className="px-4 py-2 bg-emerald-500 text-white rounded">Edit</button>
+                  <button onClick={() => { if (tab === 'plants') handleDeletePlant(selected._id); else handleDeleteProduct(selected._id); setSelected(null); }} className="px-4 py-2 bg-red-500 text-white rounded">Delete</button>
+                  <button onClick={() => { setEditing(selected); if (tab === 'plants') setShowPlantModal(true); else setShowProductModal(true); }} className="px-4 py-2 bg-emerald-500 text-white rounded">Edit</button>
                   <button onClick={() => setSelected(null)} className="px-4 py-2 border rounded">Close</button>
                 </div>
               </div>
