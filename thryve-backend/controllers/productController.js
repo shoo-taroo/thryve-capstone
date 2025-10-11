@@ -55,7 +55,14 @@ exports.updateProduct = async (req, res) => {
     console.log('updateProduct req.body:', req.body);
 
     const { name, description, funFact, type, sizes } = req.body;
-    const imageUrl = req.file?.path || req.file?.secure_url || null;
+    const imageUrl = req.file?.path?.startsWith('http')
+      ? req.file.path
+      : req.file?.secure_url
+        ? req.file.secure_url
+        : (req.file && req.file.url)
+          ? req.file.url
+          : null;
+
 
     const existing = await Product.findById(req.params.id);
     if (!existing) return res.status(404).json({ message: 'Product not found' });
