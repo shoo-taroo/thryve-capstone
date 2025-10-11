@@ -49,30 +49,25 @@ export default function ProductModal({ open, onClose, onSaved, initial }) {
     if (!description.trim()) return alert('Description required');
 
     try {
-      let imageUrls = initial?.images ? [...initial.images] : [];
-
-      if (imageFile) {
-        const fd = new FormData();
-        fd.append('file', imageFile);
-        const res = await api.post('/api/upload', fd, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        });
-        imageUrls = [res.data.url, ...imageUrls];
-      }
-
-      const payload = {
-        name,
-        type,
-        description,
-        funFact,
-        sizes: sizes.map(s => ({ label: s.label, price: Number(s.price) || 0 })),
-        images: imageUrls,
-      };
+      const fd = new FormData();
+      fd.append('name', name);
+      fd.append('type', type);
+      fd.append('description', description);
+      fd.append('funFact', funFact);
+      fd.append('sizes', JSON.stringify(sizes.map(s => ({
+        label: s.label,
+        price: Number(s.price) || 0
+      }))));
+      if (imageFile) fd.append('image', imageFile);
 
       if (initial?._id) {
-        await api.put(`/api/products/${initial._id}`, payload);
+        await api.put(`/api/products/${initial._id}`, fd, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
       } else {
-        await api.post('/api/products', payload);
+        await api.post('/api/products', fd, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
       }
 
       onSaved?.();

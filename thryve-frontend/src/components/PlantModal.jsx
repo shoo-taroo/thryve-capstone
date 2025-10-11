@@ -53,31 +53,26 @@ export default function PlantModal({ open, onClose, onSaved, initial }) {
     if (sizes.length === 0) return alert('Add at least one size');
 
     try {
-      let imageUrls = initial?.images ? [...initial.images] : [];
-
-      if (imageFile) {
-        const fd = new FormData();
-        fd.append('file', imageFile);
-        const res = await api.post('/api/upload', fd, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        });
-        imageUrls = [res.data.url, ...imageUrls];
-      }
-
-      const payload = {
-        name: commonName,
-        scientificName,
-        type,
-        description,
-        funFact,
-        sizes: sizes.map(s => ({ size: s.size, price: Number(s.price) || 0 })),
-        images: imageUrls,
-      };
+      const fd = new FormData();
+      fd.append('name', commonName);
+      fd.append('scientificName', scientificName);
+      fd.append('type', type);
+      fd.append('description', description);
+      fd.append('funFact', funFact);
+      fd.append('sizes', JSON.stringify(sizes.map(s => ({
+        size: s.size,
+        price: Number(s.price) || 0
+      }))));
+      if (imageFile) fd.append('image', imageFile);
 
       if (initial?._id) {
-        await api.put(`/api/plants/${initial._id}`, payload);
+        await api.put(`/api/plants/${initial._id}`, fd, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
       } else {
-        await api.post('/api/plants', payload);
+        await api.post('/api/plants', fd, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
       }
 
       onSaved?.();
