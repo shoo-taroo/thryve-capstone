@@ -50,3 +50,11 @@ connectDB().catch((err) => console.error("❌ MongoDB connection error:", err));
 // --- Export handler for Vercel ---
 module.exports = app;
 module.exports.handler = serverless(app);
+
+app.use((err, req, res, next) => {
+  console.error('🔥 Global error caught:', err);
+  res.status(500).json({
+    message: 'Internal Server Error',
+    error: err.message || err,
+  });
+});
