@@ -37,7 +37,7 @@ exports.createProduct = async (req, res) => {
       funFact,
       type,
       sizes: normalizedSizes,
-      images: imageUrl ? [imageUrl] : []
+      images: imageUrl ? [imageUrl] : [],
     });
 
     await product.save();

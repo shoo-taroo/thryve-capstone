@@ -9,12 +9,21 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+// 🔹 Create unique filename
+const uniqueFileName = (file) => {
+  const timestamp = Date.now();
+  const name = file.originalname.split('.')[0].replace(/\s+/g, '_');
+  return `${name}_${timestamp}`;
+};
+
 // 🔹 Storage for Plants
 const plantStorage = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: 'plants',
     allowed_formats: ['jpg', 'png', 'jpeg'],
+    public_id: (req, file) => uniqueFileName(file),
+    transformation: [{ quality: 'auto', fetch_format: 'auto' }],
   },
 });
 
@@ -24,6 +33,8 @@ const productStorage = new CloudinaryStorage({
   params: {
     folder: 'products',
     allowed_formats: ['jpg', 'png', 'jpeg'],
+    public_id: (req, file) => uniqueFileName(file),
+    transformation: [{ quality: 'auto', fetch_format: 'auto' }],
   },
 });
 

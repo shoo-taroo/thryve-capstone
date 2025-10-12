@@ -38,7 +38,7 @@ exports.createPlant = async (req, res) => {
       funFact,
       type,
       sizes: normalizedSizes,
-      images: imageUrl ? [imageUrl] : []
+      images: imageUrl ? [imageUrl] : [],
     });
 
     await plant.save();
