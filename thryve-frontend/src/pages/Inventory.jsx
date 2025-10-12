@@ -203,7 +203,7 @@ export default function AdminInventory() {
                   <div className="flex gap-3 mt-3">
                     {(selected.sizes || []).map((s, i) => (
                       <div key={i} className="bg-emerald-50 p-4 rounded flex-1 text-center">
-                        <div className="text-sm font-bold">{s.size || s.label}</div>
+                        <div className="text-sm font-bold">{s.size}</div>
                         <div className="text-2xl text-emerald-600">₱{s.price}</div>
                       </div>
                     ))}

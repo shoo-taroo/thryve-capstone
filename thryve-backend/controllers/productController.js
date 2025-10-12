@@ -27,7 +27,7 @@ exports.createProduct = async (req, res) => {
     }
 
     const normalizedSizes = parsedSizes.map(s => ({
-      size: s.size ?? s.label ?? '',
+      size: s.size ?? '',
       price: Number(s.price) || 0
     }));
 
