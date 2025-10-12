@@ -47,6 +47,7 @@ export default function ProductModal({ open, onClose, onSaved, initial }) {
   const handleSave = async () => {
     if (!name.trim()) return alert('Product name required');
     if (!description.trim()) return alert('Description required');
+    if (sizes.length === 0) return alert('Add at least one size');
 
     try {
       const fd = new FormData();
