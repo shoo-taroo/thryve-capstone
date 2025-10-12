@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { Search, Filter, ChevronDown, Mail } from 'lucide-react';
 import { toast } from 'sonner';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import PlantGrid from '../components/PlantGrid.jsx';
+import PlantGrid from '../../components/PlantGrid.jsx';
 import PlantDetailModal from '@/components/PlantDetailModal';
 import HeroBanner from "../assets/Plant Store HeroBanner.png";
-import plantsData from '../data/PlantsData.js';
+import plantsData from '../../data/PlantsData.js';
 
 // Filter categories and their items
 const filterCategories = [

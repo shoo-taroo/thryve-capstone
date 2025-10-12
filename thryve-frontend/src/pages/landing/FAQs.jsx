@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import SectionHeading from '../components/SectionHeading';
+import SectionHeading from '../../components/SectionHeading';
 
 const FAQs = () => {
   const [activeIndex, setActiveIndex] = useState(null);

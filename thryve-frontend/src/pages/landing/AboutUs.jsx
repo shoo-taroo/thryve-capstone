@@ -1,4 +1,4 @@
-import SectionHeading from '../components/SectionHeading';
+import SectionHeading from '../../components/SectionHeading';
 import rosemarGardenImg from '../assets/Rosemar Garden.png';
 import GardenPreview1 from '../assets/GardenPreviews/GardenPreview1.png';
 import GardenPreview2 from '../assets/GardenPreviews/GardenPreview2.png';

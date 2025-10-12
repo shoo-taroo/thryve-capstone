@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import SectionHeading from '../components/SectionHeading';
+import SectionHeading from '../../components/SectionHeading';
 import { Star, ScanLine, Leaf, BotMessageSquare, Box } from 'lucide-react';
 import rosemarGardenLoc from '../assets/Rosemar Garden Location.png';
 

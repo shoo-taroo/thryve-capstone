@@ -1,6 +1,6 @@
 import { Download, QrCode } from "lucide-react";
 import { Link } from "react-router-dom";
-import SectionHeading from "../components/SectionHeading";
+import SectionHeading from "../../components/SectionHeading";
 
 const DownloadApp = () => {
   return (
