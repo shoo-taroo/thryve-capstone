@@ -75,15 +75,8 @@ const App = () => {
 
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<AdminOverview />} />
-            <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="inventory" element={<AdminInventory />} />
-            <Route path="reports" element={<AdminReports />} />
             <Route path="feedback" element={<Feedback />} />
-            <Route path="plant-care" element={<PlantCare />} />
-            <Route path="user-management" element={<UserManagement />} />
-            <Route path="system-config" element={<SystemConfig />} />
-            <Route path="access-logs" element={<AccessLogs />} />
           </Route>
 
           {/* 404 Route */}
