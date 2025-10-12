@@ -21,7 +21,7 @@ const plantStorage = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: 'plants',
-    allowed_formats: ['jpg', 'png', 'jpeg'],
+    allowed_formats: ['jpg', 'png', 'jpeg', 'gif', 'webp'],
     public_id: (req, file) => uniqueFileName(file),
     transformation: [{ quality: 'auto', fetch_format: 'auto' }],
   },
@@ -32,7 +32,7 @@ const productStorage = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: 'products',
-    allowed_formats: ['jpg', 'png', 'jpeg'],
+    allowed_formats: ['jpg', 'png', 'jpeg', 'gif', 'webp'],
     public_id: (req, file) => uniqueFileName(file),
     transformation: [{ quality: 'auto', fetch_format: 'auto' }],
   },
