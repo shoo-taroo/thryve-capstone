@@ -29,8 +29,8 @@ const AdminLayout = () => {
   };
 
   // Menu items based on user role
-  const getMenuItems = [
-    { path: '/admin/', icon: <PackageSearch className="h-5 w-5 mr-3" />, label: 'Inventory Management' },
+  const menuItems = [
+    { path: '/admin/inventory', icon: <PackageSearch className="h-5 w-5 mr-3" />, label: 'Inventory Management' },
     { path: '/admin/feedback', icon: <MessageSquare className="h-5 w-5 mr-3" />, label: 'Customer Feedback' },
   ];
 
@@ -68,7 +68,7 @@ const AdminLayout = () => {
         {/* Navigation */}
         <nav className="mt-2">
           <ul>
-            {getMenuItems().map((item, index) => (
+            {menuItems.map((item, index) => (
               <li key={index}>
                 <NavLink
                   to={item.path}
