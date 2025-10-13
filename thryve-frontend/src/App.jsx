@@ -17,7 +17,7 @@ import AdminInventory from "./pages/admin/Inventory";
 import Feedback from "./pages/admin/Feedback";
 
 // Not Found Page
-import NotFound from "./pages/landing/NotFound";
+import NotFound from "./pages/NotFound";
 
 // Components
 import Navbar from "./components/Navbar";
