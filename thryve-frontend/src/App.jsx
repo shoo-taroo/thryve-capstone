@@ -3,24 +3,21 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
-// Pages
-import HomePage from "./pages/Home";
-import PlantStore from "./pages/PlantStore";
-import AboutUs from "./pages/AboutUs";
-import FAQs from "./pages/FAQs";
-import ContactUs from "./pages/ContactUs";
-import NotFound from "./pages/NotFound";
-import DownloadApp from "./pages/DownloadApp";
-import LoginPage from "./pages/Login";
-import AdminDashboard from "./pages/Dashboard";
-import AdminOverview from "./pages/Overview";
-import AdminInventory from "./pages/Inventory";
-import AdminReports from "./pages/Reports";
-import Feedback from "./pages/Feedback";
-import PlantCare from "./pages/PlantCare";
-import UserManagement from "./pages/UserManagement";
-import SystemConfig from "./pages/SystemConfig";
-import AccessLogs from "./pages/AccessLogs";
+// Landing Pages
+import HomePage from "./pages/landing/Home";
+import PlantList from "./pages/landing/PlantList"; // Adjusted per folder structure
+import AboutUs from "./pages/landing/AboutUs";
+import FAQs from "./pages/landing/FAQs";
+import ContactUs from "./pages/landing/ContactUs";
+import DownloadApp from "./pages/landing/DownloadApp";
+import LoginPage from "./pages/landing/Login";
+
+// Admin Pages
+import AdminInventory from "./pages/admin/Inventory";
+import Feedback from "./pages/admin/Feedback";
+
+// Not Found Page
+import NotFound from "./pages/landing/NotFound";
 
 // Components
 import Navbar from "./components/Navbar";
@@ -66,7 +63,7 @@ const App = () => {
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<HomePage />} />
-          <Route path="/plant-store" element={<PlantStore />} />
+          <Route path="/plant-list" element={<PlantList />} />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/faqs" element={<FAQs />} />
           <Route path="/contact-us" element={<ContactUs />} />
