@@ -105,7 +105,7 @@ const filterCategories = [
   }
 ];
 
-const PlantStore = () => {
+const PlantList = () => {
   const [filter, setFilter] = useState('all');
   const [selectedPlant, setSelectedPlant] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -198,10 +198,10 @@ const PlantStore = () => {
         </div>
         <div className="container relative z-10 text-center py-24 md:py-32">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 text-primary">
-            Rosemar Garden Plant Store
+            Rosemar Garden Plant List
           </h1>
           <p className="text-xl max-w-2xl mx-auto text-gray-600">
-            Discover our carefully curated collection of beautiful, healthy plants for your home.
+            Discover our carefully curated collection of beautiful, healthy plants and other products for your home.
           </p>
         </div>
       </section>
@@ -355,4 +355,4 @@ const PlantStore = () => {
   );
 };
 
-export default PlantStore;
+export default PlantList;
